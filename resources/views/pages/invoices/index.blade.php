@@ -13,25 +13,31 @@
 					<thead>
 						<tr>
 							<th scope="col">#</th>
+							<th scope="col">Invoice No</th>
 							<th scope="col">Customer</th>
-							<th scope="col">Product</th>
 							<th scope="col">Amount</th>
 							<th scope="col">Action</th>
 						</tr>
 					</thead>
 					<tbody>
-						@foreach ($orders as $order)
+						@foreach ($invoices as $invoice)
 						<tr>
 							<th scope="row">{{ $loop->iteration }}</th>
-							<td>{{ $order->user->name }}</td>
-							<td>{{ $order->product->name }}</td>
-							<td class="text-success">KES {{ $order->total_value }}</td>
+							<td>{{ $invoice->id }}</td>
+							<td>{{ $invoice->user->name }}</td>
+							<td>{{ number_format($invoice->amount) }}</td>
 							<td>
 								<div class="d-flex">
+									{{-- Show --}}
+									<a href="/invoices/{{ $invoice->id }}"
+									   class="btn btn-sm btn-primary me-1">
+										<i class="fa fa-eye"></i>
+									</a>
+									{{-- Show End --}}
 									<div class="mx-1">
 										{{-- Confirm Status Modal End --}}
 										<div class="modal fade"
-											 id="statusModal{{ $order->id }}"
+											 id="statusModal{{ $invoice->id }}"
 											 tabIndex="-1"
 											 aria-labelledby="statusModalLabel"
 											 aria-hidden="true">
@@ -61,11 +67,11 @@
 																class="btn btn-success text-white"
 																data-bs-dismiss="modal"
 																onclick="event.preventDefault();
-						                                                     document.getElementById('statusForm{{ $order->id }}').submit();">
+						                                                     document.getElementById('statusForm{{ $invoice->id }}').submit();">
 															Update
 														</button>
-														<form id="statusForm{{ $order->id }}"
-															  action="/invoices/{{ $order->id }}"
+														<form id="statusForm{{ $invoice->id }}"
+															  action="/invoices/{{ $invoice->id }}"
 															  method="POST"
 															  style="display: none;">
 															<input type="hidden"
@@ -86,7 +92,7 @@
 										<button type="button"
 												class="btn btn-sm btn-success text-white"
 												data-bs-toggle="modal"
-												data-bs-target="#statusModal{{ $order->id }}">
+												data-bs-target="#statusModal{{ $invoice->id }}">
 											Set Paid
 										</button>
 									</div>
@@ -98,7 +104,7 @@
 				</table>
 			</div>
 			<div class="card-footer">
-				{{ $orders->links() }}
+				{{ $invoices->links() }}
 			</div>
 		</div>
 	</div>

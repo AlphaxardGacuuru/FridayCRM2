@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\InvoiceController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\StatementController;
@@ -26,14 +27,9 @@ Route::middleware("auth")->group(function () {
         "orders" => OrderController::class,
         "products" => ProductController::class,
         "statements" => StatementController::class,
+        "invoices" => InvoiceController::class,
     ]);
-
-    /*
-     * Invoice
-     */
-    Route::get("/invoices", [OrderController::class, "invoiceIndex"]);
-    Route::put("/invoices/{id}", [OrderController::class, "updateInvoiceStatus"]);
-
+	
     /*
      * Statement
      */

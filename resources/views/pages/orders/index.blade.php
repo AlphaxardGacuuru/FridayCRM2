@@ -42,7 +42,8 @@
 							<option value="">Select Customer</option>
 							@foreach ($users as $user)
 							<option value="{{ $user->id }}"
-									{{ app("request")->input("user_id") == $user->id ? 'selected' : ''}}>{{ $user->name }}
+									{{
+									$request->input("user_id") == $user->id ? 'selected' : ''}}>{{ $user->name }}
 							</option>
 							@endforeach
 						</select>
@@ -56,7 +57,8 @@
 							<option value="">Select Product</option>
 							@foreach ($products as $product)
 							<option value="{{ $product->id }}"
-								{{ app("request")->input("product_id") == $product->id ? 'selected' : ''}}
+									{{
+									$request->input("product_id") == $product->id ? 'selected' : ''}}
 								>{{ $product->name }}</option>
 							@endforeach
 						</select>
@@ -68,9 +70,10 @@
 							   type="number"
 							   name="entry_number"
 							   placeholder="Entry Number"
-								value="{{ app("request")->input("entry_number") }}"  
-							   class="form-control"
-							    />
+							   value="{{ $request->input("
+							   entry_number")
+							   }}"
+							   class="form-control" />
 					</div>
 					{{-- Entry Number End --}}
 					{{-- Status --}}
@@ -80,10 +83,12 @@
 								class="form-control">
 							<option value="">Select Status</option>
 							<option value="pending"
-							{{ app("request")->input("status") == 'pending' ? 'selected' : ''}}>Pending</option>
+									{{
+									$request->input("status") == 'pending' ? 'selected' : ''}}>Pending</option>
 							<option value="paid"
-							{{ app("request")->input("status") == 'paid' ? 'selected' : ''}}
-							>Paid</option>
+									{{
+									$request->input("status") == 'paid' ? 'selected' : ''}}
+								>Paid</option>
 						</select>
 					</div>
 					{{-- Status End --}}
@@ -92,14 +97,16 @@
 						<input id=""
 							   name="date"
 							   type="date"
-							   value="{{ app("request")->input("date") }}"
+							   value="{{ $request->input("
+							   date")
+							   }}"
 							   class="form-control w-100" />
 					</div>
 					{{-- Date End --}}
 					{{-- Search --}}
 					<div class="col-sm-2">
 						<button type="submit"
-								class="btn btn-primary"><i class="fa fa-search"></i> Search</button>
+								class="btn btn-sm btn-primary"><i class="fa fa-search"></i> Search</button>
 					</div>
 					{{-- Search End --}}
 				</div>
@@ -110,14 +117,27 @@
 		<div class="card">
 			<div class="d-flex justify-content-between card-header">
 				<h3>Orders</h3>
-				<a href="/orders/create"
-				   class="btn btn-primary"><i class="fa fa-pen-square"></i> Create</a>
+				<div class="d-flex justify-content-between">
+					{{-- Generate Invoice --}}
+					<button id="invoiceBtn"
+							class="btn btn-primary d-none mx-2"
+							onclick="onCreateInvoice()">
+						<i class="fa fa-dollar-sign"></i> Create Invoice
+					</button>
+					{{-- Generate Invoice End --}}
+					<a href="/orders/create"
+					   class="btn btn-primary"><i class="fa fa-pen-square"></i> Create</a>
+				</div>
 			</div>
 			<div class="card-body">
 				<div class="table-responsive">
 					<table class="table">
 						<thead>
 							<tr>
+								<th scope="col">
+									<input id="checkAllInput"
+										   type="checkbox">
+								</th>
 								<th scope="col">#</th>
 								<th scope="col"
 									class="text-uppercase">Entry No</th>
@@ -144,14 +164,21 @@
 						<tbody>
 							@foreach ($orders as $order)
 							<tr>
-								<th scope="row">{{ $loop->iteration }}</th>
+								<td>
+									<input id="checkbox{{ $loop->iteration }}"
+										   type="checkbox"
+										   name="order_ids[]"
+										   value="{{ $order->id  }}"
+										   onchange="setOrderIds({{ $order->id }})" />
+								</td>
+								<td scope="row">{{ $loop->iteration }}</td>
 								<td>{{ $order->entry_number }}</td>
 								<td>{{ $order->vehicle_registration }}</td>
 								<td>KES</td>
-								<td>{{ number_format($order->kra_due) }}</td>
-								<td>{{ number_format($order->kebs_due) }}</td>
-								<td>{{ number_format($order->other_charges) }}</td>
-								<td>{{ number_format($order->total_value) }}</td>
+								<td>{{ $order->kra_due ? number_format($order->kra_due) : '-' }}</td>
+								<td>{{ $order->kebs_due ? number_format($order->kebs_due) : '-' }}</td>
+								<td>{{ $order->other_charges ? number_format($order->other_charges) : '-' }}</td>
+								<td>{{ $order->total_value ? number_format($order->total_value) : '-' }}</td>
 								<td>
 									<span @class(['py-2
 										  px-4
@@ -244,4 +271,83 @@
 	</div>
 	{{-- end basic table --}}
 </div>
+
+<script>
+	var orderIds = []
+
+	/*
+	* Toggle Create Invoice Button
+	*/ 
+	var toggleCreateInvoiceBtn = () => {
+		// Toggle Create Invoice visibility
+		if (orderIds.length > 0) {
+		document.getElementById('invoiceBtn').classList.remove('d-none')
+		} else {
+		document.getElementById('invoiceBtn').classList.add('d-none')
+		}
+	}
+
+	/*
+	* Handle Setting Order Ids
+	*/ 
+	var setOrderIds = (id) => {
+		var exists = orderIds.some((orderId) => orderId == id)
+
+		if (exists) {
+			orderIds = orderIds.filter((orderId) => orderId != id)
+		} else {
+			orderIds.push(id)
+		}
+
+		toggleCreateInvoiceBtn()
+	}
+
+	/*
+	* Check All Inputs
+	*/ 
+	var checkAllInput = document.getElementById('checkAllInput')
+
+	checkAllInput.addEventListener('click', (e) => {
+		// Select all input elements with IDs containing the word "checkbox"
+		const checkboxInputs = document.querySelectorAll('input[id*="checkbox"]');
+		
+		// Do something with the selected elements, for example, log their IDs
+		checkboxInputs.forEach(input => {
+			if (e.target.checked) {
+				input.checked = true
+				// Fill orderIds
+				orderIds.push(input.value)
+			} else {
+				input.checked = false
+				// Empty orderIds
+				orderIds = []
+			}
+		});
+
+		toggleCreateInvoiceBtn()
+	})
+
+	/*
+	* Submit Form
+	*/ 
+	var onCreateInvoice = () => {
+		var formData = new FormData
+		formData.append("order_ids", JSON.stringify(orderIds))
+
+		        // Send a POST request using Fetch API
+		        fetch('/invoices', {
+		            method: "POST",
+		            body: formData,
+		            headers: {
+		                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content
+		            },
+		        }).then((res) => {
+					// Redirect on success
+					window.location.href = "/invoices"
+		        }).catch((err) => {
+		            // Handle any errors that occurred during the fetch.
+		            console.error(err);
+		        });
+	}
+</script>
 @endsection

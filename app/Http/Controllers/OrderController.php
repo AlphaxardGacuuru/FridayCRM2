@@ -27,6 +27,7 @@ class OrderController extends Controller
             "orders" => $orders,
             "ordersPendingValue" => $ordersPendingValue,
             "ordersPaidValue" => $ordersPaidValue,
+			"request" => $request
         ]);
     }
 
@@ -135,8 +136,9 @@ class OrderController extends Controller
     /*
      * Fetch Invoices
      */
-    public function invoiceIndex()
+    public function invoiceIndex(Request $request)
     {
+		// return $request;
         $orders = $this->service->invoiceIndex();
 
         return view("pages/invoices/index")
