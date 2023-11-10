@@ -29,13 +29,16 @@
 							</div>
 							@else
 							<div class="metric-label d-inline-block float-right text-warning font-weight-bold">
-								<span><i class="fa fa-fw fa-arrow-up"></i></span>
+								<span><i class="fa fa-fw fa-arrow-down"></i></span>
 								<span>{{ $userGrowth }}%</span>
 							</div>
 							@endif
 							{{-- Show Growth End --}}
 						</div>
-						<div id="sparkline-revenue"></div>
+						<div id="sparkline-revenue">
+							<div id="spark-user-data"
+								 class="d-none">{{ $dashboard["users"]["lastWeek"] }}</div>
+						</div>
 					</div>
 				</div>
 				<div class="col-xl-3 col-lg-6 col-md-6 col-sm-12 col-12">
@@ -44,7 +47,8 @@
 							<h5 class="text-muted">Orders</h5>
 							<div class="metric-value d-inline-block">
 								<h1 class="mb-1">{{ $dashboard["orders"]["total"] }}</h1>
-							</div>{{-- Declare User Growth Variable --}}
+							</div>
+							{{-- Declare User Growth Variable --}}
 							@php
 							$orderGrowth = $dashboard["orders"]["growth"];
 							@endphp
@@ -59,14 +63,17 @@
 								<span>{{ $orderGrowth }}%</span>
 							</div>
 							@else
-							<div class="metric-label d-inline-block float-right text-warning font-weight-bold">
-								<span><i class="fa fa-fw fa-arrow-up"></i></span>
+							<div class="metric-label d-inline-block float-right text-danger font-weight-bold">
+								<span><i class="fa fa-fw fa-arrow-down"></i></span>
 								<span>{{ $orderGrowth }}%</span>
 							</div>
 							@endif
 							{{-- Show Growth End --}}
 						</div>
-						<div id="sparkline-revenue2"></div>
+						<div id="sparkline-revenue2">
+							<div id="spark-order-data"
+								 class="d-none">{{ $dashboard["ordersLastWeek"]["data"] }}</div>
+						</div>
 					</div>
 				</div>
 				<div class="col-xl-3 col-lg-6 col-md-6 col-sm-12 col-12">
@@ -90,14 +97,17 @@
 								<span>{{ $revenueGrowth }}%</span>
 							</div>
 							@else
-							<div class="metric-label d-inline-block float-right text-warning font-weight-bold">
-								<span><i class="fa fa-fw fa-arrow-up"></i></span>
+							<div class="metric-label d-inline-block float-right text-danger font-weight-bold">
+								<span><i class="fa fa-fw fa-arrow-down"></i></span>
 								<span>{{ $revenueGrowth }}%</span>
 							</div>
 							@endif
 							{{-- Show Growth End --}}
 						</div>
-						<div id="sparkline-revenue3"></div>
+						<div id="sparkline-revenue3">
+							<div id="spark-revenue-data"
+								 class="d-none">{{ $dashboard["revenueLastWeek"]["data"] }}</div>
+						</div>
 					</div>
 				</div>
 				<div class="col-xl-3 col-lg-6 col-md-6 col-sm-12 col-12">
@@ -121,14 +131,17 @@
 								<span>{{ $productGrowth }}%</span>
 							</div>
 							@else
-							<div class="metric-label d-inline-block float-right text-warning font-weight-bold">
-								<span><i class="fa fa-fw fa-arrow-up"></i></span>
+							<div class="metric-label d-inline-block float-right text-danger font-weight-bold">
+								<span><i class="fa fa-fw fa-arrow-down"></i></span>
 								<span>{{ $productGrowth }}%</span>
 							</div>
 							@endif
 							{{-- Show Growth End --}}
 						</div>
-						<div id="sparkline-revenue4"></div>
+						<div id="sparkline-revenue4">
+							<div id="spark-product-data"
+								 class="d-none">{{ $dashboard["productsLastWeek"]["data"] }}</div>
+						</div>
 					</div>
 				</div>
 			</div>

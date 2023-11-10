@@ -10,7 +10,7 @@
 			<div class="d-flex justify-content-between card-header">
 				<h3 class="">Edit Product</h3>
 				<a href="/products"
-				   class="btn btn-primary btn-rounded">View All</a>
+				   class="btn btn-primary">View All</a>
 			</div>
 			<div class="card-body">
 				<form action="/products/{{ $product->id }}"
@@ -32,7 +32,7 @@
 					</div>
 					<div class="d-flex justify-content-end">
 						<button type="submit"
-								class="btn btn-primary btn-rounded">Update Product</button>
+								class="btn btn-primary">Update Product</button>
 					</div>
 				</form>
 			</div>

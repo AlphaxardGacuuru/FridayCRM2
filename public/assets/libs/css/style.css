@@ -1604,7 +1604,7 @@ Top Header
 
 .navigation-horizontal .navbar-nav .nav-link:focus,
 .navigation-horizontal .navbar-nav .nav-link.active {
-    background-color: #e2e2eb;
+    background-color: #232323;
     color: #3d405c;
     border-radius: 2px;
 }
@@ -1693,7 +1693,8 @@ Left Navigation Sidebar
     font-size: 14px;
     padding: 12px;
     /* margin-bottom: 2px; */
-    color: #71789e;
+    /* color: #71789e; */
+    color: #FFF;
     transition: 0.3s;
 }
 
@@ -1728,8 +1729,8 @@ Left Navigation Sidebar
 
 .nav-left-sidebar .navbar-nav .nav-link:focus,
 .nav-left-sidebar .navbar-nav .nav-link.active {
-    background-color: #e2e2eb;
-    color: #3d405c;
+    background-color: rgba(255, 255, 255, 0.1);
+    color: #FFF;
     border-radius: 2px;
 }
 

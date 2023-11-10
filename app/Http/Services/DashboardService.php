@@ -19,6 +19,7 @@ class DashboardService
             "products" => $this->products(),
             "ordersLastWeek" => $this->ordersLastWeek(),
             "revenueLastWeek" => $this->revenueLastWeek(),
+            "productsLastWeek" => $this->productsLastWeek(),
         ];
     }
 
@@ -29,20 +30,30 @@ class DashboardService
     {
         $total = User::where("account_type", "normal")->count();
 
-        $yesterday = User::where("created_at", Carbon::now()->subDay())->count();
+        $carbonYesterday = now()->subDay();
 
-        $today = User::where("created_at", Carbon::now())->count();
+        $yesterday = User::whereDate("created_at", $carbonYesterday)->count();
 
-        // Resolve for Division by Zero
-        if ($yesterday > 0) {
-            $growth = $today / $yesterday * 100;
-        } else {
-            $growth = $today * 100;
-        }
+        $carbonToday = Carbon::today()->toDateString();
+
+        $today = User::whereDate("created_at", $carbonToday)->count();
+
+        // Get Users By Day
+        $startDate = Carbon::now()->subWeek()->startOfWeek();
+        $endDate = Carbon::now()->subWeek()->endOfWeek();
+
+        $getUsersLastWeek = User::select(DB::raw('DATE(created_at) as date'), DB::raw('count(*) as count'))
+            ->whereBetween('created_at', [$startDate, $endDate])
+            ->groupBy('created_at')
+            ->get()
+            ->map(function ($item) {
+                return $item->count;
+            });
 
         return [
             "total" => $total,
-            "growth" => $growth,
+            "growth" => $this->growth($yesterday, $today),
+            "lastWeek" => $getUsersLastWeek,
         ];
     }
 
@@ -55,20 +66,17 @@ class DashboardService
 
         $orders = Order::orderBy("id", "DESC")->paginate(10);
 
-        $yesterday = Order::where("created_at", Carbon::now()->subDay())->count();
+        $carbonYesterday = now()->subDay();
 
-        $today = Order::where("created_at", Carbon::now())->count();
+        $yesterday = Order::whereDate("created_at", $carbonYesterday)->count();
 
-        // Resolve for Division by Zero
-        if ($yesterday > 0) {
-            $growth = $today / $yesterday * 100;
-        } else {
-            $growth = $today * 100;
-        }
+        $carbonToday = Carbon::today()->toDateString();
+
+        $today = Order::whereDate("created_at", $carbonToday)->count();
 
         return [
             "total" => $total,
-            "growth" => $growth,
+            "growth" => $this->growth($yesterday, $today),
             "list" => $orders,
         ];
     }
@@ -80,16 +88,15 @@ class DashboardService
     {
         $total = Order::sum('total_value');
 
-        $yesterday = Order::where("created_at", Carbon::now()->subDay())->sum("total_value");
+        $carbonYesterday = now()->subDay();
 
-        $today = Order::where("created_at", Carbon::now())->sum("total_value");
+        $yesterday = Order::whereDate("date", $carbonYesterday)->sum("total_value");
 
-		// Resolve for Division by Zero
-        if ($yesterday > 0) {
-            $growth = $today / $yesterday * 100;
-        } else {
-            $growth = $today * 100;
-        }
+        $carbonToday = Carbon::today()->toDateString();
+
+        $today = Order::whereDate("date", $carbonToday)->sum("total_value");
+
+        $growth = $this->growth($yesterday, $today);
 
         return [
             "total" => number_format($total),
@@ -109,21 +116,18 @@ class DashboardService
             ->orderBy('orders_count', 'desc')
             ->get();
 
-        $yesterday = Product::where("created_at", Carbon::now()->subDay())->count();
+        $carbonYesterday = now()->subDay();
 
-        $today = Product::where("created_at", Carbon::now())->count();
+        $yesterday = Product::whereDate("created_at", $carbonYesterday)->count();
 
-        // Resolve for Division by Zero
-        if ($yesterday > 0) {
-            $growth = $today / $yesterday * 100;
-        } else {
-            $growth = $today * 100;
-        }
+        $carbonToday = Carbon::today()->toDateString();
+
+        $today = Product::whereDate("created_at", $carbonToday)->count();
 
         return [
             "total" => $total,
             "top" => $topProducts,
-            "growth" => $growth,
+            "growth" => $this->growth($yesterday, $today),
         ];
     }
 
@@ -132,7 +136,7 @@ class DashboardService
      */
     public function ordersLastWeek()
     {
-        // Get Users By Day
+        // Get Ordes By Day
         $startDate = Carbon::now()->subWeek()->startOfWeek();
         $endDate = Carbon::now()->subWeek()->endOfWeek();
 
@@ -162,7 +166,7 @@ class DashboardService
     public function revenueLastWeek()
     {
 
-        // Get Users By Day
+        // Get Revenue By Day
         $startDate = Carbon::now()->subWeek()->startOfWeek();
         $endDate = Carbon::now()->subWeek()->endOfWeek();
 
@@ -184,5 +188,49 @@ class DashboardService
             "labels" => $revenueLastWeekLabels,
             "data" => $revenueLastWeekData,
         ];
+    }
+
+    /*
+     * Get Revenue Last Week
+     */
+    public function productsLastWeek()
+    {
+        // Get Revenue By Day
+        $startDate = Carbon::now()->subWeek()->startOfWeek();
+        $endDate = Carbon::now()->subWeek()->endOfWeek();
+
+        $getRevenueLastWeek = Order::select(DB::raw('DATE(created_at) as date'), DB::raw('sum(total_value) as sum'))
+            ->whereBetween('created_at', [$startDate, $endDate])
+            ->groupBy('orders.created_at')
+            ->get()
+            ->map(function ($item) {
+                return [
+                    "day" => Carbon::parse($item->date)->dayName,
+                    "sum" => $item->sum,
+                ];
+            });
+
+        $revenueLastWeekLabels = $getRevenueLastWeek->map(fn($item) => $item["day"]);
+        $revenueLastWeekData = $getRevenueLastWeek->map(fn($item) => $item["sum"]);
+
+        return [
+            "labels" => $revenueLastWeekLabels,
+            "data" => $revenueLastWeekData,
+        ];
+    }
+
+    // Calculate Growth
+    public function growth($yesterday, $today)
+    {
+        // Resolve for Division by Zero
+        if ($yesterday == 0) {
+            $growth = $today == 0 ? 0 : $today * 100;
+        } else if ($today == 0) {
+            $growth = $yesterday == 0 ? 0 : $yesterday * -100;
+        } else {
+            $growth = $today / $yesterday * 100;
+        }
+
+        return $growth;
     }
 }

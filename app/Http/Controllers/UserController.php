@@ -46,7 +46,7 @@ class UserController extends Controller
     {
         $this->validate($request, [
             "name" => "required|string",
-            "email" => "required|string",
+            "email" => "required|string|unique:users",
             "phone" => "string",
         ]);
 
@@ -65,7 +65,12 @@ class UserController extends Controller
      */
     public function show($id)
     {
-        //
+        [$user, $orders] = $this->service->show($id);
+
+        return view("/pages/users/show")->with([
+            "user" => $user,
+            "orders" => $orders,
+        ]);
     }
 
     /**
@@ -76,7 +81,7 @@ class UserController extends Controller
      */
     public function edit($id)
     {
-        $user = $this->service->show($id);
+        $user = $this->service->edit($id);
 
         return view("/pages/users/edit")->with(["user" => $user]);
     }
@@ -90,6 +95,10 @@ class UserController extends Controller
      */
     public function update(Request $request, $id)
     {
+		$this->validate($request, [
+			"email" => "string|unique:users"
+		]);
+
         [$saved, $message, $user] = $this->service->update($request, $id);
 
         return redirect("/users/" . $id . "/edit")->with([

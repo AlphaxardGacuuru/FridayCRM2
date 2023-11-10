@@ -1,7 +1,11 @@
 <div class="dashboard-header">
 	<nav class="navbar navbar-expand-lg bg-white fixed-top">
 		<a class="navbar-brand"
-		   href="index.html">Concept</a>
+		   href="index.html">
+			<img src="/storage/img/Bulk Black Logo 800x600.png"
+				 style="width: 6em;"
+				 heigth="auto" />
+		</a>
 		<button class="navbar-toggler"
 				type="button"
 				data-toggle="collapse"

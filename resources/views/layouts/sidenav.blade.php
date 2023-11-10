@@ -1,4 +1,5 @@
-<div class="nav-left-sidebar sidebar-dark">
+<div class="nav-left-sidebar sidebar-light"
+	 style="background-color: #232323;">
 	<div class="menu-list">
 		<nav class="navbar navbar-expand-lg navbar-light">
 			<a class="d-xl-none d-lg-none"
@@ -15,32 +16,41 @@
 			<div class="collapse navbar-collapse"
 				 id="navbarNav">
 				<ul class="navbar-nav flex-column">
-					<li class="nav-divider">
-						Menu
-					</li>
-					<li class="nav-item">
+					<li class="nav-item mt-4">
 						<a class="nav-link {{ request()->routeIs('dashboard') ? 'active' : '' }}"
-						   href="{{ route('dashboard') }}">Dashboard</a>
+						   href="{{ route('dashboard') }}">
+							<i class="fa fa-home mb-1"></i>Dashboard
+						</a>
 					</li>
 					<li class="nav-item">
 						<a class="nav-link {{ request()->is('users') ? 'active' : '' }}"
-						   href="/users">Customers</a>
+						   href="/users">
+							<i class="fa fa-users mb-1"></i>Customers
+						</a>
 					</li>
 					<li class="nav-item">
 						<a class="nav-link {{ request()->is('orders') ? 'active' : '' }}"
-						   href="/orders">Orders</a>
+						   href="/orders">
+							<i class="fa fa-cubes mb-1"></i>Orders
+						</a>
 					</li>
 					<li class="nav-item">
 						<a class="nav-link {{ request()->is('products') ? 'active' : '' }}"
-						   href="/products">Products</a>
+						   href="/products">
+							<i class="fa fa-shopping-bag mb-1"></i>Products
+						</a>
 					</li>
 					<li class="nav-item">
 						<a class="nav-link {{ request()->is('statements') ? 'active' : '' }}"
-						   href="/statements">Statements</a>
+						   href="/statements">
+							<i class="fa fa-file-alt mb-1"></i>Statements
+						</a>
 					</li>
 					<li class="nav-item">
 						<a class="nav-link {{ request()->is('invoices') ? 'active' : '' }}"
-						   href="/invoices">Invoices</a>
+						   href="/invoices">
+							<i class="fa fa-dollar-sign mb-1"></i>Invoices
+						</a>
 					</li>
 					{{--<li class="nav-item ">
 						<a class="nav-link active"

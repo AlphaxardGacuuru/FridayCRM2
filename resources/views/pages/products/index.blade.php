@@ -8,7 +8,7 @@
 			<div class="d-flex justify-content-between card-header">
 				<h3 class="">Products</h3>
 				<a href="/products/create"
-				   class="btn btn-primary btn-rounded">Create</a>
+				   class="btn btn-primary">Create</a>
 			</div>
 			<div class="card-body">
 				<table class="table">
@@ -27,7 +27,9 @@
 							<td>
 								<div class="d-flex">
 									<a href="/products/{{ $product->id }}/edit"
-									   class="btn btn-sm btn-primary btn-rounded">Edit</a>
+									   class="btn btn-sm btn-primary">
+										<i class="fa fa-edit"></i>
+									</a>
 									<div class="mx-1">
 										{{-- Confirm Delete Modal End --}}
 										<div class="modal fade"
@@ -40,7 +42,7 @@
 													<div class="modal-header">
 														<h1 id="deleteModalLabel"
 															class="modal-title fs-5 text-danger">
-															Delete Club
+															Delete Product
 														</h1>
 														<button type="button"
 																class="btn-close"
@@ -53,12 +55,12 @@
 													</div>
 													<div class="modal-footer justify-content-between">
 														<button type="button"
-																class="btn btn-light rounded-pill"
+																class="btn btn-light"
 																data-bs-dismiss="modal">
 															Close
 														</button>
 														<button type="button"
-																class="btn btn-danger rounded-pill text-white"
+																class="btn btn-danger text-white"
 																data-bs-dismiss="modal"
 																onclick="event.preventDefault();
 						                                                     document.getElementById('deleteForm{{ $product->id }}').submit();">
@@ -81,10 +83,11 @@
 
 										{{-- Button trigger modal --}}
 										<button type="button"
-												class="btn btn-sm btn-danger rounded-pill text-white"
+												class="btn btn-sm text-white"
+												style="background-color: gray;"
 												data-bs-toggle="modal"
 												data-bs-target="#deleteModal{{ $product->id }}">
-											Delete
+											<i class="fa fa-trash"></i>
 										</button>
 									</div>
 								</div>

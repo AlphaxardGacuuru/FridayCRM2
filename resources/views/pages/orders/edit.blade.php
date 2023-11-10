@@ -10,7 +10,7 @@
 			<div class="d-flex justify-content-between card-header">
 				<h3 class="">Edit Order</h3>
 				<a href="/orders"
-				   class="btn btn-primary btn-rounded">View All</a>
+				   class="btn btn-primary">View All</a>
 			</div>
 			<div class="card-body">
 				<form action="/orders/{{ $order->id }}"
@@ -75,35 +75,44 @@
 							   class="form-control">
 					</div>
 					<div class="form-group">
-						<label for="inputText4"
+						<label for="kraDueInput"
 							   class="col-form-label">KRA Due</label>
-						<input id="kra_due"
+						<input id="kraDueInput"
 							   type="number"
 							   name="kra_due"
 							   placeholder="{{ $order->kra_due }}"
 							   class="form-control">
 					</div>
 					<div class="form-group">
-						<label for="inputText4"
+						<label for="kebsDueInput"
 							   class="col-form-label">KEBS Due</label>
-						<input id="kebs_due"
+						<input id="kebsDueInput"
 							   type="number"
 							   name="kebs_due"
 							   placeholder="{{ $order->kebs_due }}"
 							   class="form-control">
 					</div>
 					<div class="form-group">
-						<textarea id="other_query"
-								  name="other_query"
-								  placeholder="{{ $order->other_query }}"
-								  class="form-control"
-								  cols="30"
-								  rows="10">
-							</textarea>
+						<label for="otherChargesInput"
+							   class="col-form-label">Other Charges</label>
+						<input id="otherChargesInput"
+							   type="number"
+							   name="other_charges"
+							   placeholder="{{ $order->other_charges }}"
+							   class="form-control">
+					</div>
+					<div class="form-group">
+						<label for="totalValueInput"
+							   class="col-form-label">Total Value</label>
+						<input id="totalValueInput"
+							   type="number"
+							   name="total_value"
+							   placeholder="{{ $order->total_value }}"
+							   class="form-control">
 					</div>
 					<div class="d-flex justify-content-end">
 						<button type="submit"
-								class="btn btn-primary btn-rounded">Update Order</button>
+								class="btn btn-primary">Update Order</button>
 					</div>
 				</form>
 			</div>
@@ -113,4 +122,21 @@
 <!-- ============================================================== -->
 <!-- end basic form  -->
 <!-- ============================================================== -->
+<script>
+	// Function to calculate total value
+    function calculateSum() {
+        var kraDueInput = parseFloat(document.getElementById('kraDueInput').value) || 0;
+        var kebsDueInput = parseFloat(document.getElementById('kebsDueInput').value) || 0;
+        var otherChargesInput = parseFloat(document.getElementById('otherChargesInput').value) || 0;
+
+        var sum = kraDueInput + kebsDueInput + otherChargesInput;
+
+        document.getElementById('totalValueInput').value = sum;
+    }
+
+    // Attach an event listener to each input field
+    document.getElementById('kraDueInput').addEventListener('input', calculateSum);
+    document.getElementById('kebsDueInput').addEventListener('input', calculateSum);
+    document.getElementById('otherChargesInput').addEventListener('input', calculateSum);
+</script>
 @endsection

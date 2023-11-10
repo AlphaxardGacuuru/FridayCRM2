@@ -10,7 +10,7 @@
 			<div class="d-flex justify-content-between card-header">
 				<h3 class="">Edit User</h3>
 				<a href="/users"
-				   class="btn btn-primary btn-rounded">View All</a>
+				   class="btn btn-primary">View All</a>
 			</div>
 			<div class="card-body">
 				<form action="/users/{{ $user->id }}"
@@ -77,7 +77,7 @@
 					</div>
 					<div class="d-flex justify-content-end">
 						<button type="submit"
-								class="btn btn-primary btn-rounded">Update User</button>
+								class="btn btn-primary">Update User</button>
 					</div>
 				</form>
 			</div>

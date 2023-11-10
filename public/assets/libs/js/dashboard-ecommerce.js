@@ -13,8 +13,6 @@ $(function () {
 	barOrdersData = JSON.parse(barOrdersData)
 	barRevenueData = JSON.parse(barRevenueData)
 
-	// console.log(barData)
-
 	new Chartist.Bar(
 		".ct-chart-product",
 		{
@@ -137,7 +135,11 @@ chart.on("draw", function (data) {
 // ==============================================================
 // Revenue Cards
 // ==============================================================
-$("#sparkline-revenue").sparkline([5, 5, 7, 7, 9, 5, 3, 5, 2, 4, 6, 7], {
+
+// User Data 
+var sparkUserData = document.getElementById("spark-user-data").innerHTML
+
+$("#sparkline-revenue").sparkline(JSON.parse(sparkUserData), {
 	type: "line",
 	width: "99.5%",
 	height: "100",
@@ -152,7 +154,10 @@ $("#sparkline-revenue").sparkline([5, 5, 7, 7, 9, 5, 3, 5, 2, 4, 6, 7], {
 	resize: true,
 })
 
-$("#sparkline-revenue2").sparkline([3, 7, 6, 4, 5, 4, 3, 5, 5, 2, 3, 1], {
+// Ordes Data
+var sparkOrderData = document.getElementById("spark-order-data").innerHTML
+
+$("#sparkline-revenue2").sparkline(JSON.parse(sparkOrderData), {
 	type: "line",
 	width: "99.5%",
 	height: "100",

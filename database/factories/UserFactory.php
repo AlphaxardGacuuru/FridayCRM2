@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
@@ -25,7 +26,8 @@ class UserFactory extends Factory
             'password' => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', // password
             'remember_token' => Str::random(10),
 			'address' => fake()->address(),
-			'registration_number' => Str::random(2) . '-' . rand(1000000, 9999999)
+			'registration_number' => Str::random(2) . '-' . rand(1000000, 9999999),
+            "created_at" => Carbon::now()->subDay(rand(3, 12)),
         ];
     }
 

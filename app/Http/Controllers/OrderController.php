@@ -17,13 +17,16 @@ class OrderController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        [$ordersPendingValue, $orders] = $this->service->index();
+        [$users, $products, $ordersPendingValue, $ordersPaidValue, $orders] = $this->service->index($request);
 
         return view("pages/orders/index")->with([
+			"users" => $users,
+			"products" => $products,
             "orders" => $orders,
             "ordersPendingValue" => $ordersPendingValue,
+            "ordersPaidValue" => $ordersPaidValue,
         ]);
     }
 
@@ -55,7 +58,7 @@ class OrderController extends Controller
             "product_id" => "required|string",
             "date" => "string",
             "vehicle_registration" => "required|string",
-            "entry_number" => "required|string",
+            "entry_number" => "required|string|unique:orders",
             "kra_due" => "required|string",
             "kebs_due" => "required|string",
             "other_charges" => "required|string",
@@ -76,7 +79,7 @@ class OrderController extends Controller
      */
     public function show($id)
     {
-        //
+		// 
     }
 
     /**

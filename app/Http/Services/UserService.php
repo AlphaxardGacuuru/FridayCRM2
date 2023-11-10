@@ -2,7 +2,9 @@
 
 namespace App\Http\Services;
 
+use App\Http\Resources\OrderResource;
 use App\Http\Resources\UserResource;
+use App\Models\Order;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
 
@@ -56,8 +58,24 @@ class UserService
     {
         $user = User::find($id);
 
-        return new UserResource($user);
+        $user = new UserResource($user);
+
+		$orders = Order::where("user_id", $id)->paginate(10);
+
+		$orders = OrderResource::collection($orders);
+
+		return [$user, $orders];
     }
+
+	/*
+	* Get Data for editing
+	*/ 
+	public function edit($id)
+	{
+		$user = User::find($id);
+
+		return new UserResource($user);
+	}
 
     /**
      * Update the specified resource in storage.
@@ -72,6 +90,10 @@ class UserService
 
         if ($request->filled("name")) {
             $user->name = $request->input("name");
+        }
+
+        if ($request->filled("email")) {
+            $user->email = $request->input("email");
         }
 
         if ($request->filled("registration_number")) {

@@ -10,7 +10,7 @@
 			<div class="d-flex justify-content-between card-header">
 				<h3 class="">Create Order</h3>
 				<a href="/orders"
-				   class="btn btn-primary btn-rounded">View All</a>
+				   class="btn btn-primary">View All</a>
 			</div>
 			<div class="card-body">
 				<form action="/orders"
@@ -102,12 +102,11 @@
 						<input id="totalValueInput"
 							   type="number"
 							   name="total_value"
-							   class="form-control"
-							   disabled>
+							   class="form-control">
 					</div>
 					<div class="d-flex justify-content-end">
 						<button type="submit"
-								class="btn btn-primary btn-rounded">Create Order</button>
+								class="btn btn-primary">Create Order</button>
 					</div>
 				</form>
 			</div>

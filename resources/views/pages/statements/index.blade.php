@@ -45,29 +45,28 @@
 				</div>
 			</div>
 			<div class="card-body">
-				<div class="list-group">
-					@foreach ($orders as $order)
-					<a href="#"
-					   class="list-group-item list-group-item-action flex-column align-items-start">
-						<div class="d-flex w-100 justify-content-between">
-							<h5 class="mb-1">{{ $order->user->name }}</h5>
-							<small class="text-muted">{{ $order->created_at }}</small>
-						</div>
-						<div class="d-flex w-100 justify-content-between">
-							<div>
-								<p class="mb-1">{{ $order->product->name }}</p>
-								<small class="text-success">KES {{ $order->product->price }}</small>
-							</div>
-							<div>
-								<small
-									   class="rounded-pill text-capitalize py-2 px-4 {{ $order->status == 'pending' ? 'bg-warning' : 'bg-success' }}">
-									{{ $order->status }}
-								</small>
-							</div>
-						</div>
-					</a>
-					@endforeach
-				</div>
+				<table class="table">
+					<thead>
+						<tr>
+							<th>#</th>
+							<th class="text-uppercase">Entry No</th>
+							<th class="text-uppercase">CURR</th>
+							<th class="text-uppercase">Total Value</th>
+							<th class="text-uppercase">Date</th>
+						</tr>
+					</thead>
+					<tbody>
+						@foreach ($orders as $order)
+						<tr>
+							<th scope="row">{{ $loop->iteration }}</th>
+							<td>{{ $order->entry_number }}</td>
+							<td>KES</td>
+							<td>{{ number_format($order->total_value) }}</td>
+							<td>{{ $order->date }}</td>
+						</tr>
+						@endforeach
+					</tbody>
+				</table>
 			</div>
 			<div class="card-footer">
 				{{ $orders->links() }}

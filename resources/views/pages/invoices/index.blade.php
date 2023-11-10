@@ -53,12 +53,12 @@
 													</div>
 													<div class="modal-footer justify-content-between">
 														<button type="button"
-																class="btn btn-light rounded-pill"
+																class="btn btn-light"
 																data-bs-dismiss="modal">
 															Close
 														</button>
 														<button type="button"
-																class="btn btn-success rounded-pill text-white"
+																class="btn btn-success text-white"
 																data-bs-dismiss="modal"
 																onclick="event.preventDefault();
 						                                                     document.getElementById('statusForm{{ $order->id }}').submit();">
@@ -84,7 +84,7 @@
 
 										{{-- Button trigger modal --}}
 										<button type="button"
-												class="btn btn-sm btn-success rounded-pill text-white"
+												class="btn btn-sm btn-success text-white"
 												data-bs-toggle="modal"
 												data-bs-target="#statusModal{{ $order->id }}">
 											Set Paid
