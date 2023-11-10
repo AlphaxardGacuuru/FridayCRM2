@@ -44,8 +44,8 @@
 						<thead>
 							<tr>
 								<th class="center">#</th>
+								<th>Entry No</th>
 								<th>Item</th>
-								{{-- <th>Description</th> --}}
 								{{-- <th class="right">Unit Cost</th> --}}
 								{{-- <th class="center">Qty</th> --}}
 								<th class="right">Total</th>
@@ -55,6 +55,7 @@
 							@foreach ($invoice->items as $item)
 							<tr>
 								<td class="center">{{ $loop->iteration }}</td>
+								<td class="left">{{ $item["entry_number"] }}</td>
 								<td class="left">{{ $item["name"] }}</td>
 								{{-- <td class="left">1 year subcription 24/7</td> --}}
 								<td class="right">KES {{ number_format($item["total_value"]) }}</td>
