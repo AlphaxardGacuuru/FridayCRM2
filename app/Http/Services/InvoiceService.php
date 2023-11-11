@@ -4,6 +4,7 @@ namespace App\Http\Services;
 
 use App\Http\Resources\InvoiceItemResource;
 use App\Http\Resources\InvoiceResource;
+use App\Http\Resources\OrderResource;
 use App\Models\Invoice;
 use App\Models\Order;
 use App\Models\Product;
@@ -92,7 +93,19 @@ class InvoiceService
     {
         $invoice = Invoice::find($id);
 
-        return new InvoiceResource($invoice);
+		$orders = [];
+
+		foreach ($invoice->order_ids as $orderId) {
+			$order = Order::find($orderId);
+
+			array_push($orders, $order);
+		}
+
+		$items = OrderResource::collection($orders);
+
+		$invoice = new InvoiceResource($invoice);
+
+		return [$invoice, $items];
     }
 
     /**

@@ -45,22 +45,17 @@
 							<tr>
 								<th class="center">#</th>
 								<th>Entry No</th>
-								<th>Item</th>
-								{{-- <th class="right">Unit Cost</th> --}}
-								{{-- <th class="center">Qty</th> --}}
+								<th>Vehicle Reg</th>
 								<th class="right">Total</th>
 							</tr>
 						</thead>
 						<tbody>
-							@foreach ($invoice->items as $item)
+							@foreach ($items as $item)
 							<tr>
 								<td class="center">{{ $loop->iteration }}</td>
-								<td class="left">{{ $item["entry_number"] }}</td>
-								<td class="left">{{ $item["name"] }}</td>
-								{{-- <td class="left">1 year subcription 24/7</td> --}}
-								<td class="right">KES {{ number_format($item["total_value"]) }}</td>
-								{{-- <td class="center">1</td> --}}
-								{{-- <td class="right">KES 5.000,00</td> --}}
+								<td class="left">{{ $item->entry_number }}</td>
+								<td class="left">{{ $item->vehicle_registration }}</td>
+								<td class="right">KES {{ number_format($item->total_value) }}</td>
 							</tr>
 							@endforeach
 						</tbody>

@@ -64,11 +64,14 @@ class InvoiceController extends Controller
      */
     public function show($id)
     {
-        $invoice = $this->service->show($id);
+        [$invoice, $items] = $this->service->show($id);
 
 		// return $invoice;
         return view("/pages/invoices/show")
-            ->with(["invoice" => $invoice]);
+            ->with([
+				"invoice" => $invoice,
+				"items" => $items
+			]);
     }
 
     /**
