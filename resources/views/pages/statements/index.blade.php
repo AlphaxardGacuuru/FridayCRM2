@@ -63,7 +63,7 @@
 							<td>{{ $order->entry_number }}</td>
 							<td>{{ $order->vehicle_registration }}</td>
 							<td>KES</td>
-							<td>{{ number_format($order->total_value) }}</td>
+							<td>{{ $order->total_value ? number_format($order->total_value) : '-' }}</td>
 							<td>{{ $order->date }}</td>
 						</tr>
 						@endforeach

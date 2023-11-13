@@ -55,7 +55,7 @@
 								<td class="center">{{ $loop->iteration }}</td>
 								<td class="left">{{ $item->entry_number }}</td>
 								<td class="left">{{ $item->vehicle_registration }}</td>
-								<td class="right">KES {{ number_format($item->total_value) }}</td>
+								<td class="right">KES {{ $item->total_value ? number_format($item->total_value) : '-' }}</td>
 							</tr>
 							@endforeach
 						</tbody>
@@ -90,7 +90,9 @@
 										<strong class="text-dark">Total</strong>
 									</td>
 									<td class="right">
-										<strong class="text-dark">KES {{ number_format($invoice->amount) }}</strong>
+										<strong class="text-dark">
+											KES {{ $invoice->amount ? number_format($invoice->amount) : '-' }}
+										</strong>
 									</td>
 								</tr>
 							</tbody>

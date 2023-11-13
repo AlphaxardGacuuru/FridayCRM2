@@ -247,15 +247,15 @@
 								<table class="table">
 									<thead class="bg-light">
 										<tr class="border-0">
-											<th class="border-0">#</th>
-											<th class="border-0">Date</th>
-											<th class="border-0">Vehicle Registration</th>
-											<th class="border-0">Entry Number</th>
-											<th class="border-0">Customer</th>
-											<th class="border-0">Product</th>
-											<th class="border-0">KRA Due</th>
-											<th class="border-0">KEBS Due</th>
-											<th class="border-0">Total Value</th>
+											<th class="border-0 text-uppercase">#</th>
+											<th class="border-0 text-uppercase">Date</th>
+											<th class="border-0 text-uppercase">Vehicle Registration</th>
+											<th class="border-0 text-uppercase">Entry Number</th>
+											<th class="border-0 text-uppercase">Customer</th>
+											<th class="border-0 text-uppercase">Product</th>
+											<th class="border-0 text-uppercase">KRA Due</th>
+											<th class="border-0 text-uppercase">KEBS Due</th>
+											<th class="border-0 text-uppercase">Total Value</th>
 										</tr>
 									</thead>
 									<tbody>
@@ -267,9 +267,12 @@
 											<td>{{ $order->entry_number }}</td>
 											<td>{{ $order->user->name }}</td>
 											<td>{{ $order->product->name }}</td>
-											<td>{{ $order->kra_due }}</td>
-											<td>{{ $order->kebs_due }}</td>
-											<td>{{ $order->total_value }}</td>
+											<td>{{ $order->kra_due ? number_format($order->kra_due) : '-' }}</td>
+											<td>{{ $order->kebs_due ? number_format($order->kebs_due) : '-' }}</td>
+											<td>{{ $order->other_charges ? number_format($order->other_charges) : '-' }}
+											</td>
+											<td>{{ $order->total_value ? number_format($order->total_value) : '-' }}
+											</td>
 										</tr>
 										@endforeach
 									</tbody>

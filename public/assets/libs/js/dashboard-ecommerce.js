@@ -9,6 +9,7 @@ $(function () {
 	var barRevenueData = document.getElementById("bar-data").innerHTML
 
 	// Parse data
+	// barLabels = ["Mon", "Tue", "Wed", "Thur", "Fri", "Sat", "Sun"]
 	barLabels = JSON.parse(barLabels)
 	barOrdersData = JSON.parse(barOrdersData)
 	barRevenueData = JSON.parse(barRevenueData)
@@ -154,7 +155,7 @@ $("#sparkline-revenue").sparkline(JSON.parse(sparkUserData), {
 	resize: true,
 })
 
-// Ordes Data
+// Orders Data
 var sparkOrderData = document.getElementById("spark-order-data").innerHTML
 
 $("#sparkline-revenue2").sparkline(JSON.parse(sparkOrderData), {

@@ -25,7 +25,7 @@
 							<th scope="row">{{ $loop->iteration + ($invoices->perPage() * ($invoices->currentPage() - 1)) }}</th>
 							<td>{{ $invoice->id }}</td>
 							<td>{{ $invoice->user->name }}</td>
-							<td>{{ number_format($invoice->amount) }}</td>
+							<td>{{ $invoice->amount ? number_format($invoice->amount) : '-' }}</td>
 							<td>
 								<div class="d-flex">
 									{{-- Show --}}
