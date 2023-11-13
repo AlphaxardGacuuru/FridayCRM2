@@ -22,7 +22,7 @@
 					<tbody>
 						@foreach ($invoices as $invoice)
 						<tr>
-							<th scope="row">{{ $loop->iteration }}</th>
+							<th scope="row">{{ $loop->iteration + ($invoices->perPage() * ($invoices->currentPage() - 1)) }}</th>
 							<td>{{ $invoice->id }}</td>
 							<td>{{ $invoice->user->name }}</td>
 							<td>{{ number_format($invoice->amount) }}</td>

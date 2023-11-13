@@ -22,7 +22,7 @@
 					<tbody>
 						@foreach ($products as $product)
 						<tr>
-							<th scope="row">{{ $loop->iteration }}</th>
+							<th scope="row">{{ $loop->iteration + ($products->perPage() * ($products->currentPage() - 1)) }}</th>
 							<td>{{ $product->name }}</td>
 							<td>
 								<div class="d-flex">

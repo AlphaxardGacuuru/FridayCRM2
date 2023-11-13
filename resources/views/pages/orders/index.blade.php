@@ -171,7 +171,7 @@
 										   value="{{ $order->id  }}"
 										   onchange="setOrderIds({{ $order->id }})" />
 								</td>
-								<td scope="row">{{ $loop->iteration }}</td>
+								<td scope="row">{{ $loop->iteration + ($orders->perPage() * ($orders->currentPage() - 1)) }}</td>
 								<td>{{ $order->entry_number }}</td>
 								<td>{{ $order->vehicle_registration }}</td>
 								<td>KES</td>
