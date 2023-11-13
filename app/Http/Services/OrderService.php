@@ -177,7 +177,7 @@ class OrderService
     {
         $invoices = Order::where("status", "pending")
             ->orderBy("id", "DESC")
-            ->paginate(10);
+            ->paginate(20);
 
         return InvoiceResource::collection($invoices);
     }
@@ -226,7 +226,7 @@ class OrderService
 
         $orders = $ordersQuery
             ->orderBy("date", "DESC")
-            ->paginate(10);
+            ->paginate(20);
 
         return OrderResource::collection($orders);
     }

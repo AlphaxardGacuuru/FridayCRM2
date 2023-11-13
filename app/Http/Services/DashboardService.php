@@ -64,7 +64,7 @@ class DashboardService
     {
         $total = Order::count();
 
-        $orders = Order::orderBy("id", "DESC")->paginate(10);
+        $orders = Order::orderBy("id", "DESC")->paginate(20);
 
         $carbonYesterday = now()->subDay();
 

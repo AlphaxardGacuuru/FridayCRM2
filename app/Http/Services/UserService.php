@@ -19,7 +19,7 @@ class UserService
     {
         $getUsers = User::where("account_type", "normal")
             ->orderBy("id", "DESC")
-            ->paginate(10);
+            ->paginate(20);
 
         return UserResource::collection($getUsers);
     }
@@ -60,22 +60,22 @@ class UserService
 
         $user = new UserResource($user);
 
-		$orders = Order::where("user_id", $id)->paginate(10);
+        $orders = Order::where("user_id", $id)->paginate(20);
 
-		$orders = OrderResource::collection($orders);
+        $orders = OrderResource::collection($orders);
 
-		return [$user, $orders];
+        return [$user, $orders];
     }
 
-	/*
-	* Get Data for editing
-	*/ 
-	public function edit($id)
-	{
-		$user = User::find($id);
+    /*
+     * Get Data for editing
+     */
+    public function edit($id)
+    {
+        $user = User::find($id);
 
-		return new UserResource($user);
-	}
+        return new UserResource($user);
+    }
 
     /**
      * Update the specified resource in storage.

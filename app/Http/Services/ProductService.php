@@ -4,7 +4,6 @@ namespace App\Http\Services;
 
 use App\Http\Resources\ProductResource;
 use App\Models\Product;
-use Illuminate\Support\Facades\Hash;
 
 class ProductService
 {
@@ -15,7 +14,7 @@ class ProductService
      */
     public function index()
     {
-        $getProducts = Product::orderBy("id", "DESC")->paginate(10);
+        $getProducts = Product::orderBy("id", "DESC")->paginate(20);
 
         return ProductResource::collection($getProducts);
     }

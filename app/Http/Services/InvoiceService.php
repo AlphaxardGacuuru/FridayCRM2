@@ -20,7 +20,7 @@ class InvoiceService
      */
     public function index()
     {
-        $invoices = Invoice::orderBy("id", "DESC")->paginate(10);
+        $invoices = Invoice::orderBy("id", "DESC")->paginate(20);
 
         return InvoiceResource::collection($invoices);
     }
@@ -63,11 +63,11 @@ class InvoiceService
             return $carry + $totalValue;
         });
 
-		$items = collect($orderIds)->map(function ($orderId) {
-			$order = Order::find($orderId);
+        $items = collect($orderIds)->map(function ($orderId) {
+            $order = Order::find($orderId);
 
-			return new InvoiceItemResource($order);
-		});
+            return new InvoiceItemResource($order);
+        });
 
         $invoice = new Invoice;
         $invoice->invoice_number = "INV-" . Str::uuid();
@@ -93,19 +93,19 @@ class InvoiceService
     {
         $invoice = Invoice::find($id);
 
-		$orders = [];
+        $orders = [];
 
-		foreach ($invoice->order_ids as $orderId) {
-			$order = Order::find($orderId);
+        foreach ($invoice->order_ids as $orderId) {
+            $order = Order::find($orderId);
 
-			array_push($orders, $order);
-		}
+            array_push($orders, $order);
+        }
 
-		$items = OrderResource::collection($orders);
+        $items = OrderResource::collection($orders);
 
-		$invoice = new InvoiceResource($invoice);
+        $invoice = new InvoiceResource($invoice);
 
-		return [$invoice, $items];
+        return [$invoice, $items];
     }
 
     /**
@@ -190,7 +190,7 @@ class InvoiceService
     {
         $invoices = Invoice::where("status", "pending")
             ->orderBy("id", "DESC")
-            ->paginate(10);
+            ->paginate(20);
 
         return InvoiceResource::collection($invoices);
     }
@@ -224,7 +224,7 @@ class InvoiceService
 
         $invoices = $invoicesQuery
             ->orderBy("date", "DESC")
-            ->paginate(10);
+            ->paginate(20);
 
         return InvoiceResource::collection($invoices);
     }
