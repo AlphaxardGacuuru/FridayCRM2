@@ -17,18 +17,18 @@
 
 				<div class="float-right">
 					<h3 class="mb-0">Invoice #{{ $invoice->id }}</h3>
-					Date {{ $invoice->created_at }}
+					Date: {{ $invoice->created_at }}
 				</div>
 			</div>
 			<div class="card-body">
 				<div class="row mb-4">
 					<div class="col-sm-6">
 						<h5 class="mb-3">From:</h5>
-						<h3 class="text-dark mb-1">Anthony K. Friel</h3>
-						<div>478 Collins Avenue</div>
-						<div>Canal Winchester, OH 43110</div>
-						<div>Email: info@anthonyk.com</div>
-						<div>Phone: +614-837-8483</div>
+						<h3 class="text-dark mb-1">Bulk Agencies Limited</h3>
+						<div>370 - 00207</div>
+						<div>Namanga, Kenya</div>
+						<div>Email: info@bulkagencies.co.ke</div>
+						<div>Phone: +254 722 427 629</div>
 					</div>
 					<div class="col-sm-6">
 						<h5 class="mb-3">To:</h5>
