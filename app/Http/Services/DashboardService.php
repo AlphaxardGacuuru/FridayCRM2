@@ -232,7 +232,6 @@ class DashboardService
             $growth = $today / $yesterday * 100;
         }
 
-        return $growth;
-        // return number_format($growth);
+        return number_format($growth, 1);
     }
 }
