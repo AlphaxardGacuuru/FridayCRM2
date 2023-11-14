@@ -146,9 +146,9 @@
 								<th scope="col"
 									class="text-capitalize">Curr</th>
 								<th scope="col"
-									class="text-capitalize">KRA Due</th>
+									class="text-capitalize">Kra Due</th>
 								<th scope="col"
-									class="text-capitalize">KEBS Due</th>
+									class="text-capitalize">Kebs Due</th>
 								<th scope="col"
 									class="text-capitalize">Other Charges</th>
 								<th scope="col"

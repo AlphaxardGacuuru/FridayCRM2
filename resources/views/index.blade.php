@@ -251,8 +251,8 @@
 									<th class="border-0 text-capitalize">Entry Number</th>
 									<th class="border-0 text-capitalize">Customer</th>
 									<th class="border-0 text-capitalize">Product</th>
-									<th class="border-0 text-capitalize">KRA Due</th>
-									<th class="border-0 text-capitalize">KEBS Due</th>
+									<th class="border-0 text-capitalize">Kra Due</th>
+									<th class="border-0 text-capitalize">Kebs Due</th>
 									<th class="border-0 text-capitalize">Total Value</th>
 								</tr>
 							</thead>
