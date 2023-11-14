@@ -245,15 +245,15 @@
 						<table class="table">
 							<thead class="bg-light">
 								<tr class="border-0">
-									<th class="border-0 text-uppercase">#</th>
-									<th class="border-0 text-uppercase">Date</th>
-									<th class="border-0 text-uppercase">Vehicle Registration</th>
-									<th class="border-0 text-uppercase">Entry Number</th>
-									<th class="border-0 text-uppercase">Customer</th>
-									<th class="border-0 text-uppercase">Product</th>
-									<th class="border-0 text-uppercase">KRA Due</th>
-									<th class="border-0 text-uppercase">KEBS Due</th>
-									<th class="border-0 text-uppercase">Total Value</th>
+									<th class="border-0 text-capitalize">#</th>
+									<th class="border-0 text-capitalize">Date</th>
+									<th class="border-0 text-capitalize">Vehicle Registration</th>
+									<th class="border-0 text-capitalize">Entry Number</th>
+									<th class="border-0 text-capitalize">Customer</th>
+									<th class="border-0 text-capitalize">Product</th>
+									<th class="border-0 text-capitalize">KRA Due</th>
+									<th class="border-0 text-capitalize">KEBS Due</th>
+									<th class="border-0 text-capitalize">Total Value</th>
 								</tr>
 							</thead>
 							<tbody>

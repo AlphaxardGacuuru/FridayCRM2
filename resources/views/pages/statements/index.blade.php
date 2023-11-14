@@ -49,11 +49,11 @@
 					<thead>
 						<tr>
 							<th>#</th>
-							<th class="text-uppercase">Entry No</th>
-							<th class="text-uppercase">Vehicle Reg</th>
-							<th class="text-uppercase">CURR</th>
-							<th class="text-uppercase">Total Value</th>
-							<th class="text-uppercase">Date</th>
+							<th class="text-capitalize">Entry No</th>
+							<th class="text-capitalize">Vehicle Reg</th>
+							<th class="text-capitalize">Curr</th>
+							<th class="text-capitalize">Total Value</th>
+							<th class="text-capitalize">Date</th>
 						</tr>
 					</thead>
 					<tbody>

@@ -144,7 +144,7 @@
 								<th scope="col"
 									class="text-capitalize">Vehicle Reg</th>
 								<th scope="col"
-									class="text-capitalize">CURR</th>
+									class="text-capitalize">Curr</th>
 								<th scope="col"
 									class="text-capitalize">KRA Due</th>
 								<th scope="col"
