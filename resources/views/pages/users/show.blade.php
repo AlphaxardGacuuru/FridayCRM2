@@ -382,7 +382,7 @@
 				<table class="table">
 					<thead>
 						<tr>
-							<th scope="col">SN</th>
+							<th scope="col">(SN)</th>
 							<th scope="col"
 								class="text-uppercase">Entry No</th>
 							<th scope="col"

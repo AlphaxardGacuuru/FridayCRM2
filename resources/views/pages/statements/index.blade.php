@@ -48,7 +48,7 @@
 				<table class="table">
 					<thead>
 						<tr>
-							<th>SN</th>
+							<th>(SN)</th>
 							<th class="text-capitalize">Entry No</th>
 							<th class="text-capitalize">Vehicle Reg</th>
 							<th class="text-capitalize">Curr</th>

@@ -43,7 +43,7 @@
 					<table class="table table-striped">
 						<thead>
 							<tr>
-								<th class="center">SN</th>
+								<th class="center">(SN)</th>
 								<th>Entry No</th>
 								<th>Vehicle Reg</th>
 								<th class="right">Total</th>
