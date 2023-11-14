@@ -140,25 +140,25 @@
 								</th>
 								<th scope="col">#</th>
 								<th scope="col"
-									class="text-uppercase">Entry No</th>
+									class="text-capitalize">Entry No</th>
 								<th scope="col"
-									class="text-uppercase">Vehicle Reg</th>
+									class="text-capitalize">Vehicle Reg</th>
 								<th scope="col"
-									class="text-uppercase">CURR</th>
+									class="text-capitalize">CURR</th>
 								<th scope="col"
-									class="text-uppercase">KRA Due</th>
+									class="text-capitalize">KRA Due</th>
 								<th scope="col"
-									class="text-uppercase">KEBS Due</th>
+									class="text-capitalize">KEBS Due</th>
 								<th scope="col"
-									class="text-uppercase">Other Charges</th>
+									class="text-capitalize">Other Charges</th>
 								<th scope="col"
-									class="text-uppercase">Total Value</th>
+									class="text-capitalize">Total Value</th>
 								<th scope="col"
-									class="text-uppercase">Status</th>
+									class="text-capitalize">Status</th>
 								<th scope="col"
-									class="text-uppercase">Date</th>
+									class="text-capitalize">Date</th>
 								<th scope="col"
-									class="text-uppercase">Action</th>
+									class="text-capitalize">Action</th>
 							</tr>
 						</thead>
 						<tbody>
