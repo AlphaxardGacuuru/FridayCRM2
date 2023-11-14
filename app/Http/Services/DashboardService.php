@@ -17,7 +17,6 @@ class DashboardService
             "orders" => $this->orders(),
             "revenue" => $this->revenue(),
             "products" => $this->products(),
-            "ordersLastWeek" => $this->ordersLastWeek(),
             "revenueLastWeek" => $this->revenueLastWeek(),
             "productsLastWeek" => $this->productsLastWeek(),
         ];
@@ -44,7 +43,7 @@ class DashboardService
 
         $getUsersLastWeek = User::select(DB::raw('DATE(created_at) as date'), DB::raw('count(*) as count'))
             ->whereBetween('created_at', [$startDate, $endDate])
-			->groupBy(DB::raw('DATE(users.created_at)'))
+            ->groupBy(DB::raw('DATE(users.created_at)'))
             ->get()
             ->map(function ($item) {
                 return $item->count;
@@ -64,7 +63,7 @@ class DashboardService
     {
         $total = Order::count();
 
-        $orders = Order::orderBy("id", "DESC")->paginate(20);
+        $orders = Order::orderBy("date", "DESC")->paginate(20);
 
         $carbonYesterday = now()->subDay();
 
@@ -78,6 +77,7 @@ class DashboardService
             "total" => $total,
             "growth" => $this->growth($yesterday, $today),
             "list" => $orders,
+            "lastMonth" => $this->ordersLastMonth(),
         ];
     }
 
@@ -134,32 +134,30 @@ class DashboardService
     /*
      * Get Orders Last Week
      */
-    public function ordersLastWeek()
+    public function ordersLastMonth()
     {
         // Get Ordes By Day
-        $startDate = Carbon::now()->subWeek()->startOfWeek();
-        $endDate = Carbon::now()->subWeek()->endOfWeek();
+        $startDate = Carbon::now()->startOfMonth();
+        $endDate = Carbon::now()->endOfMonth();
 
         $getOrdersLastWeek = Order::select(DB::raw('DATE(created_at) as date'), DB::raw('count(*) as count'))
             ->whereBetween('created_at', [$startDate, $endDate])
-			->groupBy(DB::raw('DATE(orders.created_at)'))
+            ->groupBy(DB::raw('DATE(orders.created_at)'))
             ->get()
             ->map(function ($item) {
-				// Get day name
-				$day = Carbon::parse($item->date)->dayName;
-
                 return [
-                    "day" => substr($day, 0, 3),
+                    "day" => Carbon::parse($item->date)->day,
                     "count" => $item->count,
                 ];
             });
 
-        $ordersLastWeekLabels = $getOrdersLastWeek->map(fn($item) => $item["day"]);
-        $ordersLastWeekData = $getOrdersLastWeek->map(fn($item) => $item["count"]);
+        $labels = $getOrdersLastWeek->map(fn($item) => $item["day"]);
+        $data = $getOrdersLastWeek->map(fn($item) => $item["count"]);
 
         return [
-            "labels" => $ordersLastWeekLabels,
-            "data" => $ordersLastWeekData,
+            "getOrdersLastWeek" => $getOrdersLastWeek,
+            "labels" => $labels,
+            "data" => $data,
         ];
     }
 
@@ -175,7 +173,7 @@ class DashboardService
 
         $getRevenueLastWeek = Order::select(DB::raw('DATE(created_at) as date'), DB::raw('sum(total_value) as sum'))
             ->whereBetween('created_at', [$startDate, $endDate])
-			->groupBy(DB::raw('DATE(orders.created_at)'))
+            ->groupBy(DB::raw('DATE(orders.created_at)'))
             ->get()
             ->map(function ($item) {
                 return [
@@ -204,7 +202,7 @@ class DashboardService
 
         $getRevenueLastWeek = Order::select(DB::raw('DATE(created_at) as date'), DB::raw('sum(total_value) as sum'))
             ->whereBetween('created_at', [$startDate, $endDate])
-			->groupBy(DB::raw('DATE(orders.created_at)'))
+            ->groupBy(DB::raw('DATE(orders.created_at)'))
             ->get()
             ->map(function ($item) {
                 return [
@@ -235,5 +233,6 @@ class DashboardService
         }
 
         return $growth;
+        // return number_format($growth);
     }
 }

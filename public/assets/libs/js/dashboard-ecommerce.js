@@ -9,7 +9,6 @@ $(function () {
 	var barRevenueData = document.getElementById("bar-data").innerHTML
 
 	// Parse data
-	// barLabels = ["Mon", "Tue", "Wed", "Thur", "Fri", "Sat", "Sun"]
 	barLabels = JSON.parse(barLabels)
 	barOrdersData = JSON.parse(barOrdersData)
 	barRevenueData = JSON.parse(barRevenueData)
