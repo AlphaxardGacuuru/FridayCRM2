@@ -151,11 +151,33 @@ class DashboardService
                 ];
             });
 
-        $labels = $getOrdersLastWeek->map(fn($item) => $item["day"]);
-        $data = $getOrdersLastWeek->map(fn($item) => $item["count"]);
+        // Extract the days from your collection
+        $existingDays = $getOrdersLastWeek->pluck('day')->toArray();
+
+        // Get the range of days in the current month (from 1 to the last day of the month)
+        $startDay = 1;
+        $endDay = now()->endOfMonth()->day;
+        $allDays = range($startDay, $endDay);
+
+        // Fill missing days with default count of zero
+        $missingDays = array_diff($allDays, $existingDays);
+        $missingDaysData = collect($missingDays)->map(function ($day) {
+            return [
+                "day" => $day,
+                "count" => 0,
+            ];
+        })->toArray();
+
+        // Merge existing data with the missing days filled with default count
+        $mergedData = $getOrdersLastWeek
+            ->concat($missingDaysData)
+            ->sortBy('day')
+            ->values();
+
+        $labels = $mergedData->map(fn($item) => $item["day"]);
+        $data = $mergedData->map(fn($item) => $item["count"]);
 
         return [
-            "getOrdersLastWeek" => $getOrdersLastWeek,
             "labels" => $labels,
             "data" => $data,
         ];

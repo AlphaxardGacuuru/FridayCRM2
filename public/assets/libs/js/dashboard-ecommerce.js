@@ -30,7 +30,7 @@ $(function () {
 	).on("draw", function (data) {
 		if (data.type === "bar") {
 			data.element.attr({
-				style: "stroke-width: 40px",
+				style: "stroke-width: 10px",
 			})
 		}
 	})
