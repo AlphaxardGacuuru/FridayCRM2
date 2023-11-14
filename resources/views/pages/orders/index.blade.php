@@ -69,7 +69,7 @@
 						<input id=""
 							   type="number"
 							   name="entry_number"
-							   placeholder="Entry Number"
+							   placeholder="Entry No"
 							   value="{{ $request->input("
 							   entry_number")
 							   }}"
