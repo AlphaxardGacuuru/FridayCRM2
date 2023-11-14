@@ -48,7 +48,7 @@
 				<table class="table">
 					<thead>
 						<tr>
-							<th>#</th>
+							<th>SN</th>
 							<th class="text-capitalize">Entry No</th>
 							<th class="text-capitalize">Vehicle Reg</th>
 							<th class="text-capitalize">Curr</th>
@@ -59,7 +59,8 @@
 					<tbody>
 						@foreach ($orders as $order)
 						<tr>
-							<th scope="row">{{ $loop->iteration + ($orders->perPage() * ($orders->currentPage() - 1)) }}</th>
+							<th scope="row">{{ $loop->iteration + ($orders->perPage() * ($orders->currentPage() - 1)) }}
+							</th>
 							<td>{{ $order->entry_number }}</td>
 							<td>{{ $order->vehicle_registration }}</td>
 							<td>KES</td>

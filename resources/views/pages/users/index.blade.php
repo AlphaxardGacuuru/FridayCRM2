@@ -15,7 +15,7 @@
 				<table class="table">
 					<thead>
 						<tr>
-							<th scope="col">#</th>
+							<th scope="col">SN</th>
 							<th scope="col">Name</th>
 							<th scope="col">Email</th>
 							<th scope="col">Phone</th>
@@ -25,7 +25,8 @@
 					<tbody>
 						@foreach ($users as $user)
 						<tr>
-							<th scope="row">{{ $loop->iteration + ($users->perPage() * ($users->currentPage() - 1)) }}</th>
+							<th scope="row">{{ $loop->iteration + ($users->perPage() * ($users->currentPage() - 1)) }}
+							</th>
 							<td>{{ $user->name }}</td>
 							<td>{{ $user->email }}</td>
 							<td>{{ $user->phone }}</td>

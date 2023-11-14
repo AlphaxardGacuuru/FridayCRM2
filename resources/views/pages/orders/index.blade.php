@@ -138,7 +138,7 @@
 									<input id="checkAllInput"
 										   type="checkbox">
 								</th>
-								<th scope="col">#</th>
+								<th scope="col">SN</th>
 								<th scope="col"
 									class="text-capitalize">Entry No</th>
 								<th scope="col"
@@ -171,7 +171,8 @@
 										   value="{{ $order->id  }}"
 										   onchange="setOrderIds({{ $order->id }})" />
 								</td>
-								<td scope="row">{{ $loop->iteration + ($orders->perPage() * ($orders->currentPage() - 1)) }}</td>
+								<td scope="row">{{ $loop->iteration + ($orders->perPage() * ($orders->currentPage() -
+									1)) }}</td>
 								<td>{{ $order->entry_number }}</td>
 								<td>{{ $order->vehicle_registration }}</td>
 								<td>KES</td>

@@ -43,7 +43,7 @@
 					<table class="table table-striped">
 						<thead>
 							<tr>
-								<th class="center">#</th>
+								<th class="center">SN</th>
 								<th>Entry No</th>
 								<th>Vehicle Reg</th>
 								<th class="right">Total</th>
@@ -55,7 +55,8 @@
 								<td class="center">{{ $loop->iteration }}</td>
 								<td class="left">{{ $item->entry_number }}</td>
 								<td class="left">{{ $item->vehicle_registration }}</td>
-								<td class="right">KES {{ $item->total_value ? number_format($item->total_value) : '-' }}</td>
+								<td class="right">KES {{ $item->total_value ? number_format($item->total_value) : '-' }}
+								</td>
 							</tr>
 							@endforeach
 						</tbody>

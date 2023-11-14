@@ -210,7 +210,8 @@
 							<table class="table no-wrap p-table">
 								<thead class="bg-light">
 									<tr class="border-0">
-										<th class="border-0">#</th>
+										<th class="border-0">
+											SN</th>
 										<th class="border-0">Name</th>
 										<th class="border-0">Orders</th>
 									</tr>
@@ -245,7 +246,7 @@
 						<table class="table">
 							<thead class="bg-light">
 								<tr class="border-0">
-									<th class="border-0 text-capitalize">#</th>
+									<th class="border-0 text-capitalize">SN</th>
 									<th class="border-0 text-capitalize">Date</th>
 									<th class="border-0 text-capitalize">Vehicle Registration</th>
 									<th class="border-0 text-capitalize">Entry Number</th>
