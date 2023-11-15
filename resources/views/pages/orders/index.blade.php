@@ -137,7 +137,7 @@
 									<input id="checkAllInput"
 										   type="checkbox">
 								</th>
-								<th scope="col">(SN)</th>
+								<th scope="col">SN</th>
 								<th scope="col">Entry No</th>
 								<th scope="col">Vehicle Reg</th>
 								<th scope="col">Curr</th>

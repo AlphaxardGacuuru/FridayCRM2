@@ -2,19 +2,31 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Services\PaymentService;
 use App\Models\Payment;
 use Illuminate\Http\Request;
 
 class PaymentController extends Controller
 {
+    public function __construct(protected PaymentService $service)
+    {
+        //
+    }
+
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        //
+        [$payments, $total] = $this->service->index($request);
+
+        return view("/pages/payments/index")
+            ->with([
+                "payments" => $payments,
+                "total" => $total,
+            ]);
     }
 
     /**

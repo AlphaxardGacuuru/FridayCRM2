@@ -16,24 +16,14 @@ class PaymentService
      */
     public function index($request)
     {
-        $paymentsPendingValue = Payment::where("status", "pending")
-            ->sum("total_value");
+        $users = User::orderBy("id", "DESC")->get();
 
-        $paymentsPaidValue = Payment::where("status", "paid")
-            ->sum("total_value");
-
-        $users = User::select("id", "name")->paymentBy("id", "DESC")->get();
-
-        $products = Product::select("id", "name")->paymentBy("id", "DESC")->get();
-
-        $payments = $this->payments($request);
+        [$payments, $total] = $this->search($request);
 
         return [
-            $users,
-            $products,
-            $paymentsPendingValue,
-            $paymentsPaidValue,
-            $payments,
+            "payments" => $payments,
+            "total" => $total,
+            "users" => $users,
         ];
     }
 
@@ -170,63 +160,34 @@ class PaymentService
     }
 
     /*
-     * Get Invoices
+     * Handle Search
      */
-    public function invoiceIndex()
-    {
-        $invoices = Payment::where("status", "pending")
-            ->paymentBy("id", "DESC")
-            ->paginate(20);
-
-        return InvoiceResource::collection($invoices);
-    }
-
-    /*
-     * Update Invoice Status
-     */
-    public function updateInvoiceStatus($id)
-    {
-        $payment = Payment::find($id);
-        $payment->status = "paid";
-
-        $saved = $payment->save();
-
-        $message = "Invoice updated successfully";
-
-        return [$saved, $message, $payment];
-    }
-
-    /*
-     * Handle Payments Search
-     */
-    public function payments($request)
+    public function search($request)
     {
         $paymentsQuery = new Payment;
 
         if ($request->filled("user_id")) {
-            $paymentsQuery = $paymentsQuery->where("user_id", $request->input("user_id"));
+            $paymentsQuery = $paymentsQuery
+                ->where("user_id", $request->input("user_id"));
         }
 
-        if ($request->filled("product_id")) {
-            $paymentsQuery = $paymentsQuery->where("product_id", $request->input("product_id"));
+        if ($request) {
+            $payments = $paymentsQuery
+                ->orderBy("date", "DESC")
+                ->paginate(20);
+        } else {
+            $payments = $paymentsQuery
+                ->orderBy("date", "DESC")
+                ->paginate(20);
         }
 
-        if ($request->filled("entry_number")) {
-            $paymentsQuery = $paymentsQuery->where("entry_number", $request->input("entry_number"));
-        }
+        $payments = PaymentResource::collection($payments);
 
-        if ($request->filled("status")) {
-            $paymentsQuery = $paymentsQuery->where("status", $request->input("status"));
-        }
+        $total = $paymentsQuery->sum("amount");
 
-        if ($request->filled("date")) {
-            $paymentsQuery = $paymentsQuery->whereDate("date", $request->input("date"));
-        }
-
-        $payments = $paymentsQuery
-            ->paymentBy("date", "DESC")
-            ->paginate(20);
-
-        return PaymentResource::collection($payments);
+        return [
+            $payments,
+            number_format($total),
+        ];
     }
 }

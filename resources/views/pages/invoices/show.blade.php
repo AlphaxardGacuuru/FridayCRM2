@@ -39,7 +39,7 @@
 						<thead>
 							<tr>
 								<th class="center"
-									style="background-color: white;">(SN)</th>
+									style="background-color: white;">SN</th>
 								<th style="background-color: white;">Entry No</th>
 								<th style="background-color: white;">Vehicle Reg</th>
 								<th class="right"

@@ -8,24 +8,15 @@
 		<div class="card p-4"
 			 style="color: gray;">
 			<div class="d-flex justify-content-between">
-				{{-- Pending --}}
+				{{-- Total --}}
 				<div class="d-flex justify-content-between w-50 align-items-center mx-4">
 					<div>
-						KES <span class="fs-4">{{ number_format($ordersPendingValue) }}</span>
-						<h4 style="color: gray;">Pending</h4>
+						KES <span class="fs-4">{{ $total }}</span>
+						<h4 style="color: gray;">Total</h4>
 					</div>
-					<div class="border-end pe-4"><i class="fa fa-file-alt fs-1"></i></div>
+					<div class="bpayment-end pe-4"><i class="fa fa-file-alt fs-1"></i></div>
 				</div>
-				{{-- Pending End --}}
-				{{-- Paid --}}
-				<div class="d-flex justify-content-between w-50 align-items-center ms-2 me-4">
-					<div>
-						KES <span class="fs-4">{{ number_format($ordersPaidValue) }}</span>
-						<h4 style="color: gray;">Paid</h4>
-					</div>
-					<div><i class="fa fa-check-square fs-1"></i></div>
-				</div>
-				{{-- Paid End --}}
+				{{-- Total End --}}
 			</div>
 		</div>
 		{{-- Data End --}}
@@ -33,7 +24,7 @@
 		{{-- Filters --}}
 		<div class="card p-4"
 			 style="color: gray;">
-			<form action="/orders">
+			<form action="/payments">
 				<div class="row">
 					<div class="col-sm-2 mb-2">
 						<select id=""
@@ -50,47 +41,6 @@
 						</select>
 					</div>
 					{{-- Customer End --}}
-					{{-- Product --}}
-					<div class="col-sm-2 mb-2">
-						<select id=""
-								name="product_id"
-								class="form-control">
-							<option value="">Select Product</option>
-							@foreach ($products as $product)
-							<option value="{{ $product->id }}"
-									{{
-									$request->input("product_id") == $product->id ? 'selected' : ''}}
-								>{{ $product->name }}</option>
-							@endforeach
-						</select>
-					</div>
-					{{-- Product End --}}
-					{{-- Entry Number --}}
-					<div class="col-sm-2 mb-2">
-						<input id=""
-							   type="number"
-							   name="entry_number"
-							   placeholder="Entry No"
-							   value="{{ $request->input('entry_number') }}"
-							   class="form-control" />
-					</div>
-					{{-- Entry Number End --}}
-					{{-- Status --}}
-					<div class="col-sm-2 mb-2">
-						<select id=""
-								name="status"
-								class="form-control">
-							<option value="">Select Status</option>
-							<option value="pending"
-									{{
-									$request->input("status") == 'pending' ? 'selected' : ''}}>Pending</option>
-							<option value="paid"
-									{{
-									$request->input("status") == 'paid' ? 'selected' : ''}}
-								>Paid</option>
-						</select>
-					</div>
-					{{-- Status End --}}
 					{{-- Date --}}
 					<div class="col-sm-2 mb-2">
 						<input id=""
@@ -115,16 +65,9 @@
 
 		<div class="card">
 			<div class="d-flex justify-content-between card-header">
-				<h3>Orders</h3>
+				<h3>Payments</h3>
 				<div class="d-flex justify-content-between">
-					{{-- Generate Invoice --}}
-					<button id="invoiceBtn"
-							class="btn btn-primary d-none mx-2"
-							onclick="onCreateInvoice()">
-						<i class="fa fa-dollar-sign"></i> Create Invoice
-					</button>
-					{{-- Generate Invoice End --}}
-					<a href="/orders/create"
+					<a href="/payments/create"
 					   class="btn btn-primary"><i class="fa fa-pen-square"></i> Create</a>
 				</div>
 			</div>
@@ -137,59 +80,36 @@
 									<input id="checkAllInput"
 										   type="checkbox">
 								</th>
-								<th scope="col">(SN)</th>
-								<th scope="col">Entry No</th>
-								<th scope="col">Vehicle Reg</th>
+								<th scope="col">SN</th>
+								<th scope="col">Customer</th>
+								<th scope="col">Type</th>
 								<th scope="col">Curr</th>
-								<th scope="col">Kra Due</th>
-								<th scope="col">Kebs Due</th>
-								<th scope="col">Other Charges</th>
-								<th scope="col">Total Value</th>
-								<th scope="col">Status</th>
+								<th scope="col">Amount</th>
 								<th scope="col">Date</th>
 								<th scope="col">Action</th>
 							</tr>
 						</thead>
 						<tbody>
-							@foreach ($orders as $order)
+							@foreach ($payments as $payment)
 							<tr>
-								<td>
-									<input id="checkbox{{ $loop->iteration }}"
-										   type="checkbox"
-										   name="order_ids[]"
-										   value="{{ $order->id  }}"
-										   onchange="setOrderIds({{ $order->id }})" />
-								</td>
-								<td scope="row">{{ $loop->iteration + ($orders->perPage() * ($orders->currentPage() -
-									1)) }}</td>
-								<td>{{ $order->entry_number }}</td>
-								<td>{{ $order->vehicle_registration }}</td>
+								<td scope="row">{{ $loop->iteration +
+									($payments->perPage() *
+									($payments->currentPage() - 1)) }}</td>
+								<td>{{ $payment->user->name }}</td>
+								<td>{{ $payment->type }}</td>
 								<td>KES</td>
-								<td>{{ $order->kra_due ? number_format($order->kra_due) : '-' }}</td>
-								<td>{{ $order->kebs_due ? number_format($order->kebs_due) : '-' }}</td>
-								<td>{{ $order->other_charges ? number_format($order->other_charges) : '-' }}</td>
-								<td>{{ $order->total_value ? number_format($order->total_value) : '-' }}</td>
-								<td>
-									<span @class(['py-2
-										  px-4
-										  text-capitalize'
-										  , 'bg-warning-subtle'=> $order->status == 'pending'
-										, 'bg-success-subtle'=> $order->status == 'paid'
-										])>
-										{{ $order->status }}
-									</span>
-								</td>
-								<td>{{ $order->date }}</td>
+								<td>{{ $payment->amount }}</td>
+								<td>{{ $payment->created_at }}</td>
 								<td>
 									<div class="d-flex">
-										<a href="/orders/{{ $order->id }}/edit"
+										<a href="/payments/{{ $payment->id }}/edit"
 										   class="btn btn-sm btn-primary">
 											<i class="fa fa-edit"></i>
 										</a>
 										<div class="mx-1">
 											{{-- Confirm Delete Modal End --}}
 											<div class="modal fade"
-												 id="deleteModal{{ $order->id }}"
+												 id="deleteModal{{ $payment->id }}"
 												 tabIndex="-1"
 												 aria-labelledby="deleteModalLabel"
 												 aria-hidden="true">
@@ -198,7 +118,7 @@
 														<div class="modal-header">
 															<h1 id="deleteModalLabel"
 																class="modal-title fs-5 text-danger">
-																Delete Order
+																Delete Payment
 															</h1>
 															<button type="button"
 																	class="btn-close"
@@ -206,7 +126,7 @@
 																	aria-label="Close"></button>
 														</div>
 														<div class="modal-body text-wrap">
-															Are you sure you want to delete Order.
+															Are you sure you want to delete Payment.
 															This process is irreversible.
 														</div>
 														<div class="modal-footer justify-content-between">
@@ -219,11 +139,11 @@
 																	class="btn btn-danger text-white"
 																	data-bs-dismiss="modal"
 																	onclick="event.preventDefault();
-						                                                     document.getElementById('deleteForm{{ $order->id }}').submit();">
+						                                                     document.getElementById('deleteForm{{ $payment->id }}').submit();">
 																Delete
 															</button>
-															<form id="deleteForm{{ $order->id }}"
-																  action="/orders/{{ $order->id }}"
+															<form id="deleteForm{{ $payment->id }}"
+																  action="/payments/{{ $payment->id }}"
 																  method="POST"
 																  style="display: none;">
 																<input type="hidden"
@@ -242,7 +162,7 @@
 													class="btn btn-sm text-white"
 													style="background-color: gray"
 													data-bs-toggle="modal"
-													data-bs-target="#deleteModal{{ $order->id }}">
+													data-bs-target="#deleteModal{{ $payment->id }}">
 												<i class="fa fa-trash"></i>
 											</button>
 										</div>
@@ -255,7 +175,7 @@
 				</div>
 			</div>
 			<div class="card-footer">
-				{{ $orders->links() }}
+				{{ $payments->links() }}
 			</div>
 		</div>
 	</div>
@@ -263,14 +183,14 @@
 </div>
 
 <script>
-	var orderIds = []
+	var paymentIds = []
 
 	/*
 	* Toggle Create Invoice Button
 	*/ 
 	var toggleCreateInvoiceBtn = () => {
 		// Toggle Create Invoice visibility
-		if (orderIds.length > 0) {
+		if (paymentIds.length > 0) {
 		document.getElementById('invoiceBtn').classList.remove('d-none')
 		} else {
 		document.getElementById('invoiceBtn').classList.add('d-none')
@@ -278,15 +198,15 @@
 	}
 
 	/*
-	* Handle Setting Order Ids
+	* Handle Setting Payment Ids
 	*/ 
-	var setOrderIds = (id) => {
-		var exists = orderIds.some((orderId) => orderId == id)
+	var setPaymentIds = (id) => {
+		var exists = paymentIds.some((paymentId) => paymentId == id)
 
 		if (exists) {
-			orderIds = orderIds.filter((orderId) => orderId != id)
+			paymentIds = paymentIds.filter((paymentId) => paymentId != id)
 		} else {
-			orderIds.push(id)
+			paymentIds.push(id)
 		}
 
 		toggleCreateInvoiceBtn()
@@ -305,12 +225,12 @@
 		checkboxInputs.forEach(input => {
 			if (e.target.checked) {
 				input.checked = true
-				// Fill orderIds
-				orderIds.push(input.value)
+				// Fill paymentIds
+				paymentIds.push(input.value)
 			} else {
 				input.checked = false
-				// Empty orderIds
-				orderIds = []
+				// Empty paymentIds
+				paymentIds = []
 			}
 		});
 
@@ -322,7 +242,7 @@
 	*/ 
 	var onCreateInvoice = () => {
 		var formData = new FormData
-		formData.append("order_ids", JSON.stringify(orderIds))
+		formData.append("payment_ids", JSON.stringify(paymentIds))
 
 		        // Send a POST request using Fetch API
 		        fetch('/invoices', {

@@ -246,7 +246,7 @@
 						<table class="table">
 							<thead class="bg-light">
 								<tr class="border-0">
-									<th class="border-0 text-capitalize">(SN)</th>
+									<th class="border-0 text-capitalize">SN</th>
 									<th class="border-0 text-capitalize">Date</th>
 									<th class="border-0 text-capitalize">Vehicle Registration</th>
 									<th class="border-0 text-capitalize">Entry Number</th>
