@@ -20,13 +20,29 @@ class PaymentController extends Controller
      */
     public function index(Request $request)
     {
-        [$payments, $total] = $this->service->index($request);
+        [$payments, $total, $users] = $this->service->index($request);
 
         return view("/pages/payments/index")
             ->with([
+                "request" => $request,
                 "payments" => $payments,
                 "total" => $total,
+                "users" => $users,
             ]);
+    }
+
+    /**
+     * Show the form for creating a new resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function create()
+    {
+        $channels = $this->service->create();
+
+        return view("pages/payments/create")->with([
+			"channels" => $channels
+        ]);
     }
 
     /**
@@ -37,18 +53,44 @@ class PaymentController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $this->validate($request, [
+            "invoice_id" => "string|required",
+            "amount" => "string|required",
+			"transaction_reference" => "string",
+			"payment_channel" => "string",
+			"date_received" => "string",
+        ]);
+
+        [$saved, $message, $payment] = $this->service->store($request);
+
+        return redirect("/payments")->with(["success" => $message]);
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\Payment  $payment
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show(Payment $payment)
+    public function show($id)
     {
-        //
+		// 
+    }
+
+    /**
+     * Show the form for editing the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function edit($id)
+    {
+        [$payment, $channels] = $this->service->edit($id);
+
+        return view("/pages/payments/edit")->with([
+            "payment" => $payment,
+			"channels" => $channels
+        ]);
     }
 
     /**
@@ -58,9 +100,21 @@ class PaymentController extends Controller
      * @param  \App\Models\Payment  $payment
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Payment $payment)
+    public function update(Request $request, $id)
     {
-        //
+        $this->validate($request, [
+            "invoice_id" => "string",
+            "amount" => "string",
+			"transaction_reference" => "string",
+			"payment_channel" => "string",
+			"date_received" => "string",
+        ]);
+
+        [$saved, $message, $payment] = $this->service->update($request, $id);
+
+        return redirect("/payments/" . $id . "/edit")->with([
+            "success" => $message,
+        ]);
     }
 
     /**
@@ -69,8 +123,12 @@ class PaymentController extends Controller
      * @param  \App\Models\Payment  $payment
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Payment $payment)
+    public function destroy($id)
     {
-        //
+        [$delete, $message, $payment] = $this->service->destroy($id);
+
+        return redirect("/payments")->with([
+            "success" => $message,
+        ]);
     }
 }

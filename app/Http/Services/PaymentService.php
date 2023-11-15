@@ -21,9 +21,9 @@ class PaymentService
         [$payments, $total] = $this->search($request);
 
         return [
-            "payments" => $payments,
-            "total" => $total,
-            "users" => $users,
+            $payments,
+            $total,
+            $users,
         ];
     }
 
@@ -34,15 +34,21 @@ class PaymentService
      */
     public function create()
     {
-        $users = User::select("id", "name")
-            ->paymentBy("id", "DESC")
-            ->get();
+        $channels = ["MPESA", "VISA", "MASTERCARD", "CASH"];
 
-        $products = Product::select("id", "name")
-            ->paymentBy("id", "DESC")
-            ->get();
+        return $channels;
+    }
 
-        return [$users, $products];
+    /*
+     * Get Edit data
+     */
+    public function edit($id)
+    {
+        $payment = Payment::find($id);
+
+        $channels = ["MPESA", "VISA", "MASTERCARD", "CASH"];
+
+        return [$payment, $channels];
     }
 
     /**
@@ -54,15 +60,11 @@ class PaymentService
     public function store($request)
     {
         $payment = new Payment;
-        $payment->user_id = $request->input("user_id");
-        $payment->product_id = $request->input("product_id");
-        $payment->date = $request->input("date");
-        $payment->vehicle_registration = $request->input("vehicle_registration");
-        $payment->entry_number = $request->input("entry_number");
-        $payment->kra_due = $request->input("kra_due");
-        $payment->kebs_due = $request->input("kebs_due");
-        $payment->other_charges = $request->input("other_charges");
-        $payment->total_value = $request->input("total_value");
+        $payment->invoice_id = $request->input("invoice_id");
+        $payment->amount = $request->input("amount");
+        $payment->transaction_reference = $request->input("transaction_reference");
+        $payment->payment_channel = $request->input("payment_channel");
+        $payment->date_received = $request->input("date_received");
 
         $saved = $payment->save();
 
@@ -95,44 +97,24 @@ class PaymentService
     {
         $payment = Payment::find($id);
 
-        if ($request->filled("user_id")) {
-            $payment->user_id = $request->input("user_id");
+        if ($request->filled("invoice_id")) {
+            $payment->invoice_id = $request->input("invoice_id");
         }
 
-        if ($request->filled("product_id")) {
-            $payment->product_id = $request->input("product_id");
+        if ($request->filled("amount")) {
+            $payment->amount = $request->input("amount");
         }
 
-        if ($request->filled("date")) {
-            $payment->date = $request->input("date");
+        if ($request->filled("transaction_reference")) {
+            $payment->transaction_reference = $request->input("transaction_reference");
         }
 
-        if ($request->filled("vehicle_registration")) {
-            $payment->vehicle_registration = $request->input("vehicle_registration");
+        if ($request->filled("payment_channel")) {
+            $payment->payment_channel = $request->input("payment_channel");
         }
 
-        if ($request->filled("entry_number")) {
-            $payment->entry_number = $request->input("entry_number");
-        }
-
-        if ($request->filled("kra_due")) {
-            $payment->kra_due = $request->input("kra_due");
-        }
-
-        if ($request->filled("kebs_due")) {
-            $payment->kebs_due = $request->input("kebs_due");
-        }
-
-        if ($request->filled("other_charges")) {
-            $payment->other_charges = $request->input("other_charges");
-        }
-
-        if ($request->filled("total_value")) {
-            $payment->total_value = $request->input("total_value");
-        }
-
-        if ($request->filled("status")) {
-            $payment->status = $request->input("status");
+        if ($request->filled("date_received")) {
+            $payment->date_received = $request->input("date_received");
         }
 
         $saved = $payment->save();
@@ -171,13 +153,18 @@ class PaymentService
                 ->where("user_id", $request->input("user_id"));
         }
 
+        if ($request->filled("date_received")) {
+            $paymentsQuery = $paymentsQuery
+                ->whereDate("date_received", $request->input("date_received"));
+        }
+
         if ($request) {
             $payments = $paymentsQuery
-                ->orderBy("date", "DESC")
+                ->orderBy("created_at", "DESC")
                 ->paginate(20);
         } else {
             $payments = $paymentsQuery
-                ->orderBy("date", "DESC")
+                ->orderBy("created_at", "DESC")
                 ->paginate(20);
         }
 

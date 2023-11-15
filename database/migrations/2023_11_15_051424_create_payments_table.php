@@ -15,12 +15,14 @@ return new class extends Migration
     {
         Schema::create('payments', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('user_id')
+            $table->foreignId('invoice_id')
                 ->constrained()
                 ->onUpdate('cascade')
                 ->onDelete('cascade');
             $table->string('amount');
-            $table->string('type');
+            $table->string('transaction_reference')->nullable();
+            $table->string('payment_channel')->nullable();
+            $table->timestamp('date_received')->nullable();
             $table->timestamps();
         });
     }

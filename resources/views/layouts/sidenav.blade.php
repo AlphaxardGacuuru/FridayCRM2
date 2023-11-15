@@ -40,12 +40,12 @@
 							<i class="fa fa-shopping-bag mb-1"></i>Products
 						</a>
 					</li>
-					{{-- <li class="nav-item">
+					<li class="nav-item">
 						<a class="nav-link {{ request()->is('payments') ? 'active' : '' }}"
 						   href="/payments">
 							<i class="fa fa-credit-card mb-1"></i>Payments
 						</a>
-					</li> --}}
+					</li>
 					<li class="nav-item">
 						<a class="nav-link {{ request()->is('statements') ? 'active' : '' }}"
 						   href="/statements">

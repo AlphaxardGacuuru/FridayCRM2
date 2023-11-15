@@ -4,6 +4,108 @@
 <!-- ============================================================== -->
 <!-- end pageheader  -->
 <!-- ============================================================== -->
+
+{{-- Confirm Payment Modal End --}}
+<div class="modal fade"
+	 id="paymentModal"
+	 tabIndex="-1"
+	 aria-labelledby="paymentModalLabel"
+	 aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h1 id="paymentModalLabel"
+					class="modal-title fs-5 text-danger">
+					Create Payment
+				</h1>
+				<button type="button"
+						class="btn-close"
+						data-bs-dismiss="modal"
+						aria-label="Close"></button>
+			</div>
+			<div class="modal-body text-wrap">
+				<form action="/payments"
+					  method="POST">
+					@csrf
+					<input type="hidden"
+						   name="invoice_id"
+						   value="{{ $invoice->id }}">
+					{{-- Amount --}}
+					<div class="form-group">
+						<label for="amountInput"
+							   class="col-form-label">Amount</label>
+						<input id="amountInput"
+							   type="number"
+							   name="amount"
+							   class="form-control"
+							   required>
+					</div>
+					{{-- Amount End --}}
+					{{-- Transaction Ref --}}
+					<div class="form-group">
+						<label for="transactionInput"
+							   class="col-form-label">Transaction Ref</label>
+						<input id="transactionInput"
+							   type="text"
+							   name="transaction_reference"
+							   class="form-control">
+					</div>
+					{{-- Transaction Ref End --}}
+					{{-- Payment Channel --}}
+					<div class="form-group">
+						<label for="paymentInput"
+							   class="col-form-label">Payment Channel</label>
+						<select id="paymentInput"
+								name="payment_channel"
+								class="form-control"
+								required>
+							<option value="">Choose a Channel</option>
+							@foreach ($channels as $channel)
+							<option value="{{ $channel}}">{{ $channel }}</option>
+							@endforeach
+						</select>
+					</div>
+					{{-- Payment Channel End --}}
+					{{-- Date --}}
+					<div class="form-group">
+						<label for="inputText4"
+							   class="col-form-label">Date Received</label>
+						<input id="inputText4"
+							   type="date"
+							   name="date_received"
+							   class="form-control">
+					</div>
+					{{-- Date End --}}
+					<div class="d-flex justify-content-between">
+						<button type="button"
+								class="btn btn-light"
+								data-bs-dismiss="modal">
+							Close
+						</button>
+						<button type="submit"
+								class="btn btn-primary">
+							Create Payment
+						</button>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+</div>
+{{-- Confirm Delete Modal End --}}
+
+{{-- Create Link --}}
+<div class="d-flex justify-content-end mb-4">
+	{{-- Button trigger modal --}}
+	<button type="button"
+			class="btn btn-primary text-white me-5"
+			data-bs-toggle="modal"
+			data-bs-target="#paymentModal">
+		<i class="fa fa-pen-square"></i> Add Payment
+	</button>
+</div>
+{{-- Create Link End --}}
+
 <div class="row">
 	<div class="offset-xl-2 col-xl-8 col-lg-12 col-md-12 col-sm-12 col-12">
 		<div class="card p-5">
@@ -11,12 +113,13 @@
 				<a class="pt-2 d-inline-block"
 				   href="index.html">
 					<img src="/storage/img/Bulk Main Logo 800x600.png"
-						 style="width: 12em; height: auto"
+						 style="width: 15em; height: auto"
 						 loading="lazy"
 						 alt=""></a>
 
 				<div class="float-right">
-					<h1 class="mb-0">Invoice</h1>
+					<div class="mb-0"
+						 style="font-size: 4em;">INVOICE</div>
 				</div>
 			</div>
 			<div class="card-body">
@@ -61,48 +164,17 @@
 								</td>
 							</tr>
 							@endforeach
+							<tr class="border-3 border-start-0 border-end-0">
+								<td colspan="3"
+									style="background-color: white;"></td>
+								<td style="background-color: white;">
+									<strong class="text-dark">
+										KES {{ $invoice->amount ? number_format($invoice->amount) : '-' }}
+									</strong>
+								</td>
+							</tr>
 						</tbody>
 					</table>
-				</div>
-				<div class="row">
-					<div class="col-lg-4 col-sm-5">
-					</div>
-					<div class="col-lg-4 col-sm-5 ml-auto">
-						<table class="table table-clear">
-							<tbody>
-								{{-- <tr>
-									<td class="left">
-										<strong class="text-dark">Subtotal</strong>
-									</td>
-									<td class="right">$28,809,00</td>
-								</tr>
-								<tr>
-									<td class="left">
-										<strong class="text-dark">Discount (20%)</strong>
-									</td>
-									<td class="right">$5,761,00</td>
-								</tr>
-								<tr>
-									<td class="left">
-										<strong class="text-dark">VAT (10%)</strong>
-									</td>
-									<td class="right">$2,304,00</td>
-								</tr> --}}
-								<tr>
-									<td class="left"
-										style="background-color: white;">
-										<strong class="text-dark">Total</strong>
-									</td>
-									<td class="right"
-										style="background-color: white;">
-										<strong class="text-dark">
-											KES {{ $invoice->amount ? number_format($invoice->amount) : '-' }}
-										</strong>
-									</td>
-								</tr>
-							</tbody>
-						</table>
-					</div>
 				</div>
 			</div>
 			<div class="card-footer bg-white border-0">

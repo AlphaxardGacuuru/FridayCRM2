@@ -66,11 +66,14 @@ class InvoiceController extends Controller
     {
         [$invoice, $items] = $this->service->show($id);
 
+        $channels = ["MPESA", "VISA", "MASTERCARD", "CASH"];
+
 		// return $invoice;
         return view("/pages/invoices/show")
             ->with([
 				"invoice" => $invoice,
-				"items" => $items
+				"items" => $items,
+				"channels" => $channels
 			]);
     }
 
