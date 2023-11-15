@@ -100,7 +100,7 @@ class DashboardService
 
         return [
             "total" => number_format($total),
-            "growth" => number_format($growth),
+            "growth" => $growth,
         ];
     }
 

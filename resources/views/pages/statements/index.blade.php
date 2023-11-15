@@ -49,11 +49,14 @@
 					<thead>
 						<tr>
 							<th>(SN)</th>
-							<th class="text-capitalize">Entry No</th>
-							<th class="text-capitalize">Vehicle Reg</th>
-							<th class="text-capitalize">Curr</th>
-							<th class="text-capitalize">Total Value</th>
-							<th class="text-capitalize">Date</th>
+							<th>Entry No</th>
+							<th>Vehicle Reg</th>
+							<th>Curr</th>
+							<th>Date</th>
+							<th>Type</th>
+							<th>Debit</th>
+							<th>Credit</th>
+							<th>Balance</th>
 						</tr>
 					</thead>
 					<tbody>

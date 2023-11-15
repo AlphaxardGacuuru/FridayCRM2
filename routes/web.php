@@ -3,6 +3,7 @@
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\InvoiceController;
 use App\Http\Controllers\OrderController;
+use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\StatementController;
 use App\Http\Controllers\UserController;
@@ -26,6 +27,7 @@ Route::middleware("auth")->group(function () {
         "users" => UserController::class,
         "orders" => OrderController::class,
         "products" => ProductController::class,
+        "payments" => PaymentController::class,
         "statements" => StatementController::class,
         "invoices" => InvoiceController::class,
     ]);
