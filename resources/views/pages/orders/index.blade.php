@@ -97,9 +97,7 @@
 						<input id=""
 							   name="date"
 							   type="date"
-							   value="{{ $request->input("
-							   date")
-							   }}"
+							   value="{{ $request->input("date") }}"
 							   class="form-control w-100" />
 					</div>
 					{{-- Date End --}}
