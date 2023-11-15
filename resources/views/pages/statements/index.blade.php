@@ -68,7 +68,10 @@
 							<td>{{ $order->vehicle_registration }}</td>
 							<td>KES</td>
 							<td>{{ $order->total_value ? number_format($order->total_value) : '-' }}</td>
-							<td>{{ $order->date }}</td>
+							<td></td>
+							<td></td>
+							<td></td>
+							<td></td>
 						</tr>
 						@endforeach
 					</tbody>
