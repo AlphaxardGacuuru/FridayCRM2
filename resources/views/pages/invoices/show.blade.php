@@ -187,8 +187,8 @@
 						<h3 class="text-dark mb-1">Bulk Agencies Limited</h3>
 						<div>370-00207 Township Street</div>
 						<div>Namanga, Kenya</div>
-						<div>Email: info@bulkagencies.co.ke</div>
-						<div>Phone: +254 722 427 629</div>
+						{{-- <div>Email: info@bulkagencies.co.ke</div> --}}
+						{{-- <div>Phone: +254 722 427 629</div> --}}
 					</div>
 				</div>
 			</div>
