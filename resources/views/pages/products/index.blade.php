@@ -8,7 +8,7 @@
 			<div class="d-flex justify-content-between card-header">
 				<h3 class="">Products</h3>
 				<a href="/products/create"
-				   class="btn btn-primary">Create</a>
+				   class="btn btn-primary"><i class="fa fa-dollar-sign"></i> Create</a>
 			</div>
 			<div class="card-body">
 				<table class="table">

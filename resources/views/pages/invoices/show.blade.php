@@ -98,11 +98,12 @@
 <div class="d-flex justify-content-end mb-4">
 	{{-- Button trigger modal --}}
 	<button type="button"
-			class="btn btn-primary text-white me-5"
+			class="btn btn-primary text-white me-2"
 			data-bs-toggle="modal"
 			data-bs-target="#paymentModal">
 		<i class="fa fa-pen-square"></i> Add Payment
 	</button>
+	<button class="btn btn-secondary me-5"><i class="fa fa-print"></i> Print</button>
 </div>
 {{-- Create Link End --}}
 
@@ -184,8 +185,8 @@
 					<div>Payment Information</div>
 					<div class="text-end">
 						<h3 class="text-dark mb-1">Bulk Agencies Limited</h3>
-						<div>370 - 00207</div>
-						<div>Namanga, Kenya</div>
+						<div>370-00207 Township Street</div>
+						<div>Namanga, Kenya</div>
 						<div>Email: info@bulkagencies.co.ke</div>
 						<div>Phone: +254 722 427 629</div>
 					</div>
