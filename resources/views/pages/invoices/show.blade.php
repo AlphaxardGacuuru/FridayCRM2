@@ -174,7 +174,7 @@
 									style="background-color: white;">{{ $item->vehicle_registration }}</td>
 								<td class="right text-right"
 									style="background-color: white;">{{ $item->total_value ?
-									number_format($item->total_value) : '-' }}
+									number_format($item->total_value, 2) : '-' }}
 								</td>
 							</tr>
 							@endforeach
@@ -184,7 +184,7 @@
 								<td class="text-right"
 									style="background-color: white;">
 									<strong class="text-dark">
-										KES {{ $invoice->amount ? number_format($invoice->amount) : '-' }}
+										KES {{ $invoice->amount ? number_format($invoice->amount, 2) : '-' }}
 									</strong>
 								</td>
 							</tr>

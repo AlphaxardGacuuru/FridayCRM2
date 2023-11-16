@@ -3,6 +3,7 @@
 namespace App\Http\Services;
 
 use App\Http\Resources\PaymentResource;
+use App\Models\Invoice;
 use App\Models\Payment;
 use App\Models\User;
 use Illuminate\Support\Facades\DB;
@@ -71,7 +72,8 @@ class PaymentService
         $saved = DB::transaction(function ($payment) use ($request) {
             $saved = $payment->save();
 
-            $invoice = Order::find($request->invoice_id);
+			// $status = Payment::where("invoice_id", $request->invoice_id)
+            $invoice = Invoice::find($request->invoice_id);
             $invoice->status = $request->amount < $invoice->amount ? "partially_paid" : "paid";
             $invoice->save();
 
