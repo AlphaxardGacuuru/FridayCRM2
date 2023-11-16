@@ -4,7 +4,20 @@
 <!-- ============================================================== -->
 <!-- end pageheader  -->
 <!-- ============================================================== -->
+<style>
+	.row {
+		font-family: "Bookman Old Style", "Garamond", "Times New Roman", serif;
+	}
 
+	h1,
+	h2,
+	h3,
+	h4,
+	h5,
+	h6 {
+		font-family: "Bookman Old Style", "Garamond", "Times New Roman", serif;
+	}
+</style>
 {{-- Confirm Payment Modal End --}}
 <div class="modal fade"
 	 id="paymentModal"
@@ -168,7 +181,8 @@
 							<tr class="border-3 border-start-0 border-end-0">
 								<td colspan="3"
 									style="background-color: white;"></td>
-								<td class="text-right" style="background-color: white;">
+								<td class="text-right"
+									style="background-color: white;">
 									<strong class="text-dark">
 										KES {{ $invoice->amount ? number_format($invoice->amount) : '-' }}
 									</strong>
@@ -185,8 +199,7 @@
 					<div>Payment Information</div>
 					<div class="text-end">
 						<h3 class="text-dark mb-1">Bulk Agencies Limited</h3>
-						<div>370-00207 Township Street</div>
-						<div>Namanga, Kenya</div>
+						<div>370-00207 Township Street, Namanga, Kenya</div>
 						{{-- <div>Email: info@bulkagencies.co.ke</div> --}}
 						{{-- <div>Phone: +254 722 427 629</div> --}}
 					</div>

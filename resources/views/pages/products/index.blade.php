@@ -8,7 +8,7 @@
 			<div class="d-flex justify-content-between card-header">
 				<h3 class="">Products</h3>
 				<a href="/products/create"
-				   class="btn btn-primary"><i class="fa fa-dollar-sign"></i> Create</a>
+				   class="btn btn-primary"><i class="fa fa-pen-square"></i> Create</a>
 			</div>
 			<div class="card-body">
 				<table class="table">
@@ -51,8 +51,9 @@
 																aria-label="Close"></button>
 													</div>
 													<div class="modal-body text-wrap">
-														@if ($product->hasOrders)
-														Sorry, you cannot delete this product since it has orders associated with it.
+														@if ($product->orders->count() > 0)
+														Sorry, you cannot delete this product since it has orders
+														associated with it.
 														@else
 														Are you sure you want to delete {{ $product->name }}.
 														This process is irreversible.
@@ -64,12 +65,15 @@
 																data-bs-dismiss="modal">
 															Close
 														</button>
+														@if ($product->orders->count() == 0)
 														<button type="button"
 																class="btn btn-danger text-white"
 																data-bs-dismiss="modal"
 																onclick="event.preventDefault();
 						                                                     document.getElementById('deleteForm{{ $product->id }}').submit();">
+																			 Delete
 														</button>
+														@endif
 														<form id="deleteForm{{ $product->id }}"
 															  action="/products/{{ $product->id }}"
 															  method="POST"
@@ -92,7 +96,6 @@
 												data-bs-toggle="modal"
 												data-bs-target="#deleteModal{{ $product->id }}">
 											<i class="fa fa-trash"></i>
-											{{-- {{ gettype($product->hasOrders) }} --}}
 										</button>
 									</div>
 								</div>

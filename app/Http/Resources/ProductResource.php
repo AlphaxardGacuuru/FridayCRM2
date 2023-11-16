@@ -17,7 +17,7 @@ class ProductResource extends JsonResource
         return [
 			"id" => $this->id,
 			"name" => $this->name,
-			"hasOrders" => $this->orders->count() > 0 ? true : false
+			"hasOrders" => "$this->orders->count() > 0 ? true : false"
 		];
     }
 }
