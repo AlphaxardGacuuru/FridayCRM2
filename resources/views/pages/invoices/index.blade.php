@@ -15,6 +15,7 @@
 							<th scope="col">SN</th>
 							<th scope="col">Invoice No</th>
 							<th scope="col">Customer</th>
+							<th scope="col">Status</th>
 							<th scope="col">Amount</th>
 							<th scope="col">Action</th>
 						</tr>
@@ -26,6 +27,17 @@
 								1)) }}</th>
 							<td>{{ $invoice->id }}</td>
 							<td>{{ $invoice->user->name }}</td>
+							<td>
+								<span @class(["p-2 text-capitalize",
+									"bg-danger-subtle"=> $invoice->status == "not_paid",
+									"bg-warning-subtle"=> $invoice->status == "partially_paid",
+									"bg-success-subtle" => $invoice->status == "paid",
+									])>
+									@foreach (explode("_", $invoice->status) as $status)
+									{{ $status }}
+									@endforeach
+								</span>
+							</td>
 							<td>{{ $invoice->amount ? number_format($invoice->amount) : '-' }}</td>
 							<td>
 								{{-- Show Invoice --}}

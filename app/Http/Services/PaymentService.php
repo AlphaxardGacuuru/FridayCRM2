@@ -69,12 +69,24 @@ class PaymentService
         $payment->payment_channel = $request->input("payment_channel");
         $payment->date_received = $request->input("date_received");
 
-        $saved = DB::transaction(function ($payment) use ($request) {
+        $saved = DB::transaction(function () use ($payment, $request) {
             $saved = $payment->save();
 
-			// $status = Payment::where("invoice_id", $request->invoice_id)
+            // Get balance if available
+            $balance = Payment::where("invoice_id", $request->invoice_id)
+                ->sum("amount");
+
+            $amount = $balance + $request->amount;
+
             $invoice = Invoice::find($request->invoice_id);
-            $invoice->status = $request->amount < $invoice->amount ? "partially_paid" : "paid";
+
+            // Check if amount is enough
+            if ($amount < $invoice->amount) {
+				$invoice->status = "partially_paid";
+            } else {
+				$invoice->status = "paid";
+            }
+
             $invoice->save();
 
             return $saved;

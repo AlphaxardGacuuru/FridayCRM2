@@ -65,7 +65,7 @@
 																data-bs-dismiss="modal">
 															Close
 														</button>
-														@if ($product->orders->count() == 0)
+														@if ($product->orders()->count() == 0)
 														<button type="button"
 																class="btn btn-danger text-white"
 																data-bs-dismiss="modal"
