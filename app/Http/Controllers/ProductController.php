@@ -88,7 +88,7 @@ class ProductController extends Controller
     public function update(Request $request, $id)
     {
         $this->validate($request, [
-            "name" => "string",
+            "name" => "nullable|string",
         ]);
 
         [$saved, $message, $product] = $this->service->update($request, $id);

@@ -96,7 +96,7 @@ class UserController extends Controller
     public function update(Request $request, $id)
     {
 		$this->validate($request, [
-			"email" => "string|unique:users"
+			"email" => "nullable|string|unique:users"
 		]);
 
         [$saved, $message, $user] = $this->service->update($request, $id);

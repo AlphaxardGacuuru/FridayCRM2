@@ -103,11 +103,11 @@ class PaymentController extends Controller
     public function update(Request $request, $id)
     {
         $this->validate($request, [
-            "invoice_id" => "string",
-            "amount" => "string",
-			"transaction_reference" => "string",
-			"payment_channel" => "string",
-			"date_received" => "string",
+            "invoice_id" => "nullable|string",
+            "amount" => "nullable|string",
+			"transaction_reference" => "nullable|string",
+			"payment_channel" => "nullable|string",
+			"date_received" => "nullable|string",
         ]);
 
         [$saved, $message, $payment] = $this->service->update($request, $id);
