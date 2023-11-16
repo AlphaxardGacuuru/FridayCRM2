@@ -27,8 +27,7 @@
 							   type="number"
 							   name="amount"
 							   class="form-control"
-							   placeholder="{{ $payment->amount }}"
-							   required>
+							   placeholder="{{ $payment->amount }}">
 					</div>
 					{{-- Amount End --}}
 					{{-- Transaction Ref --}}
@@ -48,8 +47,7 @@
 							   class="col-form-label">Payment Channel</label>
 						<select id="paymentInput"
 								name="payment_channel"
-								class="form-control"
-								required>
+								class="form-control">
 							<option value="">Choose a Channel</option>
 							@foreach ($channels as $channel)
 							<option value="{{ $channel}}"
