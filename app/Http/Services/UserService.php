@@ -56,7 +56,7 @@ class UserService
      */
     public function show($id)
     {
-        $user = User::find($id);
+        $user = User::findOrFail($id);
 
         $user = new UserResource($user);
 
@@ -72,7 +72,7 @@ class UserService
      */
     public function edit($id)
     {
-        $user = User::find($id);
+        $user = User::findOrFail($id);
 
         return new UserResource($user);
     }
@@ -86,7 +86,7 @@ class UserService
      */
     public function update($request, $id)
     {
-        $user = User::find($id);
+        $user = User::findOrFail($id);
 
         if ($request->filled("name")) {
             $user->name = $request->input("name");
@@ -127,7 +127,7 @@ class UserService
      */
     public function destroy($id)
     {
-        $getUser = User::find($id);
+        $getUser = User::findOrFail($id);
 
         $deleted = $getUser->delete();
 

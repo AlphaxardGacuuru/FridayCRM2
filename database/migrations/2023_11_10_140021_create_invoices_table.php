@@ -23,6 +23,7 @@ return new class extends Migration
             $table->jsonb('order_ids');
             $table->jsonb('items')->nullable();
             $table->string('amount');
+            $table->string('status')->default('not_paid');
             $table->timestamps();
         });
     }

@@ -101,7 +101,7 @@ class OrderController extends Controller
     {
         $order = $this->service->show($id);
 
-        [$users, $products] = $this->service->create();
+        [$users, $products] = $this->service->edit();
 
         return view("/pages/orders/edit")->with([
             "order" => $order,

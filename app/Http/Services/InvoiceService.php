@@ -91,7 +91,7 @@ class InvoiceService
      */
     public function show($id)
     {
-        $invoice = Invoice::find($id);
+        $invoice = Invoice::findOrFail($id);
 
         $orders = [];
 
@@ -117,7 +117,7 @@ class InvoiceService
      */
     public function update($request, $id)
     {
-        $invoice = Invoice::find($id);
+        $invoice = Invoice::findOrFail($id);
 
         if ($request->filled("user_id")) {
             $invoice->user_id = $request->input("user_id");
@@ -174,7 +174,7 @@ class InvoiceService
      */
     public function destroy($id)
     {
-        $getInvoice = Invoice::find($id);
+        $getInvoice = Invoice::findOrFail($id);
 
         $deleted = $getInvoice->delete();
 

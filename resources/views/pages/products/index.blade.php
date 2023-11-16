@@ -51,8 +51,12 @@
 																aria-label="Close"></button>
 													</div>
 													<div class="modal-body text-wrap">
+														@if ($product->hasOrders)
+														Sorry, you cannot delete this product since it has orders associated with it.
+														@else
 														Are you sure you want to delete {{ $product->name }}.
 														This process is irreversible.
+														@endif
 													</div>
 													<div class="modal-footer justify-content-between">
 														<button type="button"
@@ -65,7 +69,6 @@
 																data-bs-dismiss="modal"
 																onclick="event.preventDefault();
 						                                                     document.getElementById('deleteForm{{ $product->id }}').submit();">
-															Delete
 														</button>
 														<form id="deleteForm{{ $product->id }}"
 															  action="/products/{{ $product->id }}"
@@ -89,6 +92,7 @@
 												data-bs-toggle="modal"
 												data-bs-target="#deleteModal{{ $product->id }}">
 											<i class="fa fa-trash"></i>
+											{{-- {{ gettype($product->hasOrders) }} --}}
 										</button>
 									</div>
 								</div>

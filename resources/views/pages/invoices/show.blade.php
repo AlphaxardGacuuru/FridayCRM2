@@ -15,7 +15,7 @@
 		<div class="modal-content">
 			<div class="modal-header">
 				<h1 id="paymentModalLabel"
-					class="modal-title fs-5 text-danger">
+					class="modal-title fs-5">
 					Create Payment
 				</h1>
 				<button type="button"
@@ -145,7 +145,7 @@
 									style="background-color: white;">SN</th>
 								<th style="background-color: white;">Entry No</th>
 								<th style="background-color: white;">Vehicle Reg</th>
-								<th class="right"
+								<th class="right text-right"
 									style="background-color: white;">Total (KES)</th>
 							</tr>
 						</thead>
@@ -158,7 +158,7 @@
 									style="background-color: white;">{{ $item->entry_number }}</td>
 								<td class="left"
 									style="background-color: white;">{{ $item->vehicle_registration }}</td>
-								<td class="right"
+								<td class="right text-right"
 									style="background-color: white;">{{ $item->total_value ?
 									number_format($item->total_value) : '-' }}
 								</td>
@@ -167,9 +167,9 @@
 							<tr class="border-3 border-start-0 border-end-0">
 								<td colspan="3"
 									style="background-color: white;"></td>
-								<td style="background-color: white;">
+								<td class="text-right" style="background-color: white;">
 									<strong class="text-dark">
-										{{ $invoice->amount ? number_format($invoice->amount) : '-' }}
+										KES {{ $invoice->amount ? number_format($invoice->amount) : '-' }}
 									</strong>
 								</td>
 							</tr>

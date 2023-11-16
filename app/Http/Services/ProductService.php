@@ -45,7 +45,7 @@ class ProductService
      */
     public function show($id)
     {
-        $product = Product::find($id);
+        $product = Product::findOrFail($id);
 
         return new ProductResource($product);
     }
@@ -59,7 +59,7 @@ class ProductService
      */
     public function update($request, $id)
     {
-        $product = Product::find($id);
+        $product = Product::findOrFail($id);
 
         if ($request->filled("name")) {
             $product->name = $request->input("name");
@@ -80,7 +80,7 @@ class ProductService
      */
     public function destroy($id)
     {
-        $getProduct = Product::find($id);
+        $getProduct = Product::findOrFail($id);
 
         $deleted = $getProduct->delete();
 

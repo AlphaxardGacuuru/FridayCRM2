@@ -103,7 +103,7 @@
 						</li>
 					</ul>
 				</li>
-				<li class="nav-item dropdown connection">
+				{{-- <li class="nav-item dropdown connection">
 					<a class="nav-link"
 					   href="#"
 					   id="navbarDropdown"
@@ -152,7 +152,7 @@
 							<div class="conntection-footer"><a href="#">More</a></div>
 						</li>
 					</ul>
-				</li>
+				</li> --}}
 				<li class="nav-item dropdown nav-user">
 					<a class="nav-link nav-user-img"
 					   href="#"
@@ -171,7 +171,7 @@
 						<a class="dropdown-item"
 						   href="#"><i class="fas fa-user mr-2"></i>Account</a>
 						<a class="dropdown-item"
-						   href="#"><i class="fas fa-cog mr-2"></i>Setting</a>
+						   href="#"><i class="fas fa-cog mr-2"></i>Settings</a>
 						<a class="dropdown-item"
 						   href="{{ route('logout') }}"
 						   onclick="event.preventDefault();

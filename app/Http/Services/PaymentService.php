@@ -3,7 +3,6 @@
 namespace App\Http\Services;
 
 use App\Http\Resources\PaymentResource;
-use App\Models\Invoice;
 use App\Models\Payment;
 use App\Models\User;
 use Illuminate\Support\Facades\DB;
@@ -17,7 +16,9 @@ class PaymentService
      */
     public function index($request)
     {
-        $users = User::orderBy("id", "DESC")->get();
+        $users = User::orderBy("id", "DESC")
+            ->where("account_type", "normal")
+            ->get();
 
         [$payments, $total] = $this->search($request);
 
@@ -45,7 +46,7 @@ class PaymentService
      */
     public function edit($id)
     {
-        $payment = Payment::find($id);
+        $payment = Payment::findOrFail($id);
 
         $channels = ["MPESA", "VISA", "MASTERCARD", "CASH"];
 
@@ -74,7 +75,7 @@ class PaymentService
             $invoice->status = $request->amount < $invoice->amount ? "partially_paid" : "paid";
             $invoice->save();
 
-			return $saved;
+            return $saved;
         });
 
         $message = "Payment created successfully";
@@ -90,7 +91,7 @@ class PaymentService
      */
     public function show($id)
     {
-        $payment = Payment::find($id);
+        $payment = Payment::findOrFail($id);
 
         return new PaymentResource($payment);
     }
@@ -104,7 +105,7 @@ class PaymentService
      */
     public function update($request, $id)
     {
-        $payment = Payment::find($id);
+        $payment = Payment::findOrFail($id);
 
         if ($request->filled("invoice_id")) {
             $payment->invoice_id = $request->input("invoice_id");
@@ -141,7 +142,7 @@ class PaymentService
      */
     public function destroy($id)
     {
-        $getPayment = Payment::find($id);
+        $getPayment = Payment::findOrFail($id);
 
         $deleted = $getPayment->delete();
 

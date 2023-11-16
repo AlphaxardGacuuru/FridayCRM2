@@ -23,9 +23,14 @@ class OrderService
         $ordersPaidValue = Order::where("status", "paid")
             ->sum("total_value");
 
-        $users = User::select("id", "name")->orderBy("id", "DESC")->get();
+        $users = User::select("id", "name")
+            ->where("account_type", "normal")
+            ->orderBy("id", "DESC")
+            ->get();
 
-        $products = Product::select("id", "name")->orderBy("id", "DESC")->get();
+        $products = Product::select("id", "name")
+            ->orderBy("id", "DESC")
+            ->get();
 
         $orders = $this->orders($request);
 
@@ -46,6 +51,7 @@ class OrderService
     public function create()
     {
         $users = User::select("id", "name")
+            ->where("account_type", "normal")
             ->orderBy("id", "DESC")
             ->get();
 
@@ -90,9 +96,26 @@ class OrderService
      */
     public function show($id)
     {
-        $order = Order::find($id);
+        $order = Order::findOrFail($id);
 
         return new OrderResource($order);
+    }
+
+    /*
+     * Get data for Editing
+     */
+    public function edit()
+    {
+        $users = User::select("id", "name")
+            ->where("account_type", "normal")
+            ->orderBy("id", "DESC")
+            ->get();
+
+        $products = Product::select("id", "name")
+            ->orderBy("id", "DESC")
+            ->get();
+
+        return [$users, $products];
     }
 
     /**
@@ -104,7 +127,7 @@ class OrderService
      */
     public function update($request, $id)
     {
-        $order = Order::find($id);
+        $order = Order::findOrFail($id);
 
         if ($request->filled("user_id")) {
             $order->user_id = $request->input("user_id");
@@ -161,7 +184,7 @@ class OrderService
      */
     public function destroy($id)
     {
-        $getOrder = Order::find($id);
+        $getOrder = Order::findOrFail($id);
 
         $deleted = $getOrder->delete();
 
@@ -187,7 +210,7 @@ class OrderService
      */
     public function updateInvoiceStatus($id)
     {
-        $order = Order::find($id);
+        $order = Order::findOrFail($id);
         $order->status = "paid";
 
         $saved = $order->save();

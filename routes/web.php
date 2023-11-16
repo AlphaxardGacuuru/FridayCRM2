@@ -41,4 +41,4 @@ Route::middleware("auth")->group(function () {
         ->name("statements.by.status");
 });
 
-Auth::routes();
+Auth::routes(['register' => false]);
