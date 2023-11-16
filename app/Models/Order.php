@@ -12,6 +12,15 @@ class Order extends Model
     use HasFactory;
 
     /**
+     * The attributes that are mass assignable.
+     *
+     * @var array<int, string>
+     */
+    protected $fillable = [
+        'status',
+    ];
+
+    /**
      * The attributes that should be cast.
      *
      * @var array<string, string>
@@ -64,6 +73,6 @@ class Order extends Model
 
 	public function invoice()
 	{
-		return $this->hasOne(Invoice::class);
+		return $this->belongsTo(Invoice::class);
 	}
 }

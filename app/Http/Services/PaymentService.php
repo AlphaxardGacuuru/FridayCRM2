@@ -4,6 +4,7 @@ namespace App\Http\Services;
 
 use App\Http\Resources\PaymentResource;
 use App\Models\Invoice;
+use App\Models\Order;
 use App\Models\Payment;
 use App\Models\User;
 use Illuminate\Support\Facades\DB;
@@ -72,22 +73,7 @@ class PaymentService
         $saved = DB::transaction(function () use ($payment, $request) {
             $saved = $payment->save();
 
-            // Get balance if available
-            $balance = Payment::where("invoice_id", $request->invoice_id)
-                ->sum("amount");
-
-            $amount = $balance + $request->amount;
-
-            $invoice = Invoice::find($request->invoice_id);
-
-            // Check if amount is enough
-            if ($amount < $invoice->amount) {
-				$invoice->status = "partially_paid";
-            } else {
-				$invoice->status = "paid";
-            }
-
-            $invoice->save();
+            $this->updateInvoiceAndOrderStatus($request);
 
             return $saved;
         });
@@ -172,25 +158,14 @@ class PaymentService
     {
         $paymentsQuery = new Payment;
 
-        if ($request->filled("user_id")) {
-            $paymentsQuery = $paymentsQuery
-                ->where("user_id", $request->input("user_id"));
-        }
-
         if ($request->filled("date_received")) {
             $paymentsQuery = $paymentsQuery
                 ->whereDate("date_received", $request->input("date_received"));
         }
 
-        if ($request) {
-            $payments = $paymentsQuery
-                ->orderBy("created_at", "DESC")
-                ->paginate(20);
-        } else {
-            $payments = $paymentsQuery
-                ->orderBy("created_at", "DESC")
-                ->paginate(20);
-        }
+        $payments = $paymentsQuery
+            ->orderBy("created_at", "DESC")
+            ->paginate(20);
 
         $payments = PaymentResource::collection($payments);
 
@@ -200,5 +175,29 @@ class PaymentService
             $payments,
             number_format($total),
         ];
+    }
+
+    /*
+     * Handle Invoice Status Change
+     */
+    public function updateInvoiceAndOrderStatus($request)
+    {
+        $balance = Payment::where("invoice_id", $request->invoice_id)
+            ->sum("amount");
+
+        $amount = $balance + $request->amount;
+
+        $invoice = Invoice::find($request->invoice_id);
+
+        // Check if amount is enough
+        $status = $amount < $invoice->amount ? "partially_paid" : "paid";
+
+        // Update Order Statuses
+        Order::whereIn('id', $invoice->order_ids)
+            ->update(["status" => $status]);
+
+        $invoice->status = $status;
+
+        return $invoice->save();
     }
 }

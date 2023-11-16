@@ -2,7 +2,6 @@
 
 namespace App\Http\Services;
 
-use App\Http\Resources\InvoiceResource;
 use App\Http\Resources\OrderResource;
 use App\Models\Order;
 use App\Models\Product;
@@ -17,12 +16,6 @@ class OrderService
      */
     public function index($request)
     {
-        $ordersPendingValue = Order::where("status", "pending")
-            ->sum("total_value");
-
-        $ordersPaidValue = Order::where("status", "paid")
-            ->sum("total_value");
-
         $users = User::select("id", "name")
             ->where("account_type", "normal")
             ->orderBy("id", "DESC")
@@ -32,7 +25,7 @@ class OrderService
             ->orderBy("id", "DESC")
             ->get();
 
-        $orders = $this->orders($request);
+        [$orders, $ordersPendingValue, $ordersPaidValue] = $this->search($request);
 
         return [
             $users,
@@ -194,63 +187,55 @@ class OrderService
     }
 
     /*
-     * Get Invoices
-     */
-    public function invoiceIndex()
-    {
-        $invoices = Order::where("status", "pending")
-            ->orderBy("id", "DESC")
-            ->paginate(20);
-
-        return InvoiceResource::collection($invoices);
-    }
-
-    /*
-     * Update Invoice Status
-     */
-    public function updateInvoiceStatus($id)
-    {
-        $order = Order::findOrFail($id);
-        $order->status = "paid";
-
-        $saved = $order->save();
-
-        $message = "Invoice updated successfully";
-
-        return [$saved, $message, $order];
-    }
-
-    /*
      * Handle Orders Search
      */
-    public function orders($request)
+    public function search($request)
     {
         $ordersQuery = new Order;
 
         if ($request->filled("user_id")) {
-            $ordersQuery = $ordersQuery->where("user_id", $request->input("user_id"));
+            $ordersQuery = $ordersQuery
+                ->where("user_id", $request->input("user_id"));
         }
 
         if ($request->filled("product_id")) {
-            $ordersQuery = $ordersQuery->where("product_id", $request->input("product_id"));
+            $ordersQuery = $ordersQuery
+                ->where("product_id", $request->input("product_id"));
         }
 
         if ($request->filled("entry_number")) {
-            $ordersQuery = $ordersQuery->where("entry_number", $request->input("entry_number"));
+            $ordersQuery = $ordersQuery
+                ->where("entry_number", $request->input("entry_number"));
         }
 
         if ($request->filled("status")) {
-            $ordersQuery = $ordersQuery->where("status", $request->input("status"));
+            $ordersQuery = $ordersQuery
+                ->where("status", $request->input("status"));
         }
 
         if ($request->filled("date")) {
-            $ordersQuery = $ordersQuery->whereDate("date", $request->input("date"));
+            $ordersQuery = $ordersQuery
+                ->whereDate("date", $request->input("date"));
         }
 
         $orders = $ordersQuery
             ->orderBy("date", "DESC")
             ->paginate(20);
 
-        return OrderResource::collection($orders);
+        $orders = OrderResource::collection($orders);
+
+        $ordersPendingValue = $ordersQuery
+            ->where("status", "pending")
+            ->sum("total_value");
+
+        $ordersPaidValue = $ordersQuery
+            ->where("status", "paid")
+            ->sum("total_value");
+
+        return [
+            $orders,
+            $ordersPendingValue,
+            $ordersPaidValue,
+        ];
     }
 }

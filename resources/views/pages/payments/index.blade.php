@@ -27,23 +27,9 @@
 			 style="color: gray;">
 			<form action="/payments">
 				<div class="row">
-					<div class="col-sm-5 mb-2">
-						<select id=""
-								name="user_id"
-								class="form-control">
-							<option value="">Select Customer</option>
-							@foreach ($users as $user)
-							<option value="{{ $user->id }}"
-									{{
-									$request->input('user_id') == $user->id ? 'selected' : ''}}>
-								{{ $user->name }}
-							</option>
-							@endforeach
-						</select>
-					</div>
-					{{-- Customer End --}}
+					<div class="col-sm-9 mb-2"></div>
 					{{-- Date --}}
-					<div class="col-sm-6 mb-2">
+					<div class="col-sm-2 mb-2">
 						<input id=""
 							   name="date_received"
 							   type="date"
@@ -174,7 +160,10 @@
 				</div>
 			</div>
 			<div class="card-footer">
-				{{ $payments->links() }}
+				{{ $payments->appends([
+				"user_id" => $request->user_id,
+				"date_received" => $request->date_received,
+				])->links() }}
 			</div>
 		</div>
 	</div>

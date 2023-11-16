@@ -154,14 +154,17 @@
 							@foreach ($orders as $order)
 							<tr>
 								<td>
+									@if ($order->status == "pending")
 									<input id="checkbox{{ $loop->iteration }}"
 										   type="checkbox"
 										   name="order_ids[]"
 										   value="{{ $order->id  }}"
 										   onchange="setOrderIds({{ $order->id }})" />
+									@endif
 								</td>
-								<td scope="row">{{ $loop->iteration + ($orders->perPage() * ($orders->currentPage() -
-									1)) }}</td>
+								<td scope="row">
+									{{ $loop->iteration + ($orders->perPage() * ($orders->currentPage() - 1)) }}
+								</td>
 								<td>{{ $order->entry_number }}</td>
 								<td>{{ $order->vehicle_registration }}</td>
 								<td>KES</td>
@@ -172,11 +175,15 @@
 								<td>
 									<span @class(['py-2
 										  px-4
-										  text-capitalize'
-										  , 'bg-warning-subtle'=> $order->status == 'pending'
-										, 'bg-success-subtle'=> $order->status == 'paid'
+										  text-capitalize',
+										  'bg-secondary-subtle' => $order->status == 'pending',
+										  'bg-success-subtle' => $order->status == 'invoiced',
+										  'bg-warning-subtle' => $order->status == 'partially_paid',
+										  'bg-success-subtle' => $order->status == 'paid'
 										])>
-										{{ $order->status }}
+										@foreach (explode("_", $order->status) as $status)
+										{{ $status }}
+										@endforeach
 									</span>
 								</td>
 								<td>{{ $order->date }}</td>
@@ -255,7 +262,13 @@
 				</div>
 			</div>
 			<div class="card-footer">
-				{{ $orders->appends(["status" => $request->status])->links() }}
+				{{ $orders->appends([
+				"user_id" => $request->user_id,
+				"product_id" => $request->product_id,
+				"entry_number" => $request->entry_number,
+				"status" => $request->status,
+				"date" => $request->date,
+				])->links() }}
 			</div>
 		</div>
 	</div>

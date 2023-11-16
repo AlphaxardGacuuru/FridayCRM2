@@ -23,25 +23,25 @@
 						</a>
 					</li>
 					<li class="nav-item">
-						<a class="nav-link {{ request()->is('users') ? 'active' : '' }}"
+						<a class="nav-link {{ preg_match('/users/', request()->url()) ? 'active' : '' }}"
 						   href="/users">
 							<i class="fa fa-users mb-1"></i>Customers
 						</a>
 					</li>
 					<li class="nav-item">
-						<a class="nav-link {{ request()->is('orders') ? 'active' : '' }}"
+						<a class="nav-link {{ preg_match('/orders/', request()->url()) ? 'active' : '' }}"
 						   href="/orders">
 							<i class="fa fa-cubes mb-1"></i>Orders
 						</a>
 					</li>
 					<li class="nav-item">
-						<a class="nav-link {{ request()->is('products') ? 'active' : '' }}"
+						<a class="nav-link {{ preg_match('/products/', request()->url()) ? 'active' : '' }}"
 						   href="/products">
 							<i class="fa fa-shopping-bag mb-1"></i>Products
 						</a>
 					</li>
 					<li class="nav-item">
-						<a class="nav-link {{ request()->is('payments') ? 'active' : '' }}"
+						<a class="nav-link {{ preg_match('/payments/', request()->url()) ? 'active' : '' }}"
 						   href="/payments">
 							<i class="fa fa-credit-card mb-1"></i>Payments
 						</a>
@@ -53,7 +53,7 @@
 						</a>
 					</li> --}}
 					<li class="nav-item">
-						<a class="nav-link {{ request()->is('invoices') ? 'active' : '' }}"
+						<a class="nav-link {{ preg_match('/invoices/', request()->url()) ? 'active' : '' }}"
 						   href="/invoices">
 							<i class="fa fa-dollar-sign mb-1"></i>Invoices
 						</a>

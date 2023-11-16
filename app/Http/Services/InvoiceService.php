@@ -58,22 +58,22 @@ class InvoiceService
 
         // Get Amount
         $amount = collect($orderIds)->reduce(function ($carry, $orderId) {
-            $totalValue = Order::find($orderId)->total_value;
-
-            return $carry + $totalValue;
-        });
-
-        $items = collect($orderIds)->map(function ($orderId) {
             $order = Order::find($orderId);
 
-            return new InvoiceItemResource($order);
+			// Update status
+			$order->status = "invoiced";
+
+			$order->save();
+			// Get total value
+			$totalValue = $order->total_value;
+
+            return $carry + $totalValue;
         });
 
         $invoice = new Invoice;
         $invoice->invoice_number = "INV-" . Str::uuid();
         $invoice->user_id = $userId;
         $invoice->order_ids = $orderIds;
-        $invoice->items = $items;
         $invoice->amount = $amount;
 
         $saved = $invoice->save();
