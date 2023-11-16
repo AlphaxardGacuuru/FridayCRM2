@@ -127,7 +127,7 @@
 					<div class="">
 						<h5 class="mb-1">Billed To:</h5>
 						<div style="color: gray;">{{ $invoice->user->name }}</div>
-						<div style="color: gray;">Phone: {{ $invoice->phone }}</div>
+						<div style="color: gray;">Phone: {{ $invoice->user->phone }}</div>
 						<div style="color: gray;">{{ $invoice->user->address }}</div>
 					</div>
 					<div class="text-end">
