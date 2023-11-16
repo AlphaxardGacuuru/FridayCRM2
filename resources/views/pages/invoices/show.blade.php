@@ -157,10 +157,11 @@
 							<tr>
 								<th class="center"
 									style="background-color: white;">SN</th>
-								<th style="background-color: white;">Entry No</th>
-								<th style="background-color: white;">Vehicle Reg</th>
+								<th class="text-center" style="background-color: white;">Entry No</th>
+								<th class="text-center" style="background-color: white;">Vehicle Reg</th>
+								<th class="text-center" style="background-color: white;">Date</th>
 								<th class="right text-right"
-									style="background-color: white;">Total (KES)</th>
+									style="background-color: white;">Total</th>
 							</tr>
 						</thead>
 						<tbody>
@@ -168,10 +169,9 @@
 							<tr>
 								<td class="center"
 									style="background-color: white;">{{ $loop->iteration }}</td>
-								<td class="left"
-									style="background-color: white;">{{ $item->entry_number }}</td>
-								<td class="left"
-									style="background-color: white;">{{ $item->vehicle_registration }}</td>
+								<td class="text-center" style="background-color: white;">{{ $item->entry_number }}</td>
+								<td class="text-center" style="background-color: white;">{{ $item->vehicle_registration }}</td>
+								<td class="text-center" style="background-color: white;">{{ $item->date }}</td>
 								<td class="right text-right"
 									style="background-color: white;">{{ $item->total_value ?
 									number_format($item->total_value, 2) : '-' }}
@@ -179,7 +179,7 @@
 							</tr>
 							@endforeach
 							<tr class="border-3 border-start-0 border-end-0">
-								<td colspan="3"
+								<td colspan="4"
 									style="background-color: white;"></td>
 								<td class="text-right"
 									style="background-color: white;">
