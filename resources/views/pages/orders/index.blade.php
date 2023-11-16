@@ -59,8 +59,10 @@
 							@foreach ($products as $product)
 							<option value="{{ $product->id }}"
 									{{
-									$request->input("product_id") == $product->id ? 'selected' : ''}}
-								>{{ $product->name }}</option>
+									$request->input("product_id") == $product->id ? 'selected' : ''
+								}}>
+								{{ $product->name }}
+							</option>
 							@endforeach
 						</select>
 					</div>
@@ -81,13 +83,11 @@
 								name="status"
 								class="form-control">
 							<option value="">Select Status</option>
-							<option value="pending"
+							@foreach ($statuses as $status => $slug)
+							<option value="{{ $status }}"
 									{{
-									$request->input("status") == 'pending' ? 'selected' : ''}}>Pending</option>
-							<option value="paid"
-									{{
-									$request->input("status") == 'paid' ? 'selected' : ''}}
-								>Paid</option>
+									$request->input("status") == $status ? 'selected' : ''}}>{{ $slug }}</option>
+							@endforeach
 						</select>
 					</div>
 					{{-- Status End --}}
@@ -255,7 +255,7 @@
 				</div>
 			</div>
 			<div class="card-footer">
-				{{ $orders->links() }}
+				{{ $orders->appends(["status" => $request->status])->links() }}
 			</div>
 		</div>
 	</div>

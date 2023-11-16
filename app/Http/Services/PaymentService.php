@@ -3,9 +3,10 @@
 namespace App\Http\Services;
 
 use App\Http\Resources\PaymentResource;
+use App\Models\Invoice;
 use App\Models\Payment;
-use App\Models\Product;
 use App\Models\User;
+use Illuminate\Support\Facades\DB;
 
 class PaymentService
 {
@@ -66,7 +67,15 @@ class PaymentService
         $payment->payment_channel = $request->input("payment_channel");
         $payment->date_received = $request->input("date_received");
 
-        $saved = $payment->save();
+        $saved = DB::transaction(function ($payment) use ($request) {
+            $saved = $payment->save();
+
+            $invoice = Order::find($request->invoice_id);
+            $invoice->status = $request->amount < $invoice->amount ? "partially_paid" : "paid";
+            $invoice->save();
+
+			return $saved;
+        });
 
         $message = "Payment created successfully";
 

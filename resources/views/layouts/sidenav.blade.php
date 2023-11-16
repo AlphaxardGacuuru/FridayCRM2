@@ -46,12 +46,12 @@
 							<i class="fa fa-credit-card mb-1"></i>Payments
 						</a>
 					</li>
-					<li class="nav-item">
+					{{-- <li class="nav-item">
 						<a class="nav-link {{ request()->is('statements') ? 'active' : '' }}"
 						   href="/statements">
 							<i class="fa fa-file-alt mb-1"></i>Statements
 						</a>
-					</li>
+					</li> --}}
 					<li class="nav-item">
 						<a class="nav-link {{ request()->is('invoices') ? 'active' : '' }}"
 						   href="/invoices">

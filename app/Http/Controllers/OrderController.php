@@ -21,12 +21,20 @@ class OrderController extends Controller
     {
         [$users, $products, $ordersPendingValue, $ordersPaidValue, $orders] = $this->service->index($request);
 
+		$statuses = [
+			"pending" => "Pending", 
+			"invoiced" => "Invoiced", 
+			"partially_paid" => "Partially Paid", 
+			"paid" => "Paid"
+		];
+
         return view("pages/orders/index")->with([
 			"users" => $users,
 			"products" => $products,
             "orders" => $orders,
             "ordersPendingValue" => $ordersPendingValue,
             "ordersPaidValue" => $ordersPaidValue,
+			"statuses" => $statuses,
 			"request" => $request
         ]);
     }

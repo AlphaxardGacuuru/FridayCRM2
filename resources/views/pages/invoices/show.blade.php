@@ -146,7 +146,7 @@
 								<th style="background-color: white;">Entry No</th>
 								<th style="background-color: white;">Vehicle Reg</th>
 								<th class="right"
-									style="background-color: white;">Total</th>
+									style="background-color: white;">Total (KES)</th>
 							</tr>
 						</thead>
 						<tbody>
@@ -159,7 +159,7 @@
 								<td class="left"
 									style="background-color: white;">{{ $item->vehicle_registration }}</td>
 								<td class="right"
-									style="background-color: white;">KES {{ $item->total_value ?
+									style="background-color: white;">{{ $item->total_value ?
 									number_format($item->total_value) : '-' }}
 								</td>
 							</tr>
@@ -169,7 +169,7 @@
 									style="background-color: white;"></td>
 								<td style="background-color: white;">
 									<strong class="text-dark">
-										KES {{ $invoice->amount ? number_format($invoice->amount) : '-' }}
+										{{ $invoice->amount ? number_format($invoice->amount) : '-' }}
 									</strong>
 								</td>
 							</tr>
