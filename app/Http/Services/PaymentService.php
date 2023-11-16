@@ -50,9 +50,13 @@ class PaymentService
     {
         $payment = Payment::findOrFail($id);
 
+        $users = User::where("account_type", "normal")
+            ->orderBy("id", "DESC")
+            ->get();
+
         $channels = ["MPESA", "VISA", "MASTERCARD", "CASH"];
 
-        return [$payment, $channels];
+        return [$payment, $users, $channels];
     }
 
     /**
@@ -65,6 +69,7 @@ class PaymentService
     {
         $payment = new Payment;
         $payment->invoice_id = $request->input("invoice_id");
+        $payment->user_id = Invoice::find($request->input("invoice_id"))->user->id;
         $payment->amount = $request->input("amount");
         $payment->transaction_reference = $request->input("transaction_reference");
         $payment->payment_channel = $request->input("payment_channel");
@@ -109,6 +114,10 @@ class PaymentService
 
         if ($request->filled("invoice_id")) {
             $payment->invoice_id = $request->input("invoice_id");
+        }
+
+        if ($request->filled("user_id")) {
+            $payment->user_id = Invoice::find($request->input("invoice_id"))->user->id;
         }
 
         if ($request->filled("amount")) {

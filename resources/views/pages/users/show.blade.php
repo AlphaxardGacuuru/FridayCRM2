@@ -1,597 +1,674 @@
 @extends('layouts.app')
 
 @section('content')
-<!-- ============================================================== -->
-<!-- influencer profile  -->
-<!-- ============================================================== -->
-<div class="row">
-	<div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
-		<div class="card influencer-profile-data">
-			<div class="card-body">
-				<div class="row">
-					{{-- <div class="col-xl-2 col-lg-4 col-md-4 col-sm-4 col-12">
-						<div class="text-center">
-							<img src="assets/images/avatar-1.jpg"
-								 alt="User Avatar"
-								 class="rounded-circle user-avatar-xxl">
-						</div>
-					</div> --}}
-					<div class="col-xl-10 col-lg-8 col-md-8 col-sm-8 col-12">
-						<div class="user-avatar-info">
-							<div class="m-b-20">
-								<div class="user-avatar-name">
-									<h2 class="mb-1">{{ $user->name }}</h2>
-								</div>
-								<div class="rating-star  d-inline-block invisible">
-									<i class="fa fa-fw fa-star"></i>
-									<i class="fa fa-fw fa-star"></i>
-									<i class="fa fa-fw fa-star"></i>
-									<i class="fa fa-fw fa-star"></i>
-									<i class="fa fa-fw fa-star"></i>
-									<p class="d-inline-block text-dark">14 Reviews </p>
-								</div>
-							</div>
-							<!--  <div class="float-right"><a href="#" class="user-avatar-email text-secondary">www.henrybarbara.com</a></div> -->
-							<div class="user-avatar-address">
-								<p class="border-bottom pb-3">
-									<span class="d-xl-inline-block d-block mb-2">
-										<i class="fa fa-map-marker-alt mr-2 text-primary "></i>
-										{{ $user->address }}
-									</span>
-									<span class="mb-2 ml-xl-4 d-xl-inline-block d-block">
-										{{ $user->created_at }}
-									</span>
-									<a href="/users/{{ $user->id }}/edit"
-									   class="btn btn-sm btn-primary ms-2">
-										<i class="fa fa-edit"></i>
-									</a>
 
-									{{-- Button trigger modal --}}
-									<button type="button"
-											class="btn btn-sm text-white"
-											style="background-color: gray"
-											data-bs-toggle="modal"
-											data-bs-target="#deleteModal{{ $user->id }}">
-										<i class="fa fa-trash"></i>
-									</button>
-								</p>
-								{{-- Confirm Delete Modal End --}}
-								<div class="modal fade"
-									 id="deleteModal{{ $user->id }}"
-									 tabIndex="-1"
-									 aria-labelledby="deleteModalLabel"
-									 aria-hidden="true">
-									<div class="modal-dialog">
-										<div class="modal-content">
-											<div class="modal-header">
-												<h1 id="deleteModalLabel"
-													class="modal-title fs-5 text-danger">
-													Delete User
-												</h1>
-												<button type="button"
-														class="btn-close"
-														data-bs-dismiss="modal"
-														aria-label="Close"></button>
-											</div>
-											<div class="modal-body text-wrap">
-												Are you sure you want to delete {{ $user->name }}.
-												This process is irreversible.
-											</div>
-											<div class="modal-footer justify-content-between">
-												<button type="button"
-														class="btn btn-light"
-														data-bs-dismiss="modal">
-													Close
-												</button>
-												<button type="button"
-														class="btn btn-danger text-white"
-														data-bs-dismiss="modal"
-														onclick="event.preventDefault();
-																							        document.getElementById('deleteForm{{ $user->id }}').submit();">
-													Delete
-												</button>
-												<form id="deleteForm{{ $user->id }}"
-													  action="/users/{{ $user->id }}"
-													  method="POST"
-													  style="display: none;">
-													<input type="hidden"
-														   name="_method"
-														   value="DELETE">
-													@csrf
-												</form>
-											</div>
-										</div>
-									</div>
-								</div>
-								{{-- Confirm Delete Modal End --}}
-								<div class="mt-3">
-									<a href="#"
-									   class="badge badge-light mr-1">{{ $user->email }}</a>
-									<a href="#"
-									   class="badge badge-light mr-1">{{ $user->phone }}</a>
-									<a href="#"
-									   class="badge badge-light">{{ $user->kra_pin }}</a>
-								</div>
-							</div>
-						</div>
-					</div>
+
+<!-- content -->
+
+<div class="row">
+
+	<!-- profile -->
+
+	<div class="col-xl-3 col-lg-3 col-md-5 col-sm-12 col-12">
+
+		<!-- card profile -->
+
+		<div class="card">
+			<div class="card-body">
+				<div class="user-avatar text-center d-block">
+					{{-- <img src="assets/images/avatar-1.jpg"
+						 alt="User Avatar"
+						 class="rounded-circle user-avatar-xxl"> --}}
+				</div>
+				<div class="text-center">
+					<h2 class="font-24 mb-0">{{ $user->name}}</h2>
+					{{-- <p>Project Manager @Influnce</p> --}}
 				</div>
 			</div>
-			{{-- <div class="border-top user-social-box">
-				<div class="user-social-media d-xl-inline-block"><span class="mr-2 twitter-color">
-						<i class="fab fa-twitter-square"></i></span><span>13,291</span></div>
-				<div class="user-social-media d-xl-inline-block"><span class="mr-2  pinterest-color"> <i
-						   class="fab fa-pinterest-square"></i></span><span>84,019</span></div>
-				<div class="user-social-media d-xl-inline-block"><span class="mr-2 instagram-color">
-						<i class="fab fa-instagram"></i></span><span>12,300</span></div>
-				<div class="user-social-media d-xl-inline-block"><span class="mr-2  facebook-color">
-						<i class="fab fa-facebook-square "></i></span><span>92,920</span></div>
-				<div class="user-social-media d-xl-inline-block "><span class="mr-2 medium-color">
-						<i class="fab fa-medium"></i></span><span>291</span></div>
-				<div class="user-social-media d-xl-inline-block"><span class="mr-2 youtube-color">
-						<i class="fab fa-youtube"></i></span><span>1291</span></div>
-			</div> --}}
+			<div class="card-body border-top">
+				<h3 class="font-16">Contact Information</h3>
+				<div class="">
+					<ul class="list-unstyled mb-0">
+						<li class="mb-2"><i class="fa fa-envelope mr-2"></i>{{ $user->email }}</li>
+						<li class="mb-2"><i class="fa fa-phone mr-2"></i>{{ $user->phone }}</li>
+						<li class="mb-2"><i class="fa fa-calendar mr-2"></i>{{ $user->created_at }}</li>
+						<li class="mb-2"><i class="fa fa-key mr-2"></i>{{ $user->kra_pin }}</li>
+						<li class="mb-2"><i class="fa fa-map-marker-alt mr-2"></i>{{ $user->address }}</li>
+					</ul>
+				</div>
+			</div>
 		</div>
+
+		<!-- end card profile -->
+
 	</div>
-</div>
-<!-- ============================================================== -->
-<!-- end influencer profile  -->
-<!-- ============================================================== -->
-<!-- ============================================================== -->
-<!-- widgets   -->
-<!-- ============================================================== -->
-<div class="row">
-	<!-- ============================================================== -->
-	<!-- four widgets   -->
-	<!-- ============================================================== -->
-	<!-- ============================================================== -->
-	<!-- total views   -->
-	<!-- ============================================================== -->
-	{{-- <div class="col-xl-3 col-lg-6 col-md-6 col-sm-12 col-12">
-		<div class="card">
-			<div class="card-body">
-				<div class="d-inline-block">
-					<h5 class="text-muted">Total Orders</h5>
-					<h2 class="mb-0"> {{ $user->totalOrders }}</h2>
-				</div>
-				<div class="float-right icon-circle-medium  icon-box-lg  bg-info-light mt-1">
-					<i class="fa fa-eye fa-fw fa-sm text-info"></i>
-				</div>
-			</div>
-		</div>
-	</div> --}}
-	<!-- ============================================================== -->
-	<!-- end total views   -->
-	<!-- ============================================================== -->
-	<!-- ============================================================== -->
-	<!-- total followers   -->
-	<!-- ============================================================== -->
-	{{-- <div class="col-xl-3 col-lg-6 col-md-6 col-sm-12 col-12">
-		<div class="card">
-			<div class="card-body">
-				<div class="d-inline-block">
-					<h5 class="text-muted">Invoice Arears</h5>
-					<h2 class="mb-0"> {{ $user->invoiceArears }}</h2>
-				</div>
-				<div class="float-right icon-circle-medium  icon-box-lg  bg-primary-light mt-1">
-					<i class="fa fa-user fa-fw fa-sm text-primary"></i>
-				</div>
-			</div>
-		</div>
-	</div> --}}
-	<!-- ============================================================== -->
-	<!-- end total followers   -->
-	<!-- ============================================================== -->
-	<!-- ============================================================== -->
-	<!-- partnerships   -->
-	<!-- ============================================================== -->
-	{{-- <div class="col-xl-3 col-lg-6 col-md-6 col-sm-12 col-12">
-		<div class="card">
-			<div class="card-body">
-				<div class="d-inline-block">
-					<h5 class="text-muted">Total Orders Today</h5>
-					<h2 class="mb-0">{{ $user->totalOrdersToday }}</h2>
-				</div>
-				<div class="float-right icon-circle-medium  icon-box-lg  bg-secondary-light mt-1">
-					<i class="fa fa-handshake fa-fw fa-sm text-secondary"></i>
-				</div>
-			</div>
-		</div>
-	</div> --}}
-	<!-- ============================================================== -->
-	<!-- end partnerships   -->
-	<!-- ============================================================== -->
-	<!-- ============================================================== -->
-	<!-- total earned   -->
-	<!-- ============================================================== -->
-	{{-- <div class="col-xl-3 col-lg-6 col-md-6 col-sm-12 col-12">
-		<div class="card">
-			<div class="card-body">
-				<div class="d-inline-block">
-					<h5 class="text-muted">Total Paid</h5>
-					<h2 class="mb-0"> {{ number_format($user->totalOrdersPaid) }}</h2>
-				</div>
-				<div class="float-right icon-circle-medium  icon-box-lg  bg-brand-light mt-1">
-					<i class="fa fa-money-bill-alt fa-fw fa-sm text-brand"></i>
-				</div>
-			</div>
-		</div>
-	</div> --}}
-	<!-- ============================================================== -->
-	<!-- end total earned   -->
-	<!-- ============================================================== -->
-</div>
-<!-- ============================================================== -->
-<!-- end widgets   -->
-<!-- ============================================================== -->
-<div class="row">
-	<!-- ============================================================== -->
-	<!-- followers by gender   -->
-	<!-- ============================================================== -->
-	{{-- <div class="col-xl-3 col-lg-6 col-md-6 col-sm-12 col-12">
-		<div class="card">
-			<h5 class="card-header">Followers by Gender</h5>
-			<div class="card-body">
-				<div id="gender_donut"
-					 style="height: 230px;"></div>
-			</div>
-			<div class="card-footer p-0 bg-white d-flex">
-				<div class="card-footer-item card-footer-item-bordered w-50">
-					<h2 class="mb-0"> 60% </h2>
-					<p>Female </p>
-				</div>
-				<div class="card-footer-item card-footer-item-bordered">
-					<h2 class="mb-0">40% </h2>
-					<p>Male </p>
-				</div>
-			</div>
-		</div>
-	</div> --}}
-	<!-- ============================================================== -->
-	<!-- end followers by gender  -->
-	<!-- ============================================================== -->
-	<!-- ============================================================== -->
-	<!-- followers by age   -->
-	<!-- ============================================================== -->
-	{{-- <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12 col-12">
-		<div class="card">
-			<h5 class="card-header">Followers by Age</h5>
-			<div class="card-body">
-				<div class="mb-3">
-					<div class="d-inline-block">
-						<h4 class="mb-0">15 - 20</h4>
-					</div>
-					<div class="progress mt-2 float-right progress-md">
-						<div class="progress-bar bg-secondary"
-							 role="progressbar"
-							 style="width: 45%;"
-							 aria-valuenow="65"
-							 aria-valuemin="0"
-							 aria-valuemax="100"></div>
-					</div>
-				</div>
-				<div class="mb-3">
-					<div class="d-inline-block">
-						<h4 class="mb-0">20 - 25</h4>
-					</div>
-					<div class="progress mt-2 float-right progress-md">
-						<div class="progress-bar bg-secondary"
-							 role="progressbar"
-							 style="width: 55%;"
-							 aria-valuenow="65"
-							 aria-valuemin="0"
-							 aria-valuemax="100"></div>
-					</div>
-				</div>
-				<div class="mb-3">
-					<div class="d-inline-block">
-						<h4 class="mb-0">25 - 30</h4>
-					</div>
-					<div class="progress mt-2 float-right progress-md">
-						<div class="progress-bar bg-secondary"
-							 role="progressbar"
-							 style="width: 65%;"
-							 aria-valuenow="65"
-							 aria-valuemin="0"
-							 aria-valuemax="100"></div>
-					</div>
-				</div>
-				<div class="mb-3">
-					<div class="d-inline-block">
-						<h4 class="mb-0">30 - 35</h4>
-					</div>
-					<div class="progress mt-2 float-right progress-md">
-						<div class="progress-bar bg-secondary"
-							 role="progressbar"
-							 style="width: 35%;"
-							 aria-valuenow="65"
-							 aria-valuemin="0"
-							 aria-valuemax="100"></div>
-					</div>
-				</div>
-				<div class="mb-3">
-					<div class="d-inline-block">
-						<h4 class="mb-0">35 - 40</h4>
-					</div>
-					<div class="progress mt-2 float-right progress-md">
-						<div class="progress-bar bg-secondary"
-							 role="progressbar"
-							 style="width: 21%;"
-							 aria-valuenow="65"
-							 aria-valuemin="0"
-							 aria-valuemax="100"></div>
-					</div>
-				</div>
-				<div class="mb-3">
-					<div class="d-inline-block">
-						<h4 class="mb-0">45 - 50</h4>
-					</div>
-					<div class="progress mt-2 float-right progress-md">
-						<div class="progress-bar bg-secondary"
-							 role="progressbar"
-							 style="width: 85%;"
-							 aria-valuenow="65"
-							 aria-valuemin="0"
-							 aria-valuemax="100"></div>
-					</div>
-				</div>
-				<div class="mb-3">
-					<div class="d-inline-block">
-						<h4 class="mb-0">50 - 55</h4>
-					</div>
-					<div class="progress mt-2 float-right progress-md">
-						<div class="progress-bar bg-secondary"
-							 role="progressbar"
-							 style="width: 25%;"
-							 aria-valuenow="65"
-							 aria-valuemin="0"
-							 aria-valuemax="100"></div>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div> --}}
-	<!-- ============================================================== -->
-	<!-- end followers by age   -->
-	<!-- ============================================================== -->
-	<!-- ============================================================== -->
-	<!-- followers by locations   -->
-	<!-- ============================================================== -->
-	{{-- <div class="col-xl-5 col-lg-12 col-md-6 col-sm-12 col-12">
-		<div class="card">
-			<h5 class="card-header">Top Folllowes by Locations </h5>
-			<div class="card-body">
-				<canvas id="chartjs_bar_horizontal"></canvas>
-			</div>
-		</div>
-	</div> --}}
-	<!-- ============================================================== -->
-	<!-- end followers by locations  -->
-	<!-- ============================================================== -->
-</div>
-<div class="row">
-	<!-- ============================================================== -->
-	<!-- campaign activities   -->
-	<!-- ============================================================== -->
-	<div class="col-lg-12">
-		<div class="section-block">
-			<h3 class="section-title">Recent Orders</h3>
-		</div>
-		<div class="card">
-			<div class="campaign-table table-responsive">
-				<table class="table">
-					<thead>
-						<tr>
-							<th scope="col">SN</th>
-							<th scope="col"
-								class="text-uppercase">Entry No</th>
-							<th scope="col"
-								class="text-uppercase">Vehicle Reg</th>
-							<th scope="col"
-								class="text-uppercase">CURR</th>
-							<th scope="col"
-								class="text-uppercase">KRA Due</th>
-							<th scope="col"
-								class="text-uppercase">KEBS Due</th>
-							<th scope="col"
-								class="text-uppercase">Other Charges</th>
-							<th scope="col"
-								class="text-uppercase">Total Value</th>
-							<th scope="col"
-								class="text-uppercase">Status</th>
-							<th scope="col"
-								class="text-uppercase">Date</th>
-							<th scope="col"
-								class="text-uppercase">Action</th>
-						</tr>
-					</thead>
-					<tbody>
-						@foreach ($orders as $order)
-						<tr>
-							<th scope="row">{{ $loop->iteration }}</th>
-							<td>{{ $order->entry_number }}</td>
-							<td>{{ $order->vehicle_registration }}</td>
-							<td>KES</td>
-							<td>{{ number_format($order->kra_due) }}</td>
-							<td>{{ number_format($order->kebs_due) }}</td>
-							<td>{{ number_format($order->other_charges) }}</td>
-							<td>{{ number_format($order->total_value) }}</td>
-							<td>
-								<span @class(['py-2
-									  px-4
-									  text-capitalize'
-									  , 'bg-warning-subtle'=> $order->status == 'pending'
-									, 'bg-success-subtle'=> $order->status == 'paid'
-									])>
-									{{ $order->status }}
-								</span>
-							</td>
-							<td>{{ $order->date }}</td>
-							<td>
-								<div class="d-flex">
-									<a href="/orders/{{ $order->id }}/edit"
-									   class="btn btn-sm btn-primary">
-										<i class="fa fa-edit"></i>
-									</a>
-									<div class="mx-1">
-										{{-- Confirm Delete Modal End --}}
-										<div class="modal fade"
-											 id="deleteModal{{ $order->id }}"
-											 tabIndex="-1"
-											 aria-labelledby="deleteModalLabel"
-											 aria-hidden="true">
-											<div class="modal-dialog">
-												<div class="modal-content">
-													<div class="modal-header">
-														<h1 id="deleteModalLabel"
-															class="modal-title fs-5 text-danger">
-															Delete Club
-														</h1>
-														<button type="button"
-																class="btn-close"
-																data-bs-dismiss="modal"
-																aria-label="Close"></button>
-													</div>
-													<div class="modal-body text-wrap">
-														Are you sure you want to delete Order.
-														This process is irreversible.
-													</div>
-													<div class="modal-footer justify-content-between">
-														<button type="button"
-																class="btn btn-light"
-																data-bs-dismiss="modal">
-															Close
-														</button>
-														<button type="button"
-																class="btn btn-danger text-white"
-																data-bs-dismiss="modal"
-																onclick="event.preventDefault();
-													                                                     document.getElementById('deleteForm{{ $order->id }}').submit();">
-															Delete
-														</button>
-														<form id="deleteForm{{ $order->id }}"
-															  action="/orders/{{ $order->id }}"
-															  method="POST"
-															  style="display: none;">
-															<input type="hidden"
-																   name="_method"
-																   value="DELETE">
-															@csrf
-														</form>
-													</div>
-												</div>
-											</div>
-										</div>
-										{{-- Confirm Delete Modal End --}}
 
-										{{-- Button trigger modal --}}
-										<button type="button"
-												class="btn btn-sm text-white"
-												style="background-color: gray"
-												data-bs-toggle="modal"
-												data-bs-target="#deleteModal{{ $order->id }}">
-											<i class="fa fa-trash"></i>
+	<!-- end profile -->
+
+
+	<!-- campaign data -->
+
+	<div class="col-xl-9 col-lg-9 col-md-7 col-sm-12 col-12">
+
+		<!-- campaign tab one -->
+
+		<div class="influence-profile-content pills-regular">
+			<ul class="nav nav-pills mb-3 nav-justified"
+				id="pills-tab"
+				role="tablist">
+				<li class="nav-item me-2">
+					<a class="nav-link active"
+					   id="pills-campaign-tab"
+					   data-toggle="pill"
+					   href="#pills-campaign"
+					   role="tab"
+					   aria-controls="pills-campaign"
+					   aria-selected="true">Orders</a>
+				</li>
+				<li class="nav-item me-2">
+					<a class="nav-link"
+					   id="pills-packages-tab"
+					   data-toggle="pill"
+					   href="#pills-packages"
+					   role="tab"
+					   aria-controls="pills-packages"
+					   aria-selected="false">Invoices</a>
+				</li>
+				<li class="nav-item">
+					<a class="nav-link"
+					   id="pills-review-tab"
+					   data-toggle="pill"
+					   href="#pills-review"
+					   role="tab"
+					   aria-controls="pills-review"
+					   aria-selected="false">Payments</a>
+				</li>
+				{{-- <li class="nav-item">
+					<a class="nav-link"
+					   id="pills-msg-tab"
+					   data-toggle="pill"
+					   href="#pills-msg"
+					   role="tab"
+					   aria-controls="pills-msg"
+					   aria-selected="false">Send Messages</a>
+				</li> --}}
+			</ul>
+			<div class="tab-content"
+				 id="pills-tabContent">
+				{{-- Orders Tab --}}
+				<div class="tab-pane fade show active"
+					 id="pills-campaign"
+					 role="tabpanel"
+					 aria-labelledby="pills-campaign-tab">
+					<div class="row">
+						{{-- basic table --}}
+						<div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+							{{-- Data --}}
+							<div class="card p-4"
+								 style="color: gray;">
+								<div class="d-flex justify-content-between">
+									{{-- Pending --}}
+									<div class="d-flex justify-content-between w-50 align-items-center mx-4">
+										<div>
+											KES <span class="fs-4">{{ number_format($ordersPendingValue) }}</span>
+											<h4 style="color: gray;">Pending</h4>
+										</div>
+										<div class="border-end pe-4"><i class="fa fa-file-alt fs-1"></i></div>
+									</div>
+									{{-- Pending End --}}
+									{{-- Paid --}}
+									<div class="d-flex justify-content-between w-50 align-items-center ms-2 me-4">
+										<div>
+											KES <span class="fs-4">{{ number_format($ordersPaidValue) }}</span>
+											<h4 style="color: gray;">Paid</h4>
+										</div>
+										<div><i class="fa fa-check-square fs-1"></i></div>
+									</div>
+									{{-- Paid End --}}
+								</div>
+							</div>
+							{{-- Data End --}}
+
+							{{-- Filters --}}
+							<div class="card p-4 d-none"
+								 style="color: gray;">
+								<form action="/orders">
+									<div class="row">
+										{{-- Product --}}
+										<div class="col-sm-2 mb-2">
+											<select id=""
+													name="product_id"
+													class="form-control">
+												<option value="">Select Product</option>
+												@foreach ($products as $product)
+												<option value="{{ $product->id }}"
+														{{
+														$request->input("product_id") == $product->id ? 'selected' : ''
+													}}>
+													{{ $product->name }}
+												</option>
+												@endforeach
+											</select>
+										</div>
+										{{-- Product End --}}
+										{{-- Entry Number --}}
+										<div class="col-sm-2 mb-2">
+											<input id=""
+												   type="number"
+												   name="entry_number"
+												   placeholder="Entry No"
+												   value="{{ $request->input('entry_number') }}"
+												   class="form-control" />
+										</div>
+										{{-- Entry Number End --}}
+										{{-- Status --}}
+										<div class="col-sm-2 mb-2">
+											<select id=""
+													name="status"
+													class="form-control">
+												<option value="">Select Status</option>
+												@foreach ($statuses as $status => $slug)
+												<option value="{{ $status }}"
+														{{
+														$request->input("status") == $status ? 'selected' : ''}}>{{
+													$slug }}</option>
+												@endforeach
+											</select>
+										</div>
+										{{-- Status End --}}
+										{{-- Date --}}
+										<div class="col-sm-2 mb-2">
+											<input id=""
+												   name="date"
+												   type="date"
+												   value="{{ $request->input('date') }}"
+												   class="form-control w-100" />
+										</div>
+										{{-- Date End --}}
+										{{-- Search --}}
+										<div class="col-sm-2">
+											<button type="submit"
+													class="btn btn-sm btn-primary">
+												<i class="fa fa-search"></i> Search
+											</button>
+										</div>
+										{{-- Search End --}}
+									</div>
+								</form>
+							</div>
+							{{-- Filters End --}}
+
+							<div class="card">
+								<div class="d-flex justify-content-between card-header">
+									<h3>Orders</h3>
+									<div class="d-flex justify-content-between">
+										{{-- Generate Invoice --}}
+										<button id="invoiceBtn"
+												class="btn btn-primary d-none mx-2"
+												onclick="onCreateInvoice()">
+											<i class="fa fa-dollar-sign"></i> Create Invoice
 										</button>
+										{{-- Generate Invoice End --}}
+										<a href="/orders/create"
+										   class="btn btn-primary"><i class="fa fa-pen-square"></i> Create</a>
 									</div>
 								</div>
-							</td>
-						</tr>
-						@endforeach
-					</tbody>
-				</table>
-			</div>
-			<div class="card-footer">
-				{{ $orders->links() }}
+								<div class="card-body">
+									<div class="table-responsive">
+										<table class="table">
+											<thead>
+												<tr>
+													<th scope="col">
+														<input id="checkAllInput"
+															   type="checkbox">
+													</th>
+													<th scope="col">SN</th>
+													<th scope="col">Entry No</th>
+													<th scope="col">Vehicle Reg</th>
+													<th scope="col">Curr</th>
+													<th scope="col">Kra Due</th>
+													<th scope="col">Kebs Due</th>
+													<th scope="col">Other Charges</th>
+													<th scope="col">Total Value</th>
+													<th scope="col">Status</th>
+													<th scope="col">Date</th>
+													<th scope="col">Action</th>
+												</tr>
+											</thead>
+											<tbody>
+												@foreach ($orders as $order)
+												<tr>
+													<td>
+														@if ($order->status == "pending")
+														<input id="checkbox{{ $loop->iteration }}"
+															   type="checkbox"
+															   name="order_ids[]"
+															   value="{{ $order->id  }}"
+															   onchange="setOrderIds({{ $order->id }})" />
+														@endif
+													</td>
+													<td scope="row">
+														{{ $loop->iteration + ($orders->perPage() *
+														($orders->currentPage() - 1)) }}
+													</td>
+													<td>{{ $order->entry_number }}</td>
+													<td>{{ $order->vehicle_registration }}</td>
+													<td>KES</td>
+													<td>{{ $order->kra_due ? number_format($order->kra_due) : '-' }}
+													</td>
+													<td>{{ $order->kebs_due ? number_format($order->kebs_due) : '-' }}
+													</td>
+													<td>{{ $order->other_charges ? number_format($order->other_charges)
+														: '-' }}</td>
+													<td>{{ $order->total_value ? number_format($order->total_value) :
+														'-' }}</td>
+													<td>
+														<span @class(['py-2
+															  px-4
+															  text-capitalize', 
+															  'text-nowrap', 
+															  'bg-secondary-subtle'=> $order->status == 'pending',
+															'bg-primary-subtle' => $order->status == 'invoiced',
+															'bg-warning-subtle' => $order->status == 'partially_paid',
+															'bg-success-subtle' => $order->status == 'paid'
+															])>
+															@foreach (explode("_", $order->status) as $status)
+															{{ $status }}
+															@endforeach
+														</span>
+													</td>
+													<td>{{ $order->date }}</td>
+													<td>
+														<div class="d-flex">
+															<a href="/orders/{{ $order->id }}/edit"
+															   class="btn btn-sm btn-primary">
+																<i class="fa fa-edit"></i>
+															</a>
+															<div class="mx-1">
+																{{-- Confirm Delete Modal End --}}
+																<div class="modal fade"
+																	 id="deleteModal{{ $order->id }}"
+																	 tabIndex="-1"
+																	 aria-labelledby="deleteModalLabel"
+																	 aria-hidden="true">
+																	<div class="modal-dialog">
+																		<div class="modal-content">
+																			<div class="modal-header">
+																				<h1 id="deleteModalLabel"
+																					class="modal-title fs-5 text-danger">
+																					Delete Order
+																				</h1>
+																				<button type="button"
+																						class="btn-close"
+																						data-bs-dismiss="modal"
+																						aria-label="Close"></button>
+																			</div>
+																			<div class="modal-body text-wrap">
+																				Are you sure you want to delete Order.
+																				This process is irreversible.
+																			</div>
+																			<div
+																				 class="modal-footer justify-content-between">
+																				<button type="button"
+																						class="btn btn-light"
+																						data-bs-dismiss="modal">
+																					Close
+																				</button>
+																				<button type="button"
+																						class="btn btn-danger text-white"
+																						data-bs-dismiss="modal"
+																						onclick="event.preventDefault();
+											                                                     document.getElementById('deleteForm{{ $order->id }}').submit();">
+																					Delete
+																				</button>
+																				<form id="deleteForm{{ $order->id }}"
+																					  action="/orders/{{ $order->id }}"
+																					  method="POST"
+																					  style="display: none;">
+																					<input type="hidden"
+																						   name="_method"
+																						   value="DELETE">
+																					@csrf
+																				</form>
+																			</div>
+																		</div>
+																	</div>
+																</div>
+																{{-- Confirm Delete Modal End --}}
+
+																{{-- Button trigger modal --}}
+																<button type="button"
+																		class="btn btn-sm text-white"
+																		style="background-color: gray"
+																		data-bs-toggle="modal"
+																		data-bs-target="#deleteModal{{ $order->id }}">
+																	<i class="fa fa-trash"></i>
+																</button>
+															</div>
+														</div>
+													</td>
+												</tr>
+												@endforeach
+											</tbody>
+										</table>
+									</div>
+								</div>
+								<div class="card-footer">
+									{{ $orders->appends([
+									"user_id" => $request->user_id,
+									"product_id" => $request->product_id,
+									"entry_number" => $request->entry_number,
+									"status" => $request->status,
+									"date" => $request->date,
+									])->links() }}
+								</div>
+							</div>
+						</div>
+						{{-- end basic table --}}
+					</div>
+				</div>
+				{{-- Orders Tab End --}}
+				{{-- Invoices Tab --}}
+				<div class="tab-pane fade"
+					 id="pills-packages"
+					 role="tabpanel"
+					 aria-labelledby="pills-packages-tab">
+					<div class="row">
+						{{-- basic table --}}
+						<div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+							<div class="card">
+								<div class="d-flex justify-content-between card-header">
+									<h3 class="">Invoices</h3>
+								</div>
+								<div class="card-body">
+									<div class="table-responsive">
+										<table class="table">
+											<thead>
+												<tr>
+													<th scope="col">SN</th>
+													<th scope="col">Invoice No</th>
+													<th scope="col">Customer</th>
+													<th scope="col">Status</th>
+													<th scope="col">Amount</th>
+													<th scope="col">Action</th>
+												</tr>
+											</thead>
+											<tbody>
+												@foreach ($invoices as $invoice)
+												<tr>
+													<th scope="row">{{ $loop->iteration + ($invoices->perPage() *
+														($invoices->currentPage() -
+														1)) }}</th>
+													<td>{{ $invoice->id }}</td>
+													<td>{{ $invoice->user->name }}</td>
+													<td>
+														<span @class(["p-2
+															  text-capitalize", "bg-danger-subtle"=> $invoice->status ==
+															"not_paid",
+															"bg-warning-subtle"=> $invoice->status == "partially_paid",
+															"bg-success-subtle" => $invoice->status == "paid",
+															])>
+															@foreach (explode("_", $invoice->status) as $status)
+															{{ $status }}
+															@endforeach
+														</span>
+													</td>
+													<td>{{ $invoice->amount ? number_format($invoice->amount) : '-' }}
+													</td>
+													<td>
+														{{-- Show Invoice --}}
+														<a href="/invoices/{{ $invoice->id }}"
+														   class="btn btn-sm btn-primary me-1">
+															<i class="fa fa-eye"></i>
+														</a>
+														{{-- Show Invoice End --}}
+													</td>
+												</tr>
+												@endforeach
+											</tbody>
+										</table>
+									</div>
+								</div>
+								<div class="card-footer">
+									{{ $invoices->links() }}
+								</div>
+							</div>
+						</div>
+						{{-- end basic table --}}
+					</div>
+				</div>
+				{{-- Invoices Tab End --}}
+				{{-- Payments Tab --}}
+				<div class="tab-pane fade"
+					 id="pills-review"
+					 role="tabpanel"
+					 aria-labelledby="pills-review-tab">
+					<div class="row">
+						{{-- basic table --}}
+						<div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+							{{-- Data --}}
+							<div class="card p-4"
+								 style="color: gray;">
+								<div class="d-flex justify-content-between">
+									{{-- Total --}}
+									<div class="d-flex justify-content-between w-100 align-items-center mx-4">
+										<div>
+											KES <span class="fs-4">{{ $totalPayments }}</span>
+											<h4 style="color: gray;">Total</h4>
+										</div>
+										<div class="border-end py-3 px-4 bg-success-subtle rounded-circle"><i
+											   class="fa fa-dollar-sign fs-1"></i></div>
+									</div>
+									{{-- Total End --}}
+								</div>
+							</div>
+							{{-- Data End --}}
+
+							{{-- Filters --}}
+							<div class="card p-4 d-none"
+								 style="color: gray;">
+								<form action="/payments">
+									<div class="row">
+										<div class="col-sm-9 mb-2"></div>
+										{{-- Date --}}
+										<div class="col-sm-2 mb-2">
+											<input id=""
+												   name="date_received"
+												   type="date"
+												   value="{{ $request->input('date_received') }}"
+												   class="form-control w-100" />
+										</div>
+										{{-- Date End --}}
+										{{-- Search --}}
+										<div class="col-sm-1">
+											<button type="submit"
+													class="btn btn-sm btn-primary ms-auto">
+												<i class="fa fa-search"></i> Search
+											</button>
+										</div>
+										{{-- Search End --}}
+									</div>
+								</form>
+							</div>
+							{{-- Filters End --}}
+
+							<div class="card">
+								<div class="d-flex justify-content-between card-header">
+									<h3>Payments</h3>
+									<div class="d-flex justify-content-between">
+										{{-- <a href="/payments/create"
+										   class="btn btn-primary"><i class="fa fa-pen-square"></i> Create</a> --}}
+									</div>
+								</div>
+								<div class="card-body">
+									<div class="table-responsive">
+										<table class="table">
+											<thead>
+												<tr>
+													<th scope="col">SN</th>
+													<th scope="col">Customer</th>
+													<th scope="col">Transaction Ref</th>
+													<th scope="col">Payment Channel</th>
+													<th scope="col">Curr</th>
+													<th scope="col">Amount</th>
+													<th scope="col">Date</th>
+													<th scope="col">Action</th>
+												</tr>
+											</thead>
+											<tbody>
+												@foreach ($payments as $payment)
+												<tr>
+													<td scope="row">{{ $loop->iteration +
+														($payments->perPage() *
+														($payments->currentPage() - 1)) }}</td>
+													<td>{{ $payment->user->name }}</td>
+													<td>{{ $payment->transaction_reference }}</td>
+													<td>{{ $payment->payment_channel }}</td>
+													<td>KES</td>
+													<td>{{ number_format($payment->amount) }}</td>
+													<td>{{ $payment->date_received }}</td>
+													<td>
+														<div class="d-flex">
+															<a href="/payments/{{ $payment->id }}/edit"
+															   class="btn btn-sm btn-primary">
+																<i class="fa fa-edit"></i>
+															</a>
+															<div class="mx-1">
+																{{-- Confirm Delete Modal End --}}
+																<div class="modal fade"
+																	 id="deleteModal{{ $payment->id }}"
+																	 tabIndex="-1"
+																	 aria-labelledby="deleteModalLabel"
+																	 aria-hidden="true">
+																	<div class="modal-dialog">
+																		<div class="modal-content">
+																			<div class="modal-header">
+																				<h1 id="deleteModalLabel"
+																					class="modal-title fs-5 text-danger">
+																					Delete Payment
+																				</h1>
+																				<button type="button"
+																						class="btn-close"
+																						data-bs-dismiss="modal"
+																						aria-label="Close"></button>
+																			</div>
+																			<div class="modal-body text-wrap">
+																				Are you sure you want to delete Payment.
+																				This process is irreversible.
+																			</div>
+																			<div
+																				 class="modal-footer justify-content-between">
+																				<button type="button"
+																						class="btn btn-light"
+																						data-bs-dismiss="modal">
+																					Close
+																				</button>
+																				<button type="button"
+																						class="btn btn-danger text-white"
+																						data-bs-dismiss="modal"
+																						onclick="event.preventDefault();
+											                                                     document.getElementById('deleteForm{{ $payment->id }}').submit();">
+																					Delete
+																				</button>
+																				<form id="deleteForm{{ $payment->id }}"
+																					  action="/payments/{{ $payment->id }}"
+																					  method="POST"
+																					  style="display: none;">
+																					<input type="hidden"
+																						   name="_method"
+																						   value="DELETE">
+																					@csrf
+																				</form>
+																			</div>
+																		</div>
+																	</div>
+																</div>
+																{{-- Confirm Delete Modal End --}}
+
+																{{-- Button trigger modal --}}
+																<button type="button"
+																		class="btn btn-sm text-white"
+																		style="background-color: gray"
+																		data-bs-toggle="modal"
+																		data-bs-target="#deleteModal{{ $payment->id }}">
+																	<i class="fa fa-trash"></i>
+																</button>
+															</div>
+														</div>
+													</td>
+												</tr>
+												@endforeach
+											</tbody>
+										</table>
+									</div>
+								</div>
+								<div class="card-footer">
+									{{ $payments->appends([
+									"user_id" => $request->user_id,
+									"date_received" => $request->date_received,
+									])->links() }}
+								</div>
+							</div>
+						</div>
+						{{-- end basic table --}}
+					</div>
+				</div>
+				{{-- Payments Tab End --}}
+				<div class="tab-pane fade"
+					 id="pills-msg"
+					 role="tabpanel"
+					 aria-labelledby="pills-msg-tab">
+					<div class="card">
+						<h5 class="card-header">Send Messages</h5>
+						<div class="card-body">
+							<form>
+								<div class="row">
+									<div
+										 class="offset-xl-3 col-xl-6 offset-lg-3 col-lg-3 col-md-12 col-sm-12 col-12 p-4">
+										<div class="form-group">
+											<label for="name">Your Name</label>
+											<input type="text"
+												   class="form-control form-control-lg"
+												   id="name"
+												   placeholder="">
+										</div>
+										<div class="form-group">
+											<label for="email">Your Email</label>
+											<input type="email"
+												   class="form-control form-control-lg"
+												   id="email"
+												   placeholder="">
+										</div>
+										<div class="form-group">
+											<label for="subject">Subject</label>
+											<input type="text"
+												   class="form-control form-control-lg"
+												   id="subject"
+												   placeholder="">
+										</div>
+										<div class="form-group">
+											<label for="messages">Messgaes</label>
+											<textarea class="form-control"
+													  id="messages"
+													  rows="3"></textarea>
+										</div>
+										<button type="submit"
+												class="btn btn-primary float-right">Send Message</button>
+									</div>
+								</div>
+							</form>
+						</div>
+					</div>
+				</div>
 			</div>
 		</div>
+
+		<!-- end campaign tab one -->
+
 	</div>
-	<!-- ============================================================== -->
-	<!-- end campaign activities   -->
-	<!-- ============================================================== -->
+
+	<!-- end campaign data -->
+
 </div>
-<!-- ============================================================== -->
-<!-- recommended campaigns   -->
-<!-- ============================================================== -->
-{{-- <div class="row">
-	<div class="col-lg-12">
-		<div class="section-block">
-			<h3 class="section-title">Recommended Campaigns</h3>
-		</div>
-	</div>
-	<div class="col-xl-3 col-lg-6 col-md-6 col-sm-12 col-12">
-		<div class="card campaign-card text-center">
-			<div class="card-body">
-				<div class="campaign-img"><img src="assets/images/dribbble.png"
-						 alt="user"
-						 class="user-avatar-xl"></div>
-				<div class="campaign-info">
-					<h3 class="mb-1">Campaigns Name</h3>
-					<p class="mb-3">Vestibulum porttitor laoreet faucibus.</p>
-					<p class="mb-1">Min, Views:<span class="text-dark font-medium ml-2">2,50,000</span></p>
-					<p>Payout: <span class="text-dark font-medium ml-2">$22</span></p>
-					<a href="#"><i class="fab fa-twitter-square fa-sm twitter-color"></i> </a><a href="#"><i
-						   class="fab fa-snapchat-square fa-sm snapchat-color"></i></a>
-				</div>
-			</div>
-		</div>
-	</div>
-	<div class="col-xl-3 col-lg-6 col-md-6 col-sm-12 col-12">
-		<div class="card campaign-card text-center">
-			<div class="card-body">
-				<div class="campaign-img"><img src="assets/images/github.png"
-						 alt="user"
-						 class=" user-avatar-xl"></div>
-				<div class="campaign-info">
-					<h3 class="mb-1">Campaigns Name</h3>
-					<p class="mb-3">Lorem ipsum dolor sit ament</p>
-					<p class="mb-1">Min, Views:<span class="text-dark font-medium ml-2">1,00,000</span></p>
-					<p>Payout: <span class="text-dark font-medium ml-2">$28</span></p>
-					<a href="#"><i class="fab fa-instagram fa-sm instagram-color"></i> </a><a href="#"><i
-						   class="fab fa-facebook-square fa-sm facebook-color"></i></a>
-				</div>
-			</div>
-		</div>
-	</div>
-	<div class="col-xl-3 col-lg-6 col-md-6 col-sm-12 col-12">
-		<div class="card campaign-card text-center">
-			<div class="card-body">
-				<div class="campaign-img"><img src="assets/images/slack.png"
-						 alt="user"
-						 class="user-avatar-xl"></div>
-				<div class="campaign-info">
-					<h3 class="mb-1">Campaigns Name</h3>
-					<p class="mb-3">Maecenas mattis tempor libero pretium.</p>
-					<p class="mb-1">Min, Views:<span class="text-dark font-medium ml-2">3,80,000</span></p>
-					<p>Payout: <span class="text-dark font-medium ml-2">$36</span></p>
-					<a href="#"><i class="fab fa-facebook-square fa-sm facebook-color"></i> </a><a href="#"><i
-						   class="fab fa-snapchat-square fa-sm snapchat-color"></i></a>
-				</div>
-			</div>
-		</div>
-	</div>
-	<div class="col-xl-3 col-lg-6 col-md-6 col-sm-12 col-12">
-		<div class="card campaign-card text-center">
-			<div class="card-body">
-				<div class="campaign-img"><img src="assets/images/mail_chimp.png"
-						 alt="user"
-						 class="user-avatar-xl"></div>
-				<div class="campaign-info">
-					<h3 class="mb-1">Campaigns Name</h3>
-					<p class="mb-3">Proin vitae lacinia leo</p>
-					<p class="mb-1">Min, Views:<span class="text-dark font-medium ml-2">4,50,000</span></p>
-					<p>Payout: <span class="text-dark font-medium ml-2">$57</span></p>
-					<a href="#"><i class="fab fa-twitter-square fa-sm twitter-color"></i> </a><a href="#"><i
-						   class="fab fa-snapchat-square fa-sm snapchat-color"></i></a>
-					<a href="#"><i class="fab fa-facebook-square fa-sm facebook-color"></i></a>
-				</div>
-			</div>
-		</div>
-	</div>
-</div> --}}
-<!-- ============================================================== -->
-<!-- end recommended campaigns   -->
-<!-- ============================================================== -->
-<!-- ============================================================== -->
-<!-- end content  -->
-<!-- ============================================================== -->
+
 @endsection

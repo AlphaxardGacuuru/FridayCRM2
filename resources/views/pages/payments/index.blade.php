@@ -79,7 +79,7 @@
 								<td scope="row">{{ $loop->iteration +
 									($payments->perPage() *
 									($payments->currentPage() - 1)) }}</td>
-								<td>{{ $payment->invoice->user->name }}</td>
+								<td>{{ $payment->user->name }}</td>
 								<td>{{ $payment->transaction_reference }}</td>
 								<td>{{ $payment->payment_channel }}</td>
 								<td>KES</td>

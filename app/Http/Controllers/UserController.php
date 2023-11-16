@@ -63,13 +63,37 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show($id, Request $request)
     {
-        [$user, $orders] = $this->service->show($id);
+        [
+            $user,
+            $products,
+            $ordersPendingValue,
+            $ordersPaidValue,
+            $orders,
+            $invoices,
+            $payments,
+            $totalPayments,
+        ] = $this->service->show($id);
+
+        $statuses = [
+            "pending" => "Pending",
+            "invoiced" => "Invoiced",
+            "partially_paid" => "Partially Paid",
+            "paid" => "Paid",
+        ];
 
         return view("/pages/users/show")->with([
             "user" => $user,
+            "products" => $products,
+            "ordersPendingValue" => $ordersPendingValue,
+            "ordersPaidValue" => $ordersPaidValue,
             "orders" => $orders,
+            "statuses" => $statuses,
+            "invoices" => $invoices,
+            "payments" => $payments,
+            "totalPayments" => $totalPayments,
+            "request" => $request,
         ]);
     }
 
@@ -95,9 +119,9 @@ class UserController extends Controller
      */
     public function update(Request $request, $id)
     {
-		$this->validate($request, [
-			"email" => "nullable|string|unique:users"
-		]);
+        $this->validate($request, [
+            "email" => "nullable|string|unique:users",
+        ]);
 
         [$saved, $message, $user] = $this->service->update($request, $id);
 

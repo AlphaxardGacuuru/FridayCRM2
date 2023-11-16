@@ -64,7 +64,7 @@ class InvoiceController extends Controller
      */
     public function show($id)
     {
-        [$invoice, $items] = $this->service->show($id);
+        [$invoice, $items, $users] = $this->service->show($id);
 
         $channels = ["MPESA", "VISA", "MASTERCARD", "CASH"];
 
@@ -73,7 +73,8 @@ class InvoiceController extends Controller
             ->with([
 				"invoice" => $invoice,
 				"items" => $items,
-				"channels" => $channels
+				"channels" => $channels,
+				"users" => $users,
 			]);
     }
 

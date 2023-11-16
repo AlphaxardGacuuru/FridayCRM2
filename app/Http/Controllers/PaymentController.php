@@ -41,7 +41,7 @@ class PaymentController extends Controller
         $channels = $this->service->create();
 
         return view("pages/payments/create")->with([
-			"channels" => $channels
+            "channels" => $channels,
         ]);
     }
 
@@ -56,9 +56,9 @@ class PaymentController extends Controller
         $this->validate($request, [
             "invoice_id" => "string|required",
             "amount" => "string|required",
-			"transaction_reference" => "string",
-			"payment_channel" => "string",
-			"date_received" => "string",
+            "transaction_reference" => "string",
+            "payment_channel" => "string",
+            "date_received" => "string",
         ]);
 
         [$saved, $message, $payment] = $this->service->store($request);
@@ -74,7 +74,7 @@ class PaymentController extends Controller
      */
     public function show($id)
     {
-		// 
+        //
     }
 
     /**
@@ -85,11 +85,12 @@ class PaymentController extends Controller
      */
     public function edit($id)
     {
-        [$payment, $channels] = $this->service->edit($id);
+        [$payment, $users, $channels] = $this->service->edit($id);
 
         return view("/pages/payments/edit")->with([
             "payment" => $payment,
-			"channels" => $channels
+            "users" => $users,
+            "channels" => $channels,
         ]);
     }
 
@@ -105,9 +106,9 @@ class PaymentController extends Controller
         $this->validate($request, [
             "invoice_id" => "nullable|string",
             "amount" => "nullable|string",
-			"transaction_reference" => "nullable|string",
-			"payment_channel" => "nullable|string",
-			"date_received" => "nullable|string",
+            "transaction_reference" => "nullable|string",
+            "payment_channel" => "nullable|string",
+            "date_received" => "nullable|string",
         ]);
 
         [$saved, $message, $payment] = $this->service->update($request, $id);

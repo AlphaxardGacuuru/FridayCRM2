@@ -19,6 +19,22 @@
 					<input type="hidden"
 						   name="_method"
 						   value="PUT">
+					{{-- Customer Channel --}}
+					{{-- <div class="form-group">
+						<label for="userInput"
+							   class="col-form-label">Customer</label>
+						<select id="userInput"
+								name="user_id"
+								class="form-control"
+								required>
+							<option value="">Choose a Customer</option>
+							@foreach ($users as $user)
+							<option value="{{ $user->id }}"
+								{{ $user->id == $payment->user_id ? 'selected' : '' }}>{{ $user->name }}</option>
+							@endforeach
+						</select>
+					</div> --}}
+					{{-- Customer End --}}
 					{{-- Amount --}}
 					<div class="form-group">
 						<label for="amountInput"

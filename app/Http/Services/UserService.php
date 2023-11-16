@@ -4,7 +4,10 @@ namespace App\Http\Services;
 
 use App\Http\Resources\OrderResource;
 use App\Http\Resources\UserResource;
+use App\Models\Invoice;
 use App\Models\Order;
+use App\Models\Payment;
+use App\Models\Product;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
 
@@ -60,11 +63,46 @@ class UserService
 
         $user = new UserResource($user);
 
-        $orders = Order::where("user_id", $id)->paginate(20);
+        $products = Product::select("id", "name")
+            ->orderBy("id", "DESC")
+            ->get();
 
-        $orders = OrderResource::collection($orders);
+        $ordersQuery = Order::where("user_id", $id)
+            ->orderBy("id", "DESC")
+            ->paginate(20);
 
-        return [$user, $orders];
+        $orders = OrderResource::collection($ordersQuery);
+
+        $ordersPendingValue = $ordersQuery
+            ->where("status", "pending")
+            ->sum("total_value");
+
+        $ordersPaidValue = $ordersQuery
+            ->where("status", "paid")
+            ->sum("total_value");
+
+        $invoices = Invoice::where("user_id", $id)
+            ->orderBy("id", "DESC")
+            ->paginate(20);
+
+        $paymentsQuery = Payment::where("user_id", $id);
+
+        $payments = $paymentsQuery
+            ->orderBy("id", "DESC")
+            ->paginate(20);
+
+        $totalPayments = $paymentsQuery->sum("amount");
+
+        return [
+            $user,
+            $products,
+            $ordersPendingValue,
+            $ordersPaidValue,
+            $orders,
+            $invoices,
+			$payments,
+			$totalPayments
+        ];
     }
 
     /*

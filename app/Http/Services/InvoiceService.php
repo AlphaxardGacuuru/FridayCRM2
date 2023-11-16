@@ -2,7 +2,6 @@
 
 namespace App\Http\Services;
 
-use App\Http\Resources\InvoiceItemResource;
 use App\Http\Resources\InvoiceResource;
 use App\Http\Resources\OrderResource;
 use App\Models\Invoice;
@@ -60,12 +59,12 @@ class InvoiceService
         $amount = collect($orderIds)->reduce(function ($carry, $orderId) {
             $order = Order::find($orderId);
 
-			// Update status
-			$order->status = "invoiced";
+            // Update status
+            $order->status = "invoiced";
 
-			$order->save();
-			// Get total value
-			$totalValue = $order->total_value;
+            $order->save();
+            // Get total value
+            $totalValue = $order->total_value;
 
             return $carry + $totalValue;
         });
@@ -105,7 +104,11 @@ class InvoiceService
 
         $invoice = new InvoiceResource($invoice);
 
-        return [$invoice, $items];
+        $users = User::where("account_type", "normal")
+            ->orderBy("id", "DESC")
+            ->get();
+
+        return [$invoice, $items, $users];
     }
 
     /**

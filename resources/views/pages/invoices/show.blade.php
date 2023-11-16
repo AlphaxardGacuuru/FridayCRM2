@@ -43,6 +43,21 @@
 					<input type="hidden"
 						   name="invoice_id"
 						   value="{{ $invoice->id }}">
+					{{-- Customer Channel --}}
+					{{-- <div class="form-group">
+						<label for="userInput"
+							   class="col-form-label">Customer</label>
+						<select id="userInput"
+								name="user_id"
+								class="form-control"
+								required>
+							<option value="">Choose a Customer</option>
+							@foreach ($users as $user)
+							<option value="{{ $user->id }}">{{ $user->name }}</option>
+							@endforeach
+						</select>
+					</div> --}}
+					{{-- Customer End --}}
 					{{-- Amount --}}
 					<div class="form-group">
 						<label for="amountInput"
@@ -157,9 +172,12 @@
 							<tr>
 								<th class="center"
 									style="background-color: white;">SN</th>
-								<th class="text-center" style="background-color: white;">Entry No</th>
-								<th class="text-center" style="background-color: white;">Vehicle Reg</th>
-								<th class="text-center" style="background-color: white;">Date</th>
+								<th class="text-center"
+									style="background-color: white;">Entry No</th>
+								<th class="text-center"
+									style="background-color: white;">Vehicle Reg</th>
+								<th class="text-center"
+									style="background-color: white;">Date</th>
 								<th class="right text-right"
 									style="background-color: white;">Total</th>
 							</tr>
@@ -169,9 +187,12 @@
 							<tr>
 								<td class="center"
 									style="background-color: white;">{{ $loop->iteration }}</td>
-								<td class="text-center" style="background-color: white;">{{ $item->entry_number }}</td>
-								<td class="text-center" style="background-color: white;">{{ $item->vehicle_registration }}</td>
-								<td class="text-center" style="background-color: white;">{{ $item->date }}</td>
+								<td class="text-center"
+									style="background-color: white;">{{ $item->entry_number }}</td>
+								<td class="text-center"
+									style="background-color: white;">{{ $item->vehicle_registration }}</td>
+								<td class="text-center"
+									style="background-color: white;">{{ $item->date }}</td>
 								<td class="right text-right"
 									style="background-color: white;">{{ $item->total_value ?
 									number_format($item->total_value, 2) : '-' }}

@@ -175,11 +175,11 @@
 								<td>
 									<span @class(['py-2
 										  px-4
-										  text-capitalize',
-										  'bg-secondary-subtle' => $order->status == 'pending',
-										  'bg-success-subtle' => $order->status == 'invoiced',
-										  'bg-warning-subtle' => $order->status == 'partially_paid',
-										  'bg-success-subtle' => $order->status == 'paid'
+										  text-capitalize', 
+										'bg-secondary-subtle'=> $order->status == 'pending',
+										'bg-primary-subtle' => $order->status == 'invoiced',
+										'bg-warning-subtle' => $order->status == 'partially_paid',
+										'bg-success-subtle' => $order->status == 'paid'
 										])>
 										@foreach (explode("_", $order->status) as $status)
 										{{ $status }}

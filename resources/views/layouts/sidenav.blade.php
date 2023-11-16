@@ -40,12 +40,6 @@
 							<i class="fa fa-shopping-bag mb-1"></i>Products
 						</a>
 					</li>
-					<li class="nav-item">
-						<a class="nav-link {{ preg_match('/payments/', request()->url()) ? 'active' : '' }}"
-						   href="/payments">
-							<i class="fa fa-credit-card mb-1"></i>Payments
-						</a>
-					</li>
 					{{-- <li class="nav-item">
 						<a class="nav-link {{ request()->is('statements') ? 'active' : '' }}"
 						   href="/statements">
@@ -56,6 +50,12 @@
 						<a class="nav-link {{ preg_match('/invoices/', request()->url()) ? 'active' : '' }}"
 						   href="/invoices">
 							<i class="fa fa-dollar-sign mb-1"></i>Invoices
+						</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link {{ preg_match('/payments/', request()->url()) ? 'active' : '' }}"
+						   href="/payments">
+							<i class="fa fa-credit-card mb-1"></i>Payments
 						</a>
 					</li>
 					{{--<li class="nav-item ">
