@@ -41,6 +41,7 @@
 		  href="{{ asset('assets/vendor/charts/c3charts/c3.css') }}">
 	<link rel="stylesheet"
 		  href="{{ asset('assets/vendor/fonts/flag-icon-css/flag-icon.min.css') }}">
+
 </head>
 
 <body>
@@ -58,7 +59,7 @@
 			<div class="container-fluid  dashboard-content">
 
 				@auth @include('layouts/page-header') @endauth
-				
+
 				<div class="row">
 					<div class="col-sm-4"></div>
 					<div class="col-sm-4">

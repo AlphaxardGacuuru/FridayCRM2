@@ -131,11 +131,12 @@
 			data-bs-target="#paymentModal">
 		<i class="fa fa-pen-square"></i> Add Payment
 	</button>
-	<button class="btn btn-secondary me-5"><i class="fa fa-print"></i> Print</button>
+	<button class="btn btn-secondary me-5"
+			onclick="printInvoice()"><i class="fa fa-print"></i> Print</button>
 </div>
 {{-- Create Link End --}}
 
-<div class="row">
+<div id="contentToPrint" class="row">
 	<div class="offset-xl-2 col-xl-8 col-lg-12 col-md-12 col-sm-12 col-12">
 		<div class="card p-5">
 			<div class="card-header p-4 border-0">
@@ -229,4 +230,17 @@
 		</div>
 	</div>
 </div>
+
+<script>
+	function printInvoice() {
+	var contentToPrint = document.getElementById('contentToPrint').innerHTML;
+	var originalBody = document.body.innerHTML;
+	
+	document.body.innerHTML = contentToPrint;
+	
+	window.print();
+	
+	document.body.innerHTML = originalBody;
+	}
+</script>
 @endsection
