@@ -8,6 +8,7 @@ use App\Models\Invoice;
 use App\Models\Order;
 use App\Models\Product;
 use App\Models\User;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 
 class InvoiceService
@@ -43,46 +44,6 @@ class InvoiceService
     }
 
     /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store($request)
-    {
-        // Get User ID
-        $orderIds = json_decode($request->input("order_ids"));
-
-        $userId = Order::find($orderIds[0])->user_id;
-
-        // Get Amount
-        $amount = collect($orderIds)->reduce(function ($carry, $orderId) {
-            $order = Order::find($orderId);
-
-            // Update status
-            $order->status = "invoiced";
-
-            $order->save();
-            // Get total value
-            $totalValue = $order->total_value;
-
-            return $carry + $totalValue;
-        });
-
-        $invoice = new Invoice;
-        $invoice->invoice_number = "INV-" . Str::uuid();
-        $invoice->user_id = $userId;
-        $invoice->order_ids = $orderIds;
-        $invoice->amount = $amount;
-
-        $saved = $invoice->save();
-
-        $message = "Invoice created successfully";
-
-        return [$saved, $message, $invoice];
-    }
-
-    /**
      * Display the specified resource.
      *
      * @param  int  $id
@@ -109,6 +70,57 @@ class InvoiceService
             ->get();
 
         return [$invoice, $items, $users];
+    }
+
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function store($request)
+    {
+        // Get Order IDs
+        $decodedOrderIds = json_decode($request->input("order_ids"));
+
+        $orderIdIsAll = $decodedOrderIds[0] == "all";
+
+        // Get Order Ids from the database
+        if ($orderIdIsAll) {
+            $orderIds = $this->getAllOrderIds($request);
+        } else {
+			$orderIds = $decodedOrderIds;
+        }
+
+        $userId = Order::find($orderIds[0])->user_id;
+
+        // Get Amount
+        $amount = DB::transaction(function () use ($orderIds) {
+            return collect($orderIds)->reduce(function ($carry, $orderId) {
+                $order = Order::find($orderId);
+
+                // Update status
+                $order->status = "invoiced";
+
+                $order->save();
+                // Get total value
+                $totalValue = $order->total_value;
+
+                return $carry + $totalValue;
+            });
+        });
+
+        $invoice = new Invoice;
+        $invoice->invoice_number = "INV-" . Str::uuid();
+        $invoice->user_id = $userId;
+        $invoice->order_ids = $orderIds;
+        $invoice->amount = $amount;
+
+        $saved = $invoice->save();
+
+        $message = "Invoice created successfully";
+
+        return [$saved, $message, $invoice];
     }
 
     /**
@@ -187,18 +199,6 @@ class InvoiceService
     }
 
     /*
-     * Get Invoices
-     */
-    public function invoiceIndex()
-    {
-        $invoices = Invoice::where("status", "pending")
-            ->orderBy("id", "DESC")
-            ->paginate(20);
-
-        return InvoiceResource::collection($invoices);
-    }
-
-    /*
      * Handle Invoices Search
      */
     public function invoices($request)
@@ -230,5 +230,31 @@ class InvoiceService
             ->paginate(20);
 
         return InvoiceResource::collection($invoices);
+    }
+
+    /*
+     * Get All Order IDs
+     */
+    public function getAllOrderIds($request)
+    {
+        $orderQuery = Order::select("id")->where("status", "pending");
+
+        if ($request->filled("date")) {
+            $orderQuery = $orderQuery->whereDate("date", $request->date);
+        }
+
+        if ($request->filled("entry_number")) {
+            $orderQuery = $orderQuery->where("entry_number", $request->entry_number);
+        }
+
+        if ($request->filled("product_id")) {
+            $orderQuery = $orderQuery->where("product_id", $request->product_id);
+        }
+
+        if ($request->filled("user_id")) {
+            $orderQuery = $orderQuery->where("user_id", $request->user_id);
+        }
+
+        return $orderQuery->get()->map(fn($id) => $id->id);
     }
 }

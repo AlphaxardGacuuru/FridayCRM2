@@ -6,6 +6,9 @@
 	<meta name="viewport"
 		  content="width=device-width, initial-scale=1">
 
+		  {{-- Favicon --}}
+		  <link rel="icon" href="/storage/img/Bulk Black Logo 800x600.png">
+
 	<!-- CSRF Token -->
 	<meta name="csrf-token"
 		  content="{{ csrf_token() }}">

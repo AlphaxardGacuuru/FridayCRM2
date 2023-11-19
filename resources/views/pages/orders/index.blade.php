@@ -130,6 +130,16 @@
 			</div>
 			<div class="card-body">
 				<div class="table-responsive">
+					{{-- Clear Checkboxes --}}
+					<button id="countBtn"
+							class="btn btn-outline-primary d-none mb-2 me-2">
+					</button>
+					<button id="clearBtn"
+							class="btn btn-primary d-none mb-2"
+							onclick="clearAll()">
+						Clear
+					</button>
+					{{-- Clear Checkboxes End --}}
 					<table class="table">
 						<thead>
 							<tr>
@@ -155,11 +165,11 @@
 							<tr>
 								<td>
 									@if ($order->status == "pending")
-									<input id="checkbox{{ $loop->iteration }}"
+									<input id="checkbox{{ $order->id }}"
 										   type="checkbox"
 										   name="order_ids[]"
 										   value="{{ $order->id  }}"
-										   onchange="setOrderIds({{ $order->id }})" />
+										   onclick="setOrderIds({{ $order->id }})" />
 									@endif
 								</td>
 								<td scope="row">
@@ -175,8 +185,7 @@
 								<td>
 									<span @class(['py-2
 										  px-4
-										  text-capitalize', 
-										'bg-secondary-subtle'=> $order->status == 'pending',
+										  text-capitalize', 'bg-secondary-subtle'=> $order->status == 'pending',
 										'bg-primary-subtle' => $order->status == 'invoiced',
 										'bg-warning-subtle' => $order->status == 'partially_paid',
 										'bg-success-subtle' => $order->status == 'paid'
@@ -276,33 +285,83 @@
 </div>
 
 <script>
-	var orderIds = []
+	var storageOrderIds = () => {
+		var storageOrderIds = sessionStorage.getItem("orderIds")
+		
+		return storageOrderIds ? JSON.parse(storageOrderIds) : []
+	}
+
+	var orderIds = storageOrderIds()
 
 	/*
 	* Toggle Create Invoice Button
 	*/ 
-	var toggleCreateInvoiceBtn = () => {
-		// Toggle Create Invoice visibility
-		if (orderIds.length > 0) {
-		document.getElementById('invoiceBtn').classList.remove('d-none')
+	var toggleBtns = () => {
+		// Toggle Create Invoice, Count and Clear buttons visibility
+		if (storageOrderIds().length > 0) {
+			document.getElementById('invoiceBtn').classList.remove('d-none')
+			document.getElementById("clearBtn").classList.remove("d-none")
+			document.getElementById("countBtn").classList.remove("d-none")
+			document.getElementById("countBtn").innerText = storageOrderIds().length + " selected"
 		} else {
-		document.getElementById('invoiceBtn').classList.add('d-none')
+			document.getElementById('invoiceBtn').classList.add('d-none')
+			document.getElementById("clearBtn").classList.add("d-none")
+			document.getElementById("countBtn").classList.add("d-none")
 		}
 	}
 
 	/*
-	* Handle Setting Order Ids
+	* Check checkbox inputs on load based on session storage
 	*/ 
-	var setOrderIds = (id) => {
-		var exists = orderIds.some((orderId) => orderId == id)
+	if (orderIds.length > 0 && orderIds[0] != "all") {
+		// Toggle Buttons
+		toggleBtns()
 
-		if (exists) {
-			orderIds = orderIds.filter((orderId) => orderId != id)
-		} else {
-			orderIds.push(id)
-		}
+		// Check boxes
+		orderIds.forEach((orderId)=> {
+			var checkboxInput = document.getElementById(`checkbox${orderId}`)
 
-		toggleCreateInvoiceBtn()
+			if (checkboxInput) {
+				checkboxInput.checked = true
+			}
+		})
+	} 
+
+	/*
+	* Check all inputs on load based on session storage
+	*/
+	if (orderIds[0] == "all") {
+		// Select all input elements with IDs containing the word "checkbox"
+		document.getElementById("checkAllInput").checked = true
+
+		const checkboxInputs = document.querySelectorAll('input[id*="checkbox"]');
+		
+		// Do something with the selected elements, for example, log their IDs
+		checkboxInputs.forEach((input) => {
+			input.checked = true
+			
+			// Toggle buttons
+			toggleBtns()
+			document.getElementById("countBtn").innerText = "All selected"
+		})
+	}
+
+	/*
+	* Clear All checkboxes
+	*/ 
+	var clearAll = () => {
+		// Set orderIds to all in Session Storage
+		sessionStorage.removeItem("orderIds")
+
+		// Toggle buttons
+		toggleBtns()
+		
+		// Select all input elements with IDs containing the word "checkbox"
+		document.getElementById("checkAllInput").checked = false
+
+		const checkboxInputs = document.querySelectorAll('input[id*="checkbox"]');
+		
+		checkboxInputs.forEach(input => input.checked = false);
 	}
 
 	/*
@@ -311,46 +370,110 @@
 	var checkAllInput = document.getElementById('checkAllInput')
 
 	checkAllInput.addEventListener('click', (e) => {
+
+		if (e.target.checked) {
+			// Set orderIds to all in Session Storage
+			sessionStorage.setItem("orderIds", JSON.stringify(["all"]))
+			
+			// Toggle buttons
+			toggleBtns()
+
+			document.getElementById("countBtn").innerText = "All selected"
+		} else {
+			// Set orderIds to all in Session Storage
+			sessionStorage.removeItem("orderIds")
+			
+			toggleBtns()
+		}
+
 		// Select all input elements with IDs containing the word "checkbox"
 		const checkboxInputs = document.querySelectorAll('input[id*="checkbox"]');
 		
 		// Do something with the selected elements, for example, log their IDs
-		checkboxInputs.forEach(input => {
+		checkboxInputs.forEach((input) => {
 			if (e.target.checked) {
 				input.checked = true
-				// Fill orderIds
-				orderIds.push(input.value)
 			} else {
 				input.checked = false
-				// Empty orderIds
-				orderIds = []
 			}
 		});
-
-		toggleCreateInvoiceBtn()
 	})
+
+	/*
+	* Handle Setting Order Ids
+	*/ 
+	var setOrderIds = (id) => {
+		// Check if all are selected and deselect
+
+		var allAreSelected = storageOrderIds()[0] == "all"
+		
+		if (allAreSelected) {
+			document.getElementById("checkAllInput").checked = false
+			
+			document.querySelectorAll('input[id*="checkbox"]')
+				.forEach((input) => input.checked = false)
+
+			// Remove OrderIds from session
+			sessionStorage.removeItem("orderIds")
+
+			// Toggle buttons
+			toggleBtns()
+		} else {
+			var orderIds = storageOrderIds()
+
+			var exists = orderIds.some((orderId) => orderId == id)
+			
+			if (exists) {
+				orderIds = orderIds.filter((orderId) => orderId != id)
+			} else {
+				orderIds.push(id)
+			}
+			
+			// Set orderIds to all in Session Storage
+			sessionStorage.setItem("orderIds", JSON.stringify(orderIds))
+			
+			// Show counter and clear
+			toggleBtns()
+		}
+	}
 
 	/*
 	* Submit Form
 	*/ 
 	var onCreateInvoice = () => {
-		var formData = new FormData
-		formData.append("order_ids", JSON.stringify(orderIds))
 
-		        // Send a POST request using Fetch API
-		        fetch('/invoices', {
-		            method: "POST",
-		            body: formData,
-		            headers: {
-		                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content
-		            },
-		        }).then((res) => {
-					// Redirect on success
-					window.location.href = "/invoices"
-		        }).catch((err) => {
-		            // Handle any errors that occurred during the fetch.
-		            console.error(err);
-		        });
+		// Get Url params
+		const urlParams = new URLSearchParams(window.location.search);
+		const user_id = urlParams.get('user_id');
+		const product_id = urlParams.get('product_id');
+		const entry_number = urlParams.get('entry_number');
+		const status = urlParams.get('status');
+		const date = urlParams.get('date');
+
+		var formData = new FormData
+		formData.append("order_ids", sessionStorage.getItem("orderIds"))
+		user_id && formData.append("user_id", user_id)
+		product_id && formData.append("product_id", product_id)
+		entry_number && formData.append("entry_number", entry_number)
+		status && formData.append("status", status)
+		date && formData.append("date", date)
+
+	    // Send a POST request using Fetch API
+	    fetch('/invoices', {
+	        method: "POST",
+	        body: formData,
+	        headers: {
+	            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content
+	        },
+	    }).then((res) => {
+			// Clear Session Storage
+			sessionStorage.removeItem("orderIds")
+			// Redirect on success
+			window.location.href = "/invoices"
+	    }).catch((err) => {
+	        // Handle any errors that occurred during the fetch.
+	        console.error(err);
+	    });
 	}
 </script>
 @endsection
