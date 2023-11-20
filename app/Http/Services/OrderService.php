@@ -220,7 +220,7 @@ class OrderService
 
         $orders = $ordersQuery
             ->orderBy("date", "DESC")
-            ->paginate(50);
+            ->paginate($request->pagination ? $request->pagination : 50);
 
         $orders = OrderResource::collection($orders);
 

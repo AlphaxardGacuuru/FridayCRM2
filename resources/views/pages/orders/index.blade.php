@@ -271,13 +271,27 @@
 				</div>
 			</div>
 			<div class="card-footer">
-				{{ $orders->appends([
-				"user_id" => $request->user_id,
-				"product_id" => $request->product_id,
-				"entry_number" => $request->entry_number,
-				"status" => $request->status,
-				"date" => $request->date,
-				])->links() }}
+				<div class="d-flex justify-content-between flex-wrap">
+					{{ $orders->appends([
+					"user_id" => $request->user_id,
+					"product_id" => $request->product_id,
+					"entry_number" => $request->entry_number,
+					"status" => $request->status,
+					"date" => $request->date,
+					])->links() }}
+					{{-- Increase pagination --}}
+					<nav>
+						<ul class="pagination">
+							<li class="page-item"><span class="page-link">Show per page</span></li>
+							<li class="page-item"
+								onclick="onPagination(20)"><span class="page-link">20</span>
+							</li>
+							<li class="page-item" onclick="onPagination(50)"><span class="page-link">50</span></li>
+							<li class="page-item" onclick="onPagination(100)"><span class="page-link">100</span></li>
+						</ul>
+					</nav>
+					{{-- Increase pagination End --}}
+				</div>
 			</div>
 		</div>
 	</div>
@@ -474,6 +488,30 @@
 	        // Handle any errors that occurred during the fetch.
 	        console.error(err);
 	    });
+	}
+
+	/*
+	* Handle Pagination
+	*/ 
+	var onPagination = (int) => {
+		// Get the current URL
+		const currentUrl = window.location.href;
+		
+		// Extract the query string from the current URL
+		const queryString = currentUrl.split('?')[1];
+		
+		// Create a new URLSearchParams object with the extracted query string
+		const params = new URLSearchParams(queryString);
+		
+		// Append or modify parameters as needed
+		params.set('pagination', int);
+		// params.set('param1', 'updatedValue');
+		
+		// Reconstruct the URL with updated parameters
+		const baseUrl = currentUrl.split('?')[0];
+		const finalUrl = baseUrl + '?' + params.toString();
+		
+		window.location.href = finalUrl
 	}
 </script>
 @endsection
