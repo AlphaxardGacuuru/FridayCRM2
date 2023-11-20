@@ -100,9 +100,9 @@
 							   class="form-control w-100" />
 
 
-						<input type="text"
+						{{-- <input type="text"
 							   name="daterange"
-							   value="01/01/2015 - 01/31/2015" />
+							   value="01/01/2015 - 01/31/2015" /> --}}
 					</div>
 					{{-- Date End --}}
 					{{-- Search --}}
