@@ -213,9 +213,12 @@ class OrderService
                 ->where("status", $request->input("status"));
         }
 
-        if ($request->filled("date")) {
+        if ($request->filled("daterange")) {
+            $dateRange = explode("+-+-", $request->input("daterange"));
+            $dateRange = explode(" - ", $dateRange[0]);
+
             $ordersQuery = $ordersQuery
-                ->whereDate("date", $request->input("date"));
+                ->whereBetween("date", $dateRange);
         }
 
         $orders = $ordersQuery

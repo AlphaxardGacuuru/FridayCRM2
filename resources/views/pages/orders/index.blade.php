@@ -35,6 +35,15 @@
 			 style="color: gray;">
 			<form action="/orders">
 				<div class="row">
+					{{-- Date --}}
+					<div class="col-sm-2 mb-2">
+						<input id=""
+							   name="daterange"
+							   type="text"
+							   value="{{ $request->input('date') }}"
+							   class="form-control w-100" />
+					</div>
+					{{-- Date End --}}
 					<div class="col-sm-2 mb-2">
 						<select id=""
 								name="user_id"
@@ -91,20 +100,6 @@
 						</select>
 					</div>
 					{{-- Status End --}}
-					{{-- Date --}}
-					<div class="col-sm-2 mb-2">
-						<input id=""
-							   name="date"
-							   type="date"
-							   value="{{ $request->input('date') }}"
-							   class="form-control w-100" />
-
-
-						{{-- <input type="text"
-							   name="daterange"
-							   value="01/01/2015 - 01/31/2015" /> --}}
-					</div>
-					{{-- Date End --}}
 					{{-- Search --}}
 					<div class="col-sm-2">
 						<button type="submit"
@@ -282,7 +277,7 @@
 					"product_id" => $request->product_id,
 					"entry_number" => $request->entry_number,
 					"status" => $request->status,
-					"date" => $request->date,
+					"daterange" => $request->daterange,
 					])->links() }}
 					{{-- Increase pagination --}}
 					<nav>
@@ -469,7 +464,7 @@
 		const product_id = urlParams.get('product_id');
 		const entry_number = urlParams.get('entry_number');
 		const status = urlParams.get('status');
-		const date = urlParams.get('date');
+		const daterange = urlParams.get('daterange');
 
 		var formData = new FormData
 		formData.append("order_ids", sessionStorage.getItem("orderIds"))
@@ -477,7 +472,7 @@
 		product_id && formData.append("product_id", product_id)
 		entry_number && formData.append("entry_number", entry_number)
 		status && formData.append("status", status)
-		date && formData.append("date", date)
+		daterange && formData.append("daterange", daterange)
 
 	    // Send a POST request using Fetch API
 	    fetch('/invoices', {

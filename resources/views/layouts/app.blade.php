@@ -105,10 +105,12 @@
 	<script src="{{ asset('assets/vendor/charts/c3charts/d3-5.4.0.min.js') }}"></script>
 	<script src="{{ asset('assets/vendor/charts/c3charts/C3chartjs.js') }}"></script>
 	<script src="{{ asset('assets/libs/js/dashboard-ecommerce.js') }}"></script>
+	{{-- Date Range Picker --}}
+	<script src="{{ asset('assets/libs/js/date-range-picker.js') }}"></script>
 
 	<!-- Include Required Prerequisites -->
-	<script type="text/javascript"
-			src="//cdn.jsdelivr.net/jquery/1/jquery.min.js"></script>
+	{{-- <script type="text/javascript"
+			src="//cdn.jsdelivr.net/jquery/1/jquery.min.js"></script> --}}
 	<script type="text/javascript"
 			src="//cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
 	{{--
