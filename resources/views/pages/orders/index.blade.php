@@ -98,6 +98,11 @@
 							   type="date"
 							   value="{{ $request->input('date') }}"
 							   class="form-control w-100" />
+
+
+						<input type="text"
+							   name="daterange"
+							   value="01/01/2015 - 01/31/2015" />
 					</div>
 					{{-- Date End --}}
 					{{-- Search --}}
@@ -286,8 +291,10 @@
 							<li class="page-item"
 								onclick="onPagination(20)"><span class="page-link">20</span>
 							</li>
-							<li class="page-item" onclick="onPagination(50)"><span class="page-link">50</span></li>
-							<li class="page-item" onclick="onPagination(100)"><span class="page-link">100</span></li>
+							<li class="page-item"
+								onclick="onPagination(50)"><span class="page-link">50</span></li>
+							<li class="page-item"
+								onclick="onPagination(100)"><span class="page-link">100</span></li>
 						</ul>
 					</nav>
 					{{-- Increase pagination End --}}
@@ -513,5 +520,6 @@
 		
 		window.location.href = finalUrl
 	}
+
 </script>
 @endsection

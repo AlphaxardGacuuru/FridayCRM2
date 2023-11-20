@@ -6,8 +6,9 @@
 	<meta name="viewport"
 		  content="width=device-width, initial-scale=1">
 
-		  {{-- Favicon --}}
-		  <link rel="icon" href="/storage/img/Bulk Black Logo 800x600.png">
+	{{-- Favicon --}}
+	<link rel="icon"
+		  href="/storage/img/Bulk Black Logo 800x600.png">
 
 	<!-- CSRF Token -->
 	<meta name="csrf-token"
@@ -48,7 +49,10 @@
 </head>
 
 <body>
+	@yield('login')
+
 	<div class="dashboard-main-wrapper">
+
 		@auth
 		{{-- Top Nav --}}
 		@include('layouts/topnav')
@@ -101,6 +105,23 @@
 	<script src="{{ asset('assets/vendor/charts/c3charts/d3-5.4.0.min.js') }}"></script>
 	<script src="{{ asset('assets/vendor/charts/c3charts/C3chartjs.js') }}"></script>
 	<script src="{{ asset('assets/libs/js/dashboard-ecommerce.js') }}"></script>
+
+	<!-- Include Required Prerequisites -->
+	<script type="text/javascript"
+			src="//cdn.jsdelivr.net/jquery/1/jquery.min.js"></script>
+	<script type="text/javascript"
+			src="//cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
+	{{--
+	<link rel="stylesheet"
+		  type="text/css"
+		  href="//cdn.jsdelivr.net/bootstrap/3/css/bootstrap.css" /> --}}
+
+	<!-- Include Date Range Picker -->
+	<script type="text/javascript"
+			src="//cdn.jsdelivr.net/bootstrap.daterangepicker/2/daterangepicker.js"></script>
+	<link rel="stylesheet"
+		  type="text/css"
+		  href="//cdn.jsdelivr.net/bootstrap.daterangepicker/2/daterangepicker.css" />
 </body>
 
 </html>
