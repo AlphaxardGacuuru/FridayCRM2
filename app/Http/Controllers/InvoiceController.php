@@ -107,8 +107,12 @@ class InvoiceController extends Controller
      * @param  \App\Models\Invoice  $invoice
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Invoice $invoice)
+    public function destroy($id)
     {
-        //
+        [$deleted, $message, $invoice] = $this->service->destroy($id);
+
+		return redirect("/invoices")->with([
+			"success" => $message,
+		]);
     }
 }

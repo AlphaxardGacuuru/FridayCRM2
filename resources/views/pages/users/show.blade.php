@@ -74,7 +74,7 @@
 					   aria-controls="pills-packages"
 					   aria-selected="false">Invoices</a>
 				</li>
-				<li class="nav-item">
+				<li class="nav-item me-2">
 					<a class="nav-link"
 					   id="pills-review-tab"
 					   data-toggle="pill"
@@ -83,15 +83,15 @@
 					   aria-controls="pills-review"
 					   aria-selected="false">Payments</a>
 				</li>
-				{{-- <li class="nav-item">
+				<li class="nav-item">
 					<a class="nav-link"
 					   id="pills-msg-tab"
 					   data-toggle="pill"
 					   href="#pills-msg"
 					   role="tab"
 					   aria-controls="pills-msg"
-					   aria-selected="false">Send Messages</a>
-				</li> --}}
+					   aria-selected="false">Statements</a>
+				</li>
 			</ul>
 			<div class="tab-content"
 				 id="pills-tabContent">
@@ -265,9 +265,8 @@
 													<td>
 														<span @class(['py-2
 															  px-4
-															  text-capitalize', 
-															  'text-nowrap', 
-															  'bg-secondary-subtle'=> $order->status == 'pending',
+															  text-capitalize', 'text-nowrap'
+															  , 'bg-secondary-subtle'=> $order->status == 'pending',
 															'bg-primary-subtle' => $order->status == 'invoiced',
 															'bg-warning-subtle' => $order->status == 'partially_paid',
 															'bg-success-subtle' => $order->status == 'paid'
@@ -614,52 +613,63 @@
 					</div>
 				</div>
 				{{-- Payments Tab End --}}
+				{{-- Statements Tab --}}
 				<div class="tab-pane fade"
 					 id="pills-msg"
 					 role="tabpanel"
 					 aria-labelledby="pills-msg-tab">
-					<div class="card">
-						<h5 class="card-header">Send Messages</h5>
-						<div class="card-body">
-							<form>
-								<div class="row">
-									<div
-										 class="offset-xl-3 col-xl-6 offset-lg-3 col-lg-3 col-md-12 col-sm-12 col-12 p-4">
-										<div class="form-group">
-											<label for="name">Your Name</label>
-											<input type="text"
-												   class="form-control form-control-lg"
-												   id="name"
-												   placeholder="">
-										</div>
-										<div class="form-group">
-											<label for="email">Your Email</label>
-											<input type="email"
-												   class="form-control form-control-lg"
-												   id="email"
-												   placeholder="">
-										</div>
-										<div class="form-group">
-											<label for="subject">Subject</label>
-											<input type="text"
-												   class="form-control form-control-lg"
-												   id="subject"
-												   placeholder="">
-										</div>
-										<div class="form-group">
-											<label for="messages">Messgaes</label>
-											<textarea class="form-control"
-													  id="messages"
-													  rows="3"></textarea>
-										</div>
-										<button type="submit"
-												class="btn btn-primary float-right">Send Message</button>
+					<div class="row">
+						{{-- basic table --}}
+						<div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+							<div class="card">
+								<div class="d-flex justify-content-between card-header">
+									<h3>Statements</h3>
+									<div class="d-flex justify-content-between">
+										{{-- <a href="/payments/create"
+										   class="btn btn-primary"><i class="fa fa-pen-square"></i> Create</a> --}}
 									</div>
 								</div>
-							</form>
+								<div class="card-body">
+									<div class="table-responsive">
+										<table class="table">
+											<thead>
+												<tr>
+													<th>SN</th>
+													<th>Type</th>
+													<th>Date</th>
+													<th>Debit</th>
+													<th>Credit</th>
+													<th>Balance</th>
+												</tr>
+											</thead>
+											<tbody>
+												@foreach ($statements as $statement)
+												<tr>
+													<td scope="row">{{ $loop->iteration +
+														($statements->perPage() *
+														($statements->currentPage() - 1)) }}</td>
+													<td>{{ $statement->transaction_reference }}</td>
+													<td>{{ $statement->statement_channel }}</td>
+													<td>KES</td>
+													<td>{{ number_format($statement->amount) }}</td>
+													<td>{{ $statement->date_received }}</td>
+												</tr>
+												@endforeach
+											</tbody>
+										</table>
+									</div>
+								</div>
+								<div class="card-footer">
+									{{ $statements->appends([
+									"user_id" => $request->user_id,
+									"date_received" => $request->date_received,
+									])->links() }}
+								</div>
+							</div>
 						</div>
 					</div>
 				</div>
+				{{-- Statements Tab End --}}
 			</div>
 		</div>
 

@@ -74,6 +74,7 @@ class UserController extends Controller
             $invoices,
             $payments,
             $totalPayments,
+			$statements
         ] = $this->service->show($id);
 
         $statuses = [
@@ -93,6 +94,7 @@ class UserController extends Controller
             "invoices" => $invoices,
             "payments" => $payments,
             "totalPayments" => $totalPayments,
+			"statements" => $statements,
             "request" => $request,
         ]);
     }

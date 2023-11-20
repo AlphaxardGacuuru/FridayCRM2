@@ -93,6 +93,11 @@ class UserService
 
         $totalPayments = $paymentsQuery->sum("amount");
 
+        $statements = Order::join('payments', 'orders.user_id', '=', 'payments.user_id')
+            ->orderBy('orders.date')
+            ->orderBy('payments.date_received')
+            ->paginate(20);
+
         return [
             $user,
             $products,
@@ -100,8 +105,9 @@ class UserService
             $ordersPaidValue,
             $orders,
             $invoices,
-			$payments,
-			$totalPayments
+            $payments,
+            $totalPayments,
+			$statements
         ];
     }
 

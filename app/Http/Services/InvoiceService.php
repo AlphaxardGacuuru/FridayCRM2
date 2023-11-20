@@ -89,7 +89,7 @@ class InvoiceService
         if ($orderIdIsAll) {
             $orderIds = $this->getAllOrderIds($request);
         } else {
-			$orderIds = $decodedOrderIds;
+            $orderIds = $decodedOrderIds;
         }
 
         $userId = Order::find($orderIds[0])->user_id;
@@ -189,13 +189,20 @@ class InvoiceService
      */
     public function destroy($id)
     {
-        $getInvoice = Invoice::findOrFail($id);
+        $invoice = Invoice::findOrFail($id);
 
-        $deleted = $getInvoice->delete();
+        // Change Orders statuses back to pending
+        foreach ($invoice->order_ids as $orderId) {
+            $order = Order::find($orderId);
+            $order->status = "pending";
+            $order->save();
+        }
+
+        $deleted = $invoice->delete();
 
         $message = "Invoice deleted successfully";
 
-        return [$deleted, $message, $getInvoice];
+        return [$deleted, $message, $invoice];
     }
 
     /*
