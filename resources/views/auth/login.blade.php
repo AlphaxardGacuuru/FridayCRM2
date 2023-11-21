@@ -2,10 +2,11 @@
 
 @section('login')
 <div style="
-	background: url('/storage/img/logistics.webp');
+	background: url('/storage/img/logistics.jpg');
   	background-repeat: no-repeat;
   	background-position: center center;
-  	background-size: cover;">
+  	background-size: cover;
+	">
 	<div class="splash-container pt-5">
 		<div class="card mt-5">
 			<div class="card-header text-center">
