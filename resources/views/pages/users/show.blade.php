@@ -647,12 +647,26 @@
 												@foreach ($statements as $statement)
 												<tr>
 													<td scope="row">{{ $loop->iteration }}</td>
-													<td>{{ $statement->type }}</td>
+													<td>
+														<span @class(["py-2
+															  px-4", 
+															  "bg-secondary-subtle"=> $statement->type == "Order", "bg-success-subtle"=> $statement->type == "Payment"
+															  ])>
+															{{ $statement->type }}
+														</span>
+													</td>
 													<td>{{ $statement->date }}</td>
 													<td>KES</td>
-													<td>{{ $statement->debit ? number_format($statement->debit) : "-" }}</td>
-													<td>{{ $statement->credit ? number_format($statement->credit) : "-" }}</td>
-													<td>{{ $statement->balance }}</td>
+													<td>{{ $statement->debit ? number_format($statement->debit) : "-" }}
+													</td>
+													<td>{{ $statement->credit ? number_format($statement->credit) : "-"
+														}}</td>
+													<td>
+														<span @class(["py-2
+															  px-4", "bg-warning-subtle"=> $statement->balance])>
+															{{ number_format($statement->balance) }}
+														</span>
+													</td>
 												</tr>
 												@endforeach
 											</tbody>

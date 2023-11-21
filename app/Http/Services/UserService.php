@@ -110,11 +110,28 @@ class UserService
             ->where("user_id", $id)
             ->get();
 
+        $balance = 0;
+
         $statements = $ordersForStatements
             ->merge($paymentsForStatements)
-            ->sortByDesc(fn($item) => Carbon::parse($item->date))
+            ->sortBy(fn($item) => Carbon::parse($item->date))
             ->values()
-            ->all();
+            ->map(function ($item) use (&$balance) {
+
+                $item->type = $item->credit ? "Order" : "Payment";
+
+                // Calculate balance
+                if ($item->credit) {
+                    $balance += $item->credit;
+                } else {
+                    $balance -= $item->debit;
+                }
+
+                $item->balance = $balance;
+
+                return $item;
+            })
+            ->reverse();
 
         return [
             "user" => $user,
