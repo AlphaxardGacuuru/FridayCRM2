@@ -9,6 +9,7 @@ use App\Models\Order;
 use App\Models\Payment;
 use App\Models\Product;
 use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\Hash;
 
 class UserService
@@ -70,10 +71,11 @@ class UserService
             ->get();
 
         // Get Orders
-        $ordersQuery = Order::where("user_id", $id)
-            ->orderBy("id", "DESC");
+        $ordersQuery = Order::where("user_id", $id);
 
-        $ordersPaginated = $ordersQuery->paginate(20);
+        $ordersPaginated = $ordersQuery
+            ->orderBy("id", "DESC")
+            ->paginate(20);
 
         $orders = OrderResource::collection($ordersPaginated);
 
@@ -100,15 +102,19 @@ class UserService
         $totalPayments = $paymentsQuery->sum("amount");
 
         // Generated Statements
-        $ordersForStatements = $ordersQuery->get();
+        $ordersForStatements = Order::select("id", "date", "total_value as debit")
+            ->where("user_id", $id)
+            ->get();
 
-		$paymentsForStatements = $paymentsQuery->get();
+        $paymentsForStatements = Payment::select("id", "amount as credit", "date_received as date")
+            ->where("user_id", $id)
+            ->get();
 
-        $statements = $ordersQuery->paginate(20);
-            // ->merge($paymentsForStatements)
-            // ->sortBy('created_at')
-            // ->values()
-            // ->all();
+        $statements = $ordersForStatements
+            ->merge($paymentsForStatements)
+            ->sortByDesc(fn($item) => Carbon::parse($item->date))
+            ->values()
+            ->all();
 
         return [
             "user" => $user,

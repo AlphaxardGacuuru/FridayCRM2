@@ -637,6 +637,7 @@
 													<th>SN</th>
 													<th>Type</th>
 													<th>Date</th>
+													<th>Curr</th>
 													<th>Debit</th>
 													<th>Credit</th>
 													<th>Balance</th>
@@ -645,27 +646,18 @@
 											<tbody>
 												@foreach ($statements as $statement)
 												<tr>
-													<td scope="row">
-														{{-- {{ $loop->iteration +
-														($statements->perPage() *
-														($statements->currentPage() - 1)) }} --}}
-														</td>
-													<td>{{ $statement->transaction_reference }}</td>
-													<td>{{ $statement->statement_channel }}</td>
+													<td scope="row">{{ $loop->iteration }}</td>
+													<td>{{ $statement->type }}</td>
+													<td>{{ $statement->date }}</td>
 													<td>KES</td>
-													<td>{{ number_format($statement->amount) }}</td>
-													<td>{{ $statement->date_received }}</td>
+													<td>{{ $statement->debit ? number_format($statement->debit) : "-" }}</td>
+													<td>{{ $statement->credit ? number_format($statement->credit) : "-" }}</td>
+													<td>{{ $statement->balance }}</td>
 												</tr>
 												@endforeach
 											</tbody>
 										</table>
 									</div>
-								</div>
-								<div class="card-footer">
-									{{-- {{ $statements->appends([
-									"user_id" => $request->user_id,
-									"date_received" => $request->date_received,
-									])->links() }} --}}
 								</div>
 							</div>
 						</div>
