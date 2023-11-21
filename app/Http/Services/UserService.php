@@ -118,13 +118,13 @@ class UserService
             ->values()
             ->map(function ($item) use (&$balance) {
 
-                $item->type = $item->credit ? "Order" : "Payment";
+                $item->type = $item->credit ? "Payment" : "Order";
 
                 // Calculate balance
                 if ($item->credit) {
-                    $balance += $item->credit;
+                    $balance -= $item->credit;
                 } else {
-                    $balance -= $item->debit;
+                    $balance += $item->debit;
                 }
 
                 $item->balance = $balance;
