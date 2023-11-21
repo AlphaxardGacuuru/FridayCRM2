@@ -222,7 +222,7 @@
 																	aria-label="Close"></button>
 														</div>
 														<div class="modal-body text-wrap">
-															Are you sure you want to delete Order.
+															Are you sure you want to delete this order.
 															This process is irreversible.
 														</div>
 														<div class="modal-footer justify-content-between">

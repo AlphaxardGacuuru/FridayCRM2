@@ -59,19 +59,23 @@ class UserService
      */
     public function show($id)
     {
+        // Get User
         $user = User::findOrFail($id);
 
         $user = new UserResource($user);
 
+        // Get Products
         $products = Product::select("id", "name")
             ->orderBy("id", "DESC")
             ->get();
 
+        // Get Orders
         $ordersQuery = Order::where("user_id", $id)
-            ->orderBy("id", "DESC")
-            ->paginate(20);
+            ->orderBy("id", "DESC");
 
-        $orders = OrderResource::collection($ordersQuery);
+        $ordersPaginated = $ordersQuery->paginate(20);
+
+        $orders = OrderResource::collection($ordersPaginated);
 
         $ordersPendingValue = $ordersQuery
             ->where("status", "pending")
@@ -81,10 +85,12 @@ class UserService
             ->where("status", "paid")
             ->sum("total_value");
 
+        // Get Invoices
         $invoices = Invoice::where("user_id", $id)
             ->orderBy("id", "DESC")
             ->paginate(20);
 
+        // Get Payments
         $paymentsQuery = Payment::where("user_id", $id);
 
         $payments = $paymentsQuery
@@ -93,21 +99,27 @@ class UserService
 
         $totalPayments = $paymentsQuery->sum("amount");
 
-        $statements = Order::join('payments', 'orders.user_id', '=', 'payments.user_id')
-            ->orderBy('orders.date')
-            ->orderBy('payments.date_received')
-            ->paginate(20);
+        // Generated Statements
+        $ordersForStatements = $ordersQuery->get();
+
+		$paymentsForStatements = $paymentsQuery->get();
+
+        $statements = $ordersQuery->paginate(20);
+            // ->merge($paymentsForStatements)
+            // ->sortBy('created_at')
+            // ->values()
+            // ->all();
 
         return [
-            $user,
-            $products,
-            $ordersPendingValue,
-            $ordersPaidValue,
-            $orders,
-            $invoices,
-            $payments,
-            $totalPayments,
-			$statements
+            "user" => $user,
+            "products" => $products,
+            "ordersPendingValue" => $ordersPendingValue,
+            "ordersPaidValue" => $ordersPaidValue,
+            "orders" => $orders,
+            "invoices" => $invoices,
+            "payments" => $payments,
+            "totalPayments" => $totalPayments,
+            "statements" => $statements,
         ];
     }
 

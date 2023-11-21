@@ -6,6 +6,7 @@ use App\Http\Resources\InvoiceResource;
 use App\Http\Resources\OrderResource;
 use App\Models\Invoice;
 use App\Models\Order;
+use App\Models\Payment;
 use App\Models\Product;
 use App\Models\User;
 use Illuminate\Support\Facades\DB;
@@ -69,7 +70,18 @@ class InvoiceService
             ->orderBy("id", "DESC")
             ->get();
 
-        return [$invoice, $items, $users];
+        // Get Payments
+        $paymentsQuery = Payment::where("invoice_id", $id);
+
+        $payments = $paymentsQuery
+            ->orderBy("id", "DESC")
+            ->get();
+
+        $totalPayments = $paymentsQuery->sum("amount");
+
+		$balance = $invoice->amount - $totalPayments;
+		
+        return [$invoice, $items, $users, $payments, $totalPayments, $balance];
     }
 
     /**

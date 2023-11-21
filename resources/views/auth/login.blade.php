@@ -1,7 +1,11 @@
 @extends('layouts.app')
 
 @section('login')
-<div style="height: 100vh; background: linear-gradient(to bottom, #808080, #FFF);">
+<div style="
+	background: url('/storage/img/logistics.webp');
+  	background-repeat: no-repeat;
+  	background-position: center center;
+  	background-size: cover;">
 	<div class="splash-container pt-5">
 		<div class="card mt-5">
 			<div class="card-header text-center">

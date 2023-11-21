@@ -645,9 +645,11 @@
 											<tbody>
 												@foreach ($statements as $statement)
 												<tr>
-													<td scope="row">{{ $loop->iteration +
+													<td scope="row">
+														{{-- {{ $loop->iteration +
 														($statements->perPage() *
-														($statements->currentPage() - 1)) }}</td>
+														($statements->currentPage() - 1)) }} --}}
+														</td>
 													<td>{{ $statement->transaction_reference }}</td>
 													<td>{{ $statement->statement_channel }}</td>
 													<td>KES</td>
@@ -660,10 +662,10 @@
 									</div>
 								</div>
 								<div class="card-footer">
-									{{ $statements->appends([
+									{{-- {{ $statements->appends([
 									"user_id" => $request->user_id,
 									"date_received" => $request->date_received,
-									])->links() }}
+									])->links() }} --}}
 								</div>
 							</div>
 						</div>

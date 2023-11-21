@@ -64,9 +64,9 @@ class InvoiceController extends Controller
      */
     public function show($id)
     {
-        [$invoice, $items, $users] = $this->service->show($id);
+        [$invoice, $items, $users, $payments, $totalPayments, $balance] = $this->service->show($id);
 
-        $channels = ["MPESA", "VISA", "MASTERCARD", "CASH"];
+        $channels = ["MPESA", "BANK", "CASH"];
 
 		// return $invoice;
         return view("/pages/invoices/show")
@@ -75,6 +75,9 @@ class InvoiceController extends Controller
 				"items" => $items,
 				"channels" => $channels,
 				"users" => $users,
+				"payments" => $payments,
+				"totalPayments" => $totalPayments,
+				"balance" => $balance
 			]);
     }
 

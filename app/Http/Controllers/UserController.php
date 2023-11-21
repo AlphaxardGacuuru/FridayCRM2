@@ -65,17 +65,7 @@ class UserController extends Controller
      */
     public function show($id, Request $request)
     {
-        [
-            $user,
-            $products,
-            $ordersPendingValue,
-            $ordersPaidValue,
-            $orders,
-            $invoices,
-            $payments,
-            $totalPayments,
-			$statements
-        ] = $this->service->show($id);
+        $data = $this->service->show($id);
 
         $statuses = [
             "pending" => "Pending",
@@ -84,17 +74,18 @@ class UserController extends Controller
             "paid" => "Paid",
         ];
 
+		// return $data["statements"];
         return view("/pages/users/show")->with([
-            "user" => $user,
-            "products" => $products,
-            "ordersPendingValue" => $ordersPendingValue,
-            "ordersPaidValue" => $ordersPaidValue,
-            "orders" => $orders,
+            "user" => $data["user"],
+            "products" => $data["products"],
+            "ordersPendingValue" => $data["ordersPendingValue"],
+            "ordersPaidValue" => $data["ordersPaidValue"],
+            "orders" => $data["orders"],
+            "invoices" => $data["invoices"],
+            "payments" => $data["payments"],
+            "totalPayments" => $data["totalPayments"],
+            "statements" => $data["statements"],
             "statuses" => $statuses,
-            "invoices" => $invoices,
-            "payments" => $payments,
-            "totalPayments" => $totalPayments,
-			"statements" => $statements,
             "request" => $request,
         ]);
     }

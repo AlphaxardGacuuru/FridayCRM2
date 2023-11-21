@@ -136,7 +136,8 @@
 </div>
 {{-- Create Link End --}}
 
-<div id="contentToPrint" class="row">
+<div id="contentToPrint"
+	 class="row">
 	<div class="offset-xl-2 col-xl-8 col-lg-12 col-md-12 col-sm-12 col-12">
 		<div class="card p-5">
 			<div class="card-header p-4 border-0">
@@ -150,6 +151,16 @@
 				<div class="float-right">
 					<div class="mb-0"
 						 style="font-size: 4em;">INVOICE</div>
+					<div @class(["p-2
+						 text-center
+						 text-capitalize", "bg-danger-subtle"=> $invoice->status == "not_paid",
+						"bg-warning-subtle"=> $invoice->status == "partially_paid",
+						"bg-success-subtle" => $invoice->status == "paid",
+						])>
+						@foreach (explode("_", $invoice->status) as $status)
+						{{ $status }}
+						@endforeach
+					</div>
 				</div>
 			</div>
 			<div class="card-body">
@@ -200,9 +211,14 @@
 								</td>
 							</tr>
 							@endforeach
+							{{-- Total --}}
 							<tr class="border-3 border-start-0 border-end-0">
-								<td colspan="4"
+								<td colspan="3"
 									style="background-color: white;"></td>
+								<td class="text-center"
+									style="background-color: white;">
+									<strong class="text-dark">Total Amount</strong>
+								</td>
 								<td class="text-right"
 									style="background-color: white;">
 									<strong class="text-dark">
@@ -210,10 +226,90 @@
 									</strong>
 								</td>
 							</tr>
+							{{-- Total End --}}
+							{{-- Total Paid --}}
+							<tr class="border-3 border-start-0 border-end-0">
+								<td colspan="3"
+									style="background-color: white;"></td>
+								<td class="text-center"
+									style="background-color: white;">
+									<strong class="text-dark">Amount Paid</strong>
+								</td>
+								<td class="text-right"
+									style="background-color: white;">
+									<strong class="text-dark">
+										KES {{ $totalPayments ? number_format($totalPayments, 2) : '-' }}
+									</strong>
+								</td>
+							</tr>
+							{{-- Total Paid End --}}
+							{{-- Balance --}}
+							<tr class="border-3 border-start-0 border-end-0">
+								<td colspan="3"
+									class="text-center"
+									style="background-color: white;"></td>
+								<td class="text-center"
+									style="background-color: white;">
+									<strong class="text-dark">Balance</strong>
+								</td>
+								<td class="text-right"
+									style="background-color: white;">
+									<strong class="text-dark">
+										KES {{ $balance ? number_format($balance, 2) : '-' }}
+									</strong>
+								</td>
+							</tr>
+							{{-- Balance End --}}
 						</tbody>
 					</table>
+
+					<br />
+
+					<h4>Transactions</h4>
+
+					{{-- Transactions --}}
+					<table class="table">
+						<thead>
+							<tr>
+								<th scope="col"
+									class="text-center"
+									style="background-color: white;">SN</th>
+								<th scope="col"
+									class="text-center"
+									style="background-color: white;">Date</th>
+								<th scope="col"
+									class="text-center"
+									style="background-color: white;">Transaction Ref</th>
+								<th scope="col"
+									class="text-center"
+									style="background-color: white;">Payment Channel</th>
+								<th scope="col"
+									class="text-right"
+									style="background-color: white;">Amount</th>
+							</tr>
+						</thead>
+						<tbody>
+							@foreach ($payments as $payment)
+							<tr>
+								<td scope="row"
+									class="text-center"
+									style="background-color: white;">{{ $loop->iteration }}</td>
+								<td class="text-center"
+									style="background-color: white;">{{ $payment->date_received }}</td>
+								<td class="text-center"
+									style="background-color: white;">{{ $payment->transaction_reference }}</td>
+								<td class="text-center"
+									style="background-color: white;">{{ $payment->payment_channel }}</td>
+								<td class="text-right"
+									style="background-color: white;">{{ number_format($payment->amount) }}</td>
+							</tr>
+							@endforeach
+						</tbody>
+					</table>
+					{{-- Transactions End --}}
 				</div>
 			</div>
+
 			<div class="card-footer bg-white border-0">
 				<h1 class="my-5">Thank you!</h1>
 
