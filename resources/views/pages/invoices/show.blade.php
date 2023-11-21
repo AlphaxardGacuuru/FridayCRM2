@@ -212,7 +212,7 @@
 							</tr>
 							@endforeach
 							{{-- Total --}}
-							<tr class="border-3 border-start-0 border-end-0">
+							<tr>
 								<td colspan="3"
 									style="background-color: white;"></td>
 								<td class="text-center"
@@ -228,7 +228,7 @@
 							</tr>
 							{{-- Total End --}}
 							{{-- Total Paid --}}
-							<tr class="border-3 border-start-0 border-end-0">
+							<tr>
 								<td colspan="3"
 									style="background-color: white;"></td>
 								<td class="text-center"
@@ -244,7 +244,7 @@
 							</tr>
 							{{-- Total Paid End --}}
 							{{-- Balance --}}
-							<tr class="border-3 border-start-0 border-end-0">
+							<tr>
 								<td colspan="3"
 									class="text-center"
 									style="background-color: white;"></td>
@@ -262,51 +262,6 @@
 							{{-- Balance End --}}
 						</tbody>
 					</table>
-
-					<br />
-
-					<h4>Transactions</h4>
-
-					{{-- Transactions --}}
-					<table class="table">
-						<thead>
-							<tr>
-								<th scope="col"
-									class="text-center"
-									style="background-color: white;">SN</th>
-								<th scope="col"
-									class="text-center"
-									style="background-color: white;">Date</th>
-								<th scope="col"
-									class="text-center"
-									style="background-color: white;">Transaction Ref</th>
-								<th scope="col"
-									class="text-center"
-									style="background-color: white;">Payment Channel</th>
-								<th scope="col"
-									class="text-right"
-									style="background-color: white;">Amount</th>
-							</tr>
-						</thead>
-						<tbody>
-							@foreach ($payments as $payment)
-							<tr>
-								<td scope="row"
-									class="text-center"
-									style="background-color: white;">{{ $loop->iteration }}</td>
-								<td class="text-center"
-									style="background-color: white;">{{ $payment->date_received }}</td>
-								<td class="text-center"
-									style="background-color: white;">{{ $payment->transaction_reference }}</td>
-								<td class="text-center"
-									style="background-color: white;">{{ $payment->payment_channel }}</td>
-								<td class="text-right"
-									style="background-color: white;">{{ number_format($payment->amount) }}</td>
-							</tr>
-							@endforeach
-						</tbody>
-					</table>
-					{{-- Transactions End --}}
 				</div>
 			</div>
 

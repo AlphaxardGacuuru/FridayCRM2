@@ -4,6 +4,7 @@ namespace App\Http\Services;
 
 use App\Http\Resources\OrderResource;
 use App\Models\Order;
+use App\Models\Payment;
 use App\Models\Product;
 use App\Models\User;
 
@@ -231,9 +232,7 @@ class OrderService
             ->where("status", "pending")
             ->sum("total_value");
 
-        $ordersPaidValue = $ordersQuery
-            ->where("status", "paid")
-            ->sum("total_value");
+        $ordersPaidValue = Payment::sum("amount");
 
         return [
             $orders,

@@ -64,6 +64,7 @@
 						<thead>
 							<tr>
 								<th scope="col">SN</th>
+								<th scope="col">Invoice No</th>
 								<th scope="col">Customer</th>
 								<th scope="col">Transaction Ref</th>
 								<th scope="col">Payment Channel</th>
@@ -79,6 +80,7 @@
 								<td scope="row">{{ $loop->iteration +
 									($payments->perPage() *
 									($payments->currentPage() - 1)) }}</td>
+								<td>{{ $payment->invoice_id }}</td>
 								<td>{{ $payment->user->name }}</td>
 								<td>{{ $payment->transaction_reference }}</td>
 								<td>{{ $payment->payment_channel }}</td>
