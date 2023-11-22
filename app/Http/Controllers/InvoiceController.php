@@ -20,9 +20,14 @@ class InvoiceController extends Controller
      */
     public function index()
     {
-        $invoices = $this->service->index();
+        [$invoices, $totalBilled, $totalPaid] = $this->service->index();
 
-        return view("/pages/invoices/index")->with(["invoices" => $invoices]);
+        return view("/pages/invoices/index")
+            ->with([
+				"invoices" => $invoices,
+				"totalBilled" => $totalBilled,
+				"totalPaid" => $totalPaid
+			]);
     }
 
     /**
@@ -68,17 +73,17 @@ class InvoiceController extends Controller
 
         $channels = ["MPESA", "BANK", "CASH"];
 
-		// return $invoice;
+        // return $invoice;
         return view("/pages/invoices/show")
             ->with([
-				"invoice" => $invoice,
-				"items" => $items,
-				"channels" => $channels,
-				"users" => $users,
-				"payments" => $payments,
-				"totalPayments" => $totalPayments,
-				"balance" => $balance
-			]);
+                "invoice" => $invoice,
+                "items" => $items,
+                "channels" => $channels,
+                "users" => $users,
+                "payments" => $payments,
+                "totalPayments" => $totalPayments,
+                "balance" => $balance,
+            ]);
     }
 
     /**
@@ -114,8 +119,8 @@ class InvoiceController extends Controller
     {
         [$deleted, $message, $invoice] = $this->service->destroy($id);
 
-		return redirect("/invoices")->with([
-			"success" => $message,
-		]);
+        return redirect("/invoices")->with([
+            "success" => $message,
+        ]);
     }
 }

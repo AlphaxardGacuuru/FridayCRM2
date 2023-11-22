@@ -21,9 +21,17 @@ class InvoiceService
      */
     public function index()
     {
-        $invoices = Invoice::orderBy("id", "DESC")->paginate(20);
+		$invoiceQuery = Invoice::orderBy("id", "DESC");
 
-        return InvoiceResource::collection($invoices);
+        $invoices = $invoiceQuery->paginate(20);
+		
+        $invoices = InvoiceResource::collection($invoices);
+		
+		$totalBilled = $invoiceQuery->sum("amount");
+
+		$totalPaid = Payment::sum("amount");
+
+		return [$invoices, $totalBilled, $totalPaid];
     }
 
     /**
@@ -80,7 +88,7 @@ class InvoiceService
         $totalPayments = $paymentsQuery->sum("amount");
 
 		$balance = $invoice->amount - $totalPayments;
-		
+
         return [$invoice, $items, $users, $payments, $totalPayments, $balance];
     }
 
