@@ -375,6 +375,41 @@
 					<div class="row">
 						{{-- basic table --}}
 						<div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+							{{-- Data --}}
+							<div class="card p-4"
+								 style="color: gray;">
+								<div class="d-flex justify-content-between">
+									{{-- Billed --}}
+									<div class="d-flex justify-content-between w-50 align-items-center mx-4">
+										<div>
+											KES <span class="fs-4">{{ number_format($invoicesTotalBilled) }}</span>
+											<h4 style="color: gray;">Billed</h4>
+										</div>
+										<div class="border-end pe-4"><i class="fa fa-file-alt fs-1"></i></div>
+									</div>
+									{{-- Billed End --}}
+									{{-- Paid --}}
+									<div class="d-flex justify-content-between w-50 align-items-center ms-2 me-4">
+										<div>
+											KES <span class="fs-4">{{ number_format($invoicesTotalPaid) }}</span>
+											<h4 style="color: gray;">Paid</h4>
+										</div>
+										<div class="border-end pe-4"><i class="fa fa-check-square fs-1"></i></div>
+									</div>
+									{{-- Paid End --}}
+									{{-- Balance --}}
+									<div class="d-flex justify-content-between w-50 align-items-center ms-2 me-4">
+										<div>
+											KES <span class="fs-4">{{ number_format($invoicesTotalBilled - $invoicesTotalPaid) }}</span>
+											<h4 style="color: gray;">Balance</h4>
+										</div>
+										<div><i class="fa fa-balance-scale fs-1"></i></div>
+									</div>
+									{{-- Balance End --}}
+								</div>
+							</div>
+							{{-- Data End --}}
+
 							<div class="card">
 								<div class="d-flex justify-content-between card-header">
 									<h3 class="">Invoices</h3>
@@ -649,9 +684,9 @@
 													<td scope="row">{{ $loop->iteration }}</td>
 													<td>
 														<span @class(["py-2
-															  px-4", 
-															  "bg-secondary-subtle"=> $statement->type == "Order", "bg-success-subtle"=> $statement->type == "Payment"
-															  ])>
+															  px-4", "bg-secondary-subtle"=> $statement->type ==
+															"Order", "bg-success-subtle"=> $statement->type == "Payment"
+															])>
 															{{ $statement->type }}
 														</span>
 													</td>

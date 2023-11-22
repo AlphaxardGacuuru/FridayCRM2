@@ -82,6 +82,8 @@ class UserController extends Controller
             "ordersPaidValue" => $data["ordersPaidValue"],
             "orders" => $data["orders"],
             "invoices" => $data["invoices"],
+			"invoicesTotalBilled" => $data["invoicesTotalBilled"],
+			"invoicesTotalPaid" => $data["invoicesTotalPaid"],
             "payments" => $data["payments"],
             "totalPayments" => $data["totalPayments"],
             "statements" => $data["statements"],
