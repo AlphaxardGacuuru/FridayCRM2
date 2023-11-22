@@ -96,8 +96,6 @@ class UserService
 
         $invoicesTotalBilled = $invoiceQuery->sum("amount");
 
-        $invoicesTotalPaid = Payment::sum("amount");
-
         // Get Payments
         $paymentsQuery = Payment::where("user_id", $id);
 
@@ -147,7 +145,6 @@ class UserService
             "orders" => $orders,
             "invoices" => $invoices,
 			"invoicesTotalBilled" => $invoicesTotalBilled,
-			"invoicesTotalPaid" => $invoicesTotalPaid,
             "payments" => $payments,
             "totalPayments" => $totalPayments,
             "statements" => $statements,

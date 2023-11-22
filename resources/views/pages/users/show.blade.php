@@ -391,7 +391,7 @@
 									{{-- Paid --}}
 									<div class="d-flex justify-content-between w-50 align-items-center ms-2 me-4">
 										<div>
-											KES <span class="fs-4">{{ number_format($invoicesTotalPaid) }}</span>
+											KES <span class="fs-4">{{ number_format($totalPayments) }}</span>
 											<h4 style="color: gray;">Paid</h4>
 										</div>
 										<div class="border-end pe-4"><i class="fa fa-check-square fs-1"></i></div>
@@ -400,7 +400,7 @@
 									{{-- Balance --}}
 									<div class="d-flex justify-content-between w-50 align-items-center ms-2 me-4">
 										<div>
-											KES <span class="fs-4">{{ number_format($invoicesTotalBilled - $invoicesTotalPaid) }}</span>
+											KES <span class="fs-4">{{ number_format($invoicesTotalBilled - $totalPayments) }}</span>
 											<h4 style="color: gray;">Balance</h4>
 										</div>
 										<div><i class="fa fa-balance-scale fs-1"></i></div>
@@ -487,7 +487,7 @@
 									{{-- Total --}}
 									<div class="d-flex justify-content-between w-100 align-items-center mx-4">
 										<div>
-											KES <span class="fs-4">{{ $totalPayments }}</span>
+											KES <span class="fs-4">{{ number_format($totalPayments) }}</span>
 											<h4 style="color: gray;">Total</h4>
 										</div>
 										<div class="border-end py-3 px-4 bg-success-subtle rounded-circle"><i

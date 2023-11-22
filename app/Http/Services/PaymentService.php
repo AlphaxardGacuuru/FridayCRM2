@@ -199,7 +199,13 @@ class PaymentService
         $invoice = Invoice::find($request->invoice_id);
 
         // Check if amount is enough
-        $status = $amount < $invoice->amount ? "partially_paid" : "paid";
+        if ($amount < $invoice->amount) {
+            $status = "partially_paid";
+        } else if ($amount == $invoice->amount) {
+            $status = "paid";
+        } else {
+            $status = "over_paid";
+        }
 
         // Update Order Statuses
         Order::whereIn('id', $invoice->order_ids)
