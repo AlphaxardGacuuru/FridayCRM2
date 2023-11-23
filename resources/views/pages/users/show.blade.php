@@ -119,7 +119,7 @@
 									{{-- Paid --}}
 									<div class="d-flex justify-content-between w-50 align-items-center ms-2 me-4">
 										<div>
-											KES <span class="fs-4">{{ number_format($ordersPaidValue) }}</span>
+											KES <span class="fs-4">{{ number_format($totalPayments) }}</span>
 											<h4 style="color: gray;">Paid</h4>
 										</div>
 										<div><i class="fa fa-check-square fs-1"></i></div>
