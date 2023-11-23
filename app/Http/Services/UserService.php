@@ -109,7 +109,7 @@ class UserService
             ->sum("amount");
 
         // Generated Statements
-        $ordersForStatements = Invoice::select("id", "amount as debit", "created_at as date")
+        $invoicesForStatements = Invoice::select("id", "amount as debit", "created_at as date")
             ->where("user_id", $id)
             ->get();
 
@@ -119,26 +119,7 @@ class UserService
 
         $balance = 0;
 
-        $statements = $ordersForStatements
-            ->merge($paymentsForStatements)
-            ->sortBy(fn($item) => Carbon::parse($item->date))
-            ->values()
-            ->map(function ($item) use (&$balance) {
-
-                $item->type = $item->credit ? "Payment" : "Invoice";
-
-                // Calculate balance
-                if ($item->credit) {
-                    $balance -= $item->credit;
-                } else {
-                    $balance += $item->debit;
-                }
-
-                $item->balance = $balance;
-
-                return $item;
-            })
-            ->reverse();
+        $statements = $invoicesForStatements;
 
         return [
             "user" => $user,
