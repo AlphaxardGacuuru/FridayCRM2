@@ -78,39 +78,35 @@ class UserService
             ->get();
 
         // Get Orders
-        $ordersQuery = Order::where("user_id", $id);
-
-        $ordersPaginated = $ordersQuery
+        $ordersPaginated = Order::where("user_id", $id)
             ->orderBy("id", "DESC")
             ->paginate(20);
 
         $orders = OrderResource::collection($ordersPaginated);
 
-        $ordersPendingValue = $ordersQuery
+        $ordersPendingValue = Order::where("user_id", $id)
             ->where("status", "pending")
             ->sum("total_value");
 
-        $ordersPaidValue = $ordersQuery
+        $ordersPaidValue = Order::where("user_id", $id)
             ->where("status", "paid")
             ->sum("total_value");
 
         // Get Invoices
-        $invoiceQuery = Invoice::where("user_id", $id);
-
-        $invoices = $invoiceQuery
+        $invoices = Invoice::where("user_id", $id)
             ->orderBy("id", "DESC")
             ->paginate(20);
 
-        $invoicesTotalBilled = $invoiceQuery->sum("amount");
+        $invoicesTotalBilled = Invoice::where("user_id", $id)
+            ->sum("amount");
 
         // Get Payments
-        $paymentsQuery = Payment::where("user_id", $id);
-
-        $payments = $paymentsQuery
+        $payments = Payment::where("user_id", $id)
             ->orderBy("id", "DESC")
             ->paginate(20);
 
-        $totalPayments = $paymentsQuery->sum("amount");
+        $totalPayments = Payment::where("user_id", $id)
+            ->sum("amount");
 
         // Generated Statements
         $ordersForStatements = Invoice::select("id", "amount as debit", "created_at as date")
@@ -166,6 +162,25 @@ class UserService
         $user = User::findOrFail($id);
 
         return new UserResource($user);
+    }
+
+    public function profileUpdate($request)
+    {
+        $user = User::find(auth()->user()->id);
+
+        if ($request->filled("name")) {
+            $user->name = $request->input("name");
+        }
+
+        if ($request->filled("phone")) {
+            $user->phone = $request->input("phone");
+        }
+
+		$saved = $user->save();
+
+		$message = "Profile updated successfully";
+
+		return [$saved, $message, $user];
     }
 
     /**

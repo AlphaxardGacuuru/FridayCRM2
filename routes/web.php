@@ -22,6 +22,8 @@ use Illuminate\Support\Facades\Route;
 
 Route::middleware("auth")->group(function () {
     Route::get('/', [DashboardController::class, "index"])->name("dashboard");
+    Route::get('/profile', [UserController::class, "profile"])->name("profile");
+    Route::put('/profile-update', [UserController::class, "profileUpdate"])->name("profile.update");
 
     Route::resources([
         "users" => UserController::class,

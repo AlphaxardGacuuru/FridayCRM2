@@ -170,7 +170,7 @@
 							<span class="status"></span><span class="ml-2">Available</span>
 						</div>
 						<a class="dropdown-item"
-						   href="/user/">
+						   href="/profile">
 						   <i class="fas fa-user mr-2"></i>Account
 						</a>
 						<a class="dropdown-item"

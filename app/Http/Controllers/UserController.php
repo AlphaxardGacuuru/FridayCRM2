@@ -23,7 +23,7 @@ class UserController extends Controller
 
         return view("pages/users/index")->with([
             "users" => $users,
-			"request" =>  $request
+            "request" => $request,
         ]);
     }
 
@@ -75,7 +75,7 @@ class UserController extends Controller
             "paid" => "Paid",
         ];
 
-		// return $data["statements"];
+        // return $data["statements"];
         return view("/pages/users/show")->with([
             "user" => $data["user"],
             "products" => $data["products"],
@@ -83,7 +83,7 @@ class UserController extends Controller
             "ordersPaidValue" => $data["ordersPaidValue"],
             "orders" => $data["orders"],
             "invoices" => $data["invoices"],
-			"invoicesTotalBilled" => $data["invoicesTotalBilled"],
+            "invoicesTotalBilled" => $data["invoicesTotalBilled"],
             "payments" => $data["payments"],
             "totalPayments" => $data["totalPayments"],
             "statements" => $data["statements"],
@@ -103,6 +103,25 @@ class UserController extends Controller
         $user = $this->service->edit($id);
 
         return view("/pages/users/edit")->with(["user" => $user]);
+    }
+
+    /*
+     * Edit Profile
+     */
+    public function profile()
+    {
+        return view("/pages/users/profile");
+    }
+
+    /*
+     * Update Profile
+     */
+    public function profileUpdate(Request $request)
+    {
+        [$saved, $message, $user] = $this->service->profileUpdate($request);
+
+        return redirect("/profile")
+            ->with(["success" => $message]);
     }
 
     /**

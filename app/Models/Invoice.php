@@ -23,6 +23,13 @@ class Invoice extends Model
         'updated_at' => 'datetime:d M Y',
         'created_at' => 'datetime:d M Y',
     ];
+	
+    protected function date(): Attribute
+    {
+        return Attribute::make(
+            get: fn($value) => Carbon::parse($value)->format('d M Y'),
+        );
+    }
 
     protected function updatedAt(): Attribute
     {
