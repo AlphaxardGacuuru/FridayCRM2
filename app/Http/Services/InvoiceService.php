@@ -21,17 +21,17 @@ class InvoiceService
      */
     public function index()
     {
-		$invoiceQuery = Invoice::orderBy("id", "DESC");
+        $invoiceQuery = Invoice::orderBy("id", "DESC");
 
         $invoices = $invoiceQuery->paginate(20);
-		
+
         $invoices = InvoiceResource::collection($invoices);
-		
-		$totalBilled = $invoiceQuery->sum("amount");
 
-		$totalPaid = Payment::sum("amount");
+        $totalBilled = $invoiceQuery->sum("amount");
 
-		return [$invoices, $totalBilled, $totalPaid];
+        $totalPaid = Payment::sum("amount");
+
+        return [$invoices, $totalBilled, $totalPaid];
     }
 
     /**
@@ -87,7 +87,7 @@ class InvoiceService
 
         $totalPayments = $paymentsQuery->sum("amount");
 
-		$balance = $invoice->amount - $totalPayments;
+        $balance = $invoice->amount - $totalPayments;
 
         return [$invoice, $items, $users, $payments, $totalPayments, $balance];
     }
@@ -118,12 +118,11 @@ class InvoiceService
         $amount = DB::transaction(function () use ($orderIds) {
             return collect($orderIds)->reduce(function ($carry, $orderId) {
                 $order = Order::find($orderId);
-
                 // Update status
                 $order->status = "invoiced";
-
                 $order->save();
-                // Get total value
+
+				// Get total value
                 $totalValue = $order->total_value;
 
                 return $carry + $totalValue;
@@ -213,9 +212,7 @@ class InvoiceService
 
         // Change Orders statuses back to pending
         foreach ($invoice->order_ids as $orderId) {
-            $order = Order::find($orderId);
-            $order->status = "pending";
-            $order->save();
+            $order = Order::find($orderId)->update(["status" => "pending"]);
         }
 
         $deleted = $invoice->delete();

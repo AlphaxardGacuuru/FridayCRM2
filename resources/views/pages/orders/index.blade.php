@@ -188,7 +188,8 @@
 										  text-capitalize', 'bg-secondary-subtle'=> $order->status == 'pending',
 										'bg-primary-subtle' => $order->status == 'invoiced',
 										'bg-warning-subtle' => $order->status == 'partially_paid',
-										'bg-success-subtle' => $order->status == 'paid'
+										'bg-success-subtle' => $order->status == 'paid',
+										'bg-dark-subtle' => $order->status == 'over_paid'
 										])>
 										@foreach (explode("_", $order->status) as $status)
 										{{ $status }}
@@ -199,7 +200,7 @@
 								<td>
 									<div class="d-flex">
 										<a href="/orders/{{ $order->id }}/edit"
-										   class="btn btn-sm btn-primary">
+										   class="btn btn-sm btn-primary {{ $order->status == 'pending' ? '' : 'invisible' }}">
 											<i class="fa fa-edit"></i>
 										</a>
 										<div class="mx-1">

@@ -21,7 +21,7 @@ class InvoiceFactory extends Factory
     {
 		$order = Order::all()->random();
 
-		$user = User::all()->random();
+		$user = User::where("account_type", "normal")->random();
 
         return [
             "invoice_number" => "",

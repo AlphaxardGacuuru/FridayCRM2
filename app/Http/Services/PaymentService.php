@@ -76,9 +76,9 @@ class PaymentService
         $payment->date_received = $request->input("date_received");
 
         $saved = DB::transaction(function () use ($payment, $request) {
-            $saved = $payment->save();
-
             $this->updateInvoiceAndOrderStatus($request);
+
+            $saved = $payment->save();
 
             return $saved;
         });
@@ -138,6 +138,14 @@ class PaymentService
 
         $saved = $payment->save();
 
+        if ($request->filled("amount")) {
+            // Populate request with invoice_id and amount
+            $request->invoice_id = $payment->invoice_id;
+            $request->amount = $request->amount - $payment->amount;
+
+            $this->updateInvoiceAndOrderStatus($request);
+        }
+
         $message = "Payment updated successfully";
 
         return [$saved, $message, $payment];
@@ -151,13 +159,18 @@ class PaymentService
      */
     public function destroy($id)
     {
-        $getPayment = Payment::findOrFail($id);
+        $payment = Payment::findOrFail($id);
 
-        $deleted = $getPayment->delete();
+        $deleted = $payment->delete();
+
+        // Update amount for updating status
+        $payment->amount = 0;
+
+        $this->updateInvoiceAndOrderStatus($payment);
 
         $message = "Payment deleted successfully";
 
-        return [$deleted, $message, $getPayment];
+        return [$deleted, $message, $payment];
     }
 
     /*
@@ -199,19 +212,21 @@ class PaymentService
         $invoice = Invoice::find($request->invoice_id);
 
         // Check if amount is enough
-        if ($amount < $invoice->amount) {
+        if ($amount == 0) {
+            $status = "invoiced";
+        } else if ($amount < $invoice->amount) {
             $status = "partially_paid";
         } else if ($amount == $invoice->amount) {
             $status = "paid";
         } else {
-            $status = "over_paid";
+			$status = "over_paid";
         }
 
         // Update Order Statuses
         Order::whereIn('id', $invoice->order_ids)
             ->update(["status" => $status]);
 
-        $invoice->status = $status;
+        $invoice->status = $status == "invoiced" ? "not_paid" : $status;
 
         return $invoice->save();
     }

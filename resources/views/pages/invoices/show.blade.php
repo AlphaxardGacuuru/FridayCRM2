@@ -156,6 +156,7 @@
 						 text-capitalize", "bg-danger-subtle"=> $invoice->status == "not_paid",
 						"bg-warning-subtle"=> $invoice->status == "partially_paid",
 						"bg-success-subtle" => $invoice->status == "paid",
+						"bg-dark-subtle" => $invoice->status == "over_paid"
 						])>
 						@foreach (explode("_", $invoice->status) as $status)
 						{{ $status }}

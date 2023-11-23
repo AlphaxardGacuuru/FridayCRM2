@@ -47,6 +47,13 @@ class User extends Authenticatable
         'updated_at' => 'datetime:d M Y',
         'created_at' => 'datetime:d M Y',
     ];
+	
+    protected function avatar(): Attribute
+    {
+        return Attribute::make(
+            get: fn($value) => preg_match("/http/", $value) ? $value : "/storage/" . $value
+        );
+    }
 
     protected function updatedAt(): Attribute
     {

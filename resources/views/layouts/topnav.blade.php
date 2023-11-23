@@ -159,7 +159,8 @@
 					   id="navbarDropdownMenuLink2"
 					   data-toggle="dropdown"
 					   aria-haspopup="true"
-					   aria-expanded="false"><img src="assets/images/avatar-1.jpg"
+					   aria-expanded="false">
+					   <img src="{{ auth()->user()->avatar }}"
 							 alt=""
 							 class="user-avatar-md rounded-circle"></a>
 					<div class="dropdown-menu dropdown-menu-right nav-user-dropdown"
@@ -169,7 +170,9 @@
 							<span class="status"></span><span class="ml-2">Available</span>
 						</div>
 						<a class="dropdown-item"
-						   href="#"><i class="fas fa-user mr-2"></i>Account</a>
+						   href="/user/">
+						   <i class="fas fa-user mr-2"></i>Account
+						</a>
 						<a class="dropdown-item"
 						   href="#"><i class="fas fa-cog mr-2"></i>Settings</a>
 						<a class="dropdown-item"
