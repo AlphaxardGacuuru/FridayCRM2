@@ -49,17 +49,14 @@
 </head>
 
 <body>
-	@yield('login')
-
+	@auth
 	<div class="dashboard-main-wrapper">
 
-		@auth
 		{{-- Top Nav --}}
 		@include('layouts/topnav')
 
 		{{-- Side Nav --}}
 		@include('layouts/sidenav')
-		@endauth
 
 		<!-- wrapper  -->
 		<div class="dashboard-wrapper">
@@ -80,6 +77,9 @@
 			</div>
 		</div>
 	</div>
+	@else
+	@yield('login')
+	@endauth
 
 	<!-- Scripts -->
 	<script src="{{ asset('js/app.js') }}"

@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('login')
-<div style="
+<div style="height: 100vh;
 	background: url('/storage/img/logistics.jpg');
   	background-repeat: no-repeat;
   	background-position: center center;
