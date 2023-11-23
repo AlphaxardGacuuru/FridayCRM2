@@ -62,6 +62,17 @@ class InvoiceService
     {
         $invoice = Invoice::findOrFail($id);
 
+        // Confirm invoice status
+        $paymentService = new PaymentService;
+        // Add invoice Id
+        $invoice->invoice_id = $id;
+        $invoice->amount = 0;
+
+        $paymentService->updateInvoiceAndOrderStatus($invoice);
+
+		// Fetch again to get new changes
+        $invoice = Invoice::findOrFail($id);
+
         $orders = [];
 
         foreach ($invoice->order_ids as $orderId) {
@@ -122,7 +133,7 @@ class InvoiceService
                 $order->status = "invoiced";
                 $order->save();
 
-				// Get total value
+                // Get total value
                 $totalValue = $order->total_value;
 
                 return $carry + $totalValue;
