@@ -25,7 +25,8 @@ class OrderController extends Controller
 			"pending" => "Pending", 
 			"invoiced" => "Invoiced", 
 			"partially_paid" => "Partially Paid", 
-			"paid" => "Paid"
+			"paid" => "Paid",
+			"over_paid" => "Over Paid"
 		];
 
         return view("pages/orders/index")->with([

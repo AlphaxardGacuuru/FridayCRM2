@@ -3,6 +3,7 @@
 namespace Database\Factories;
 
 use App\Models\Invoice;
+use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Str;
@@ -19,11 +20,14 @@ class PaymentFactory extends Factory
      */
     public function definition()
     {
+		$user = User::all()->random();
+
 		$invoice = Invoice::all()->random();
 
 		$channels = ["MPESA", "VISA", "MASTERCARD", "CASH"];
 
         return [
+            "user_id" => $user->id,
             "invoice_id" => $invoice->id,
             "amount" => rand(1, 99) * 1000,
             "payment_channel" => $channels[rand(0, 3)],
