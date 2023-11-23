@@ -120,7 +120,7 @@ class UserService
         $balance = 0;
 
         $statements = $invoicesForStatements
-            ->merge($paymentsForStatements)
+            ->concat($paymentsForStatements)
             ->sortBy(fn($item) => Carbon::parse($item->date))
             ->values()
             ->map(function ($item) use (&$balance) {
