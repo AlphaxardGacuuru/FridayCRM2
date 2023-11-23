@@ -16,7 +16,7 @@
 						 style="width: 20em; height: auto"
 						 alt="logo">
 				</a>
-				<span class="splash-description">Please enter your user information.</span>
+				{{-- <span class="splash-description">Please enter your user information.</span> --}}
 			</div>
 			<div class="card-body">
 				<form method="POST"
