@@ -75,7 +75,7 @@ class UserController extends Controller
             "paid" => "Paid",
         ];
 
-        // return $data["statements"];
+        return $data["statements"];
         return view("/pages/users/show")->with([
             "user" => $data["user"],
             "products" => $data["products"],
