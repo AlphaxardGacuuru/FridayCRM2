@@ -119,7 +119,26 @@ class UserService
 
         $balance = 0;
 
-        $statements = $invoicesForStatements;
+        $statements = $invoicesForStatements
+            ->merge($paymentsForStatements)
+            ->sortBy(fn($item) => Carbon::parse($item->date))
+            ->values()
+            ->map(function ($item) use (&$balance) {
+
+                $item->type = $item->credit ? "Payment" : "Invoice";
+
+                // Calculate balance
+                if ($item->credit) {
+                    $balance -= $item->credit;
+                } else {
+                    $balance += $item->debit;
+                }
+
+                $item->balance = $balance;
+
+                return $item;
+            })
+            ->reverse();
 
         return [
             "user" => $user,
@@ -157,11 +176,11 @@ class UserService
             $user->phone = $request->input("phone");
         }
 
-		$saved = $user->save();
+        $saved = $user->save();
 
-		$message = "Profile updated successfully";
+        $message = "Profile updated successfully";
 
-		return [$saved, $message, $user];
+        return [$saved, $message, $user];
     }
 
     /**
