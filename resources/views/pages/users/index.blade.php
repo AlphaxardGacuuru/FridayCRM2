@@ -4,6 +4,34 @@
 <div class="row">
 	{{-- basic table --}}
 	<div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+		{{-- Filters --}}
+		<div class="card p-4 ms-auto"
+			 style="color: gray;">
+			<form action="/users">
+				<div class="d-flex">
+					{{-- Name --}}
+					<div class="flex-grow-1 mb-2">
+						<input id=""
+							   name="name"
+							   placeholder="Search by name"
+							   type="text"
+							   value="{{ $request->input('name') }}"
+							   class="form-control w-100" />
+					</div>
+					{{-- Name End --}}
+					{{-- Search --}}
+					<div class="mx-2">
+						<button type="submit"
+								class="btn btn-sm btn-primary ms-auto">
+							<i class="fa fa-search"></i> Search
+						</button>
+					</div>
+					{{-- Search End --}}
+				</div>
+			</form>
+		</div>
+		{{-- Filters End --}}
+
 		<div class="card">
 			<div class="d-flex justify-content-between card-header">
 				<h3 class="">Customers</h3>

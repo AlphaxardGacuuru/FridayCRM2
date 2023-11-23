@@ -400,7 +400,8 @@
 									{{-- Balance --}}
 									<div class="d-flex justify-content-between w-50 align-items-center ms-2 me-4">
 										<div>
-											KES <span class="fs-4">{{ number_format($invoicesTotalBilled - $totalPayments) }}</span>
+											KES <span class="fs-4">{{ number_format($invoicesTotalBilled -
+												$totalPayments) }}</span>
 											<h4 style="color: gray;">Balance</h4>
 										</div>
 										<div><i class="fa fa-balance-scale fs-1"></i></div>
@@ -683,9 +684,10 @@
 												<tr>
 													<td scope="row">{{ $loop->iteration }}</td>
 													<td>
-														<span @class(["py-2
-															  px-4", "bg-secondary-subtle"=> $statement->type ==
-															"Order", "bg-success-subtle"=> $statement->type == "Payment"
+														<span @class(['py-2
+															  px-4', 'bg-secondary-subtle'=> $statement->type ==
+															'Invoice', 'bg-success-subtle'=> $statement->type ==
+															'Payment'
 															])>
 															{{ $statement->type }}
 														</span>
@@ -698,7 +700,9 @@
 														}}</td>
 													<td>
 														<span @class(["py-2
-															  px-4", "bg-warning-subtle"=> $statement->balance])>
+															  px-4", "bg-warning-subtle"=> $statement->balance > 0,
+															  "bg-success-subtle"=> $statement->balance < 0,
+															  ])>
 															{{ number_format($statement->balance) }}
 														</span>
 													</td>

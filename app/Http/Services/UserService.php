@@ -19,13 +19,20 @@ class UserService
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index($request)
     {
-        $getUsers = User::where("account_type", "normal")
+        $usersQuery = User::where("account_type", "normal");
+
+        if ($request->filled("name")) {
+            $usersQuery = $usersQuery
+                ->where("name", "LIKE", "%" . $request->name . "%");
+        }
+
+        $users = $usersQuery
             ->orderBy("id", "DESC")
             ->paginate(20);
 
-        return UserResource::collection($getUsers);
+        return UserResource::collection($users);
     }
 
     /**
@@ -106,7 +113,7 @@ class UserService
         $totalPayments = $paymentsQuery->sum("amount");
 
         // Generated Statements
-        $ordersForStatements = Order::select("id", "date", "total_value as debit")
+        $ordersForStatements = Invoice::select("id", "amount as debit", "created_at as date")
             ->where("user_id", $id)
             ->get();
 
@@ -122,7 +129,7 @@ class UserService
             ->values()
             ->map(function ($item) use (&$balance) {
 
-                $item->type = $item->credit ? "Payment" : "Order";
+                $item->type = $item->credit ? "Payment" : "Invoice";
 
                 // Calculate balance
                 if ($item->credit) {
@@ -144,7 +151,7 @@ class UserService
             "ordersPaidValue" => $ordersPaidValue,
             "orders" => $orders,
             "invoices" => $invoices,
-			"invoicesTotalBilled" => $invoicesTotalBilled,
+            "invoicesTotalBilled" => $invoicesTotalBilled,
             "payments" => $payments,
             "totalPayments" => $totalPayments,
             "statements" => $statements,

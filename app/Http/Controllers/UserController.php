@@ -17,12 +17,13 @@ class UserController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $users = $this->service->index();
+        $users = $this->service->index($request);
 
         return view("pages/users/index")->with([
             "users" => $users,
+			"request" =>  $request
         ]);
     }
 

@@ -23,13 +23,12 @@
 		{{-- Data End --}}
 
 		{{-- Filters --}}
-		<div class="card p-4"
+		<div class="card p-4 ms-auto"
 			 style="color: gray;">
 			<form action="/payments">
-				<div class="row">
-					<div class="col-sm-9 mb-2"></div>
+				<div class="d-flex">
 					{{-- Date --}}
-					<div class="col-sm-2 mb-2">
+					<div class="flex-grow-1 mb-2">
 						<input id=""
 							   name="date_received"
 							   type="date"
@@ -38,7 +37,7 @@
 					</div>
 					{{-- Date End --}}
 					{{-- Search --}}
-					<div class="col-sm-1">
+					<div class="mx-2">
 						<button type="submit"
 								class="btn btn-sm btn-primary ms-auto">
 							<i class="fa fa-search"></i> Search
