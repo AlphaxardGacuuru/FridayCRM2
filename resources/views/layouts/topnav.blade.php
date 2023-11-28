@@ -3,7 +3,7 @@
 		<a class="navbar-brand"
 		   href="/">
 			<img src="/storage/img/Bulk Black Logo 800x600.png"
-				 style="width: 6em;"
+				 style="width: 4em;"
 				 heigth="auto" />
 		</a>
 		<button class="navbar-toggler"

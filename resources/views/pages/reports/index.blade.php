@@ -7,7 +7,7 @@
 		{{-- Data --}}
 		<div class="card p-4"
 			 style="color: gray;">
-			<div class="d-flex justify-content-between">
+			<div class="d-flex justify-content-between flex-wrap">
 				{{-- Orders Total --}}
 				<div class="d-flex justify-content-between align-items-center mx-4 flex-grow-1 border-end">
 					<div>
@@ -27,7 +27,7 @@
 				</div>
 				{{-- Invoices Sum End --}}
 				{{-- Payments Sum --}}
-				<div class="d-flex justify-content-between align-items-center ms-2 me-4 flex-grow-1">
+				<div class="d-flex justify-content-between align-items-center mx-4 flex-grow-1">
 					<div>
 						KES <span class="fs-4">{{ number_format($paymentsSum) }}</span>
 						<h4 style="color: gray;">Total Payments</h4>
@@ -43,7 +43,7 @@
 		<div class="card p-4"
 			 style="color: gray;">
 			<form action="/reports">
-				<div class="d-flex">
+				<div class="d-flex flex-wrap">
 					{{-- Date --}}
 					<div class="flex-grow-1 me-2 mb-2">
 						<input id=""
@@ -84,13 +84,13 @@
 
 	{{-- Create Link --}}
 	<div class="d-flex justify-content-end mb-4">
-		<button class="btn btn-secondary me-5"
+		<button class="btn btn-secondary"
 				onclick="printInvoice()"><i class="fa fa-print"></i> Print</button>
 	</div>
 	{{-- Create Link End --}}
 
 	<div id="contentToPrint"
-		 class="row">
+		 class="row w-100">
 		<div class="offset-xl-2 col-xl-8 col-lg-12 col-md-12 col-sm-12 col-12">
 			<div class="card p-5">
 				<div class="card-header p-4 border-0">
