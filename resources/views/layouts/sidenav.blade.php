@@ -58,6 +58,12 @@
 							<i class="fa fa-credit-card mb-1"></i>Payments
 						</a>
 					</li>
+					<li class="nav-item">
+						<a class="nav-link {{ preg_match('/reports/', request()->url()) ? 'active' : '' }}"
+						   href="/reports">
+							<i class="fa fa-file-pdf mb-1"></i>Reports
+						</a>
+					</li>
 					{{--<li class="nav-item ">
 						<a class="nav-link active"
 						   href="#"
