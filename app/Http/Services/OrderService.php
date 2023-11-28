@@ -219,6 +219,11 @@ class OrderService
             $dateRange = explode("+-+-", $request->input("daterange"));
             $dateRange = explode(" - ", $dateRange[0]);
 
+            // Convert the date to include time (set time to 00:00:00 for example)
+            $date1 = date('Y-m-d H:i:s', strtotime($dateRange[0] . ' 00:00:00'));
+            $date2 = date('Y-m-d H:i:s', strtotime($dateRange[1] . ' 23:59:59'));
+            $dateRange = [$date1, $date2];
+
             $ordersQuery = $ordersQuery
                 ->whereBetween("date", $dateRange);
         }
