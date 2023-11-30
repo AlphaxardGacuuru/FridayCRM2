@@ -78,7 +78,7 @@ class ReportService
             ->get();
 
         return [
-            "reports" => $reports,
+            "reports" => $orders,
             "users" => $users,
             "ordersTotal" => $ordersTotal,
             "invoicesSum" => $invoicesSum,
