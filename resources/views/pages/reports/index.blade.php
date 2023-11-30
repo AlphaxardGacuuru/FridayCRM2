@@ -145,6 +145,31 @@
 						</tbody>
 					</table>
 				</div>
+				<div class="card-footer">
+					<div class="d-flex justify-content-between flex-wrap">
+						{{ $reports->appends([
+						"user_id" => $request->user_id,
+						"product_id" => $request->product_id,
+						"entry_number" => $request->entry_number,
+						"status" => $request->status,
+						"daterange" => $request->daterange,
+						])->links() }}
+						{{-- Increase pagination --}}
+						{{-- <nav>
+							<ul class="pagination">
+								<li class="page-item"><span class="page-link">Show per page</span></li>
+								<li class="page-item"
+									onclick="onPagination(20)"><span class="page-link">20</span>
+								</li>
+								<li class="page-item"
+									onclick="onPagination(50)"><span class="page-link">50</span></li>
+								<li class="page-item"
+									onclick="onPagination(100)"><span class="page-link">100</span></li>
+							</ul>
+						</nav> --}}
+						{{-- Increase pagination End --}}
+					</div>
+				</div>
 			</div>
 		</div>
 	</div>
