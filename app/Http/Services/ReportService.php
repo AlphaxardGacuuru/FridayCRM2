@@ -46,7 +46,9 @@ class ReportService
         $invoicesSum = $invoiceQuery->get()->sum("debit");
         $paymentsSum = $paymentQuery->get()->sum("credit");
 
-        $orders = $orderQuery->paginate(50);
+        $orders = $orderQuery
+            ->orderBy("date", "DESC")
+            ->paginate(50);
         $invoices = $invoiceQuery->get();
         $payments = $paymentQuery->get();
 

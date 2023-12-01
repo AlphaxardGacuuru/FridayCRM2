@@ -118,7 +118,7 @@
 									{{-- {{ $loop->iteration + ($reports->perPage() * ($reports->currentPage() - 1)) }}
 									--}}
 								</td>
-								<td>{{ $report->entry_number }}</td>
+								<td>{{ $report->user->name }}</td>
 								<td>{{ $report->vehicle_registration }}</td>
 								<td>KES</td>
 								<td>{{ $report->kra_due ? number_format($report->kra_due) : '-' }}</td>

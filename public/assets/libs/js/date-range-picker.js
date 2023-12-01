@@ -3,7 +3,8 @@ $(function () {
 		locale: {
 			format: "YYYY-MM-DD H:m:s",
 		},
-		// startDate: moment().startOf("month"),
-		// endDate: moment().endOf("month"),
+		// startDate: moment().startOf("year"),
+		// endDate: moment().endOf("year"),
+		autoUpdateInput: false,
 	})
 })
