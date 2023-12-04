@@ -29,8 +29,13 @@ class ReportService
         }
 
         if ($request->filled("daterange")) {
-            $dateRange = explode("+-+-", $request->input("daterange"));
-            $dateRange = explode(" - ", $dateRange[0]);
+            $dateRange = explode(" - ", $request->input("daterange"));
+
+            // Convert the input date string to a Carbon instance and format it
+            $date1 = Carbon::createFromFormat('m/d/Y', $dateRange[0])->startOfDay();
+            $date2 = Carbon::createFromFormat('m/d/Y', $dateRange[1])->endOfDay();
+
+            $dateRange = [$date1, $date2];
 
             $orderQuery = $orderQuery
                 ->whereBetween("date", $dateRange);
@@ -90,8 +95,6 @@ class ReportService
             "ordersTotal" => $ordersTotal,
             "invoicesSum" => $invoicesSum,
             "paymentsSum" => $paymentsSum,
-			// "dateRange1" => Carbon::parse($dateRange[0])->format("MM/DD/YYYY"),
-			// "dateRange2" => Carbon::parse($dateRange[1])->format("MM/DD/YYYY")
         ];
     }
 

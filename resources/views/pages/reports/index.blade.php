@@ -50,7 +50,10 @@
 							<input id=""
 								   name="daterange"
 								   type="text"
-								   {{-- value="{{ $dateRange1 }} +-+ {{ $dateRange2 }}" --}}
+								   placeholder="Select Date"
+								   value="{{ $request->input("
+								   daterange")
+								   }}"
 								   class="form-control w-100"
 								   autocomplete="off" />
 						</div>
@@ -87,7 +90,9 @@
 		{{-- Create Link --}}
 		<div class="d-flex justify-content-end mb-4">
 			<button class="btn btn-secondary"
-					onclick="printInvoice()"><i class="fa fa-print"></i> Print</button>
+					onclick="printInvoice()">
+				<i class="fa fa-print"></i> Print
+			</button>
 		</div>
 		{{-- Create Link End --}}
 
@@ -176,6 +181,13 @@
 
 	<div id="contentToPrint"
 		 class="row w-100 invisible">
+		 <style type="text/css">
+			@media print {
+				@page {
+					size: landscape;
+				}
+			}
+		</style>
 		<div class="offset-xl-2 col-xl-8 col-lg-12 col-md-12 col-sm-12 col-12">
 			<div class="card p-5">
 				<div class="card-header p-4 border-0">
@@ -274,7 +286,7 @@
 			document.body.innerHTML = originalBody;
 
 			// Reload to make date picker work
-			window.location.reload()
+			// window.location.reload()
 	}
 	</script>
 	@endsection

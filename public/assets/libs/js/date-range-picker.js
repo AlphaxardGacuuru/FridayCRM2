@@ -1,7 +1,7 @@
 $(function () {
 	$('input[name="daterange"]').daterangepicker({
 		locale: {
-			format: "YYYY-MM-DD H:m:s",
+			format: "MM/DD/YYYY",
 		},
 		// startDate: moment().startOf("year"),
 		// endDate: moment().endOf("year"),
@@ -15,9 +15,9 @@ $(function () {
 		"apply.daterangepicker",
 		function (ev, picker) {
 			$(this).val(
-				picker.startDate.format("YYYY-MM-DD H:m:s") +
+				picker.startDate.format("MM/DD/YYYY") +
 					" - " +
-					picker.endDate.format("YYYY-MM-DD H:m:s")
+					picker.endDate.format("MM/DD/YYYY")
 			)
 		}
 	)

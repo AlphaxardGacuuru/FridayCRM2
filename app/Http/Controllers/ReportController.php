@@ -3,15 +3,14 @@
 namespace App\Http\Controllers;
 
 use App\Http\Services\ReportService;
-use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 class ReportController extends Controller
 {
-	public function __construct(protected ReportService $service)
-	{
-		// 
-	}
+    public function __construct(protected ReportService $service)
+    {
+        //
+    }
 
     /**
      * Display a listing of the resource.
@@ -20,19 +19,17 @@ class ReportController extends Controller
      */
     public function index(Request $request)
     {
-		$data = $this->service->index($request);
+        $data = $this->service->index($request);
 
         return view("/pages/reports/index")->with([
-			"orders" => $data["orders"],
-			"reports" => $data["reports"],
+            "orders" => $data["orders"],
+            "reports" => $data["reports"],
             "ordersTotal" => $data["ordersTotal"],
             "invoicesSum" => $data["invoicesSum"],
             "paymentsSum" => $data["paymentsSum"],
-			"users" => $data["users"],
-			// "dateRange1" => $data["dateRange1"],
-			// "dateRange2" => $data["dateRange2"],
-			"request" => $request
-		]);
+            "users" => $data["users"],
+            "request" => $request,
+        ]);
     }
 
     /**
