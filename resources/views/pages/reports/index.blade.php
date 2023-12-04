@@ -51,9 +51,7 @@
 								   name="daterange"
 								   type="text"
 								   placeholder="Select Date"
-								   value="{{ $request->input("
-								   daterange")
-								   }}"
+								   value="{{ $request->input('daterange') }}"
 								   class="form-control w-100"
 								   autocomplete="off" />
 						</div>
@@ -181,7 +179,7 @@
 
 	<div id="contentToPrint"
 		 class="row w-100 invisible">
-		 <style type="text/css">
+		<style type="text/css">
 			@media print {
 				@page {
 					size: landscape;
