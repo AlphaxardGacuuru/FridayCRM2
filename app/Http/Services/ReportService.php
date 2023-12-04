@@ -15,7 +15,7 @@ class ReportService
      */
     public function index($request)
     {
-        $orderQuery = Order::select("*", "total_value as amount");
+        $orderQuery = Order::select("*");
 
         $invoiceQuery = Invoice::select("id", "user_id", "amount as debit", "created_at as date");
 

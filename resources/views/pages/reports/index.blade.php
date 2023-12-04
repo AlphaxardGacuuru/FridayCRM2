@@ -129,7 +129,7 @@
 								<td>{{ $order->kra_due ? number_format($order->kra_due) : '-' }}</td>
 								<td>{{ $order->kebs_due ? number_format($order->kebs_due) : '-' }}</td>
 								<td>{{ $order->other_charges ? number_format($order->other_charges) : '-' }}</td>
-								<td>{{ $order->total ? number_format($order->total) : '-' }}</td>
+								<td>{{ $order->total_value ? number_format($order->total_value) : '-' }}</td>
 								<td>
 									<span @class(['py-2
 										  px-4
