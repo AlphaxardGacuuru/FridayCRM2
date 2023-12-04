@@ -90,8 +90,8 @@ class ReportService
             "ordersTotal" => $ordersTotal,
             "invoicesSum" => $invoicesSum,
             "paymentsSum" => $paymentsSum,
-			"dateRange1" => Carbon::parse($dateRange[0])->format("MM/DD/YYYY"),
-			"dateRange2" => Carbon::parse($dateRange[1])->format("MM/DD/YYYY")
+			// "dateRange1" => Carbon::parse($dateRange[0])->format("MM/DD/YYYY"),
+			// "dateRange2" => Carbon::parse($dateRange[1])->format("MM/DD/YYYY")
         ];
     }
 

@@ -29,8 +29,8 @@ class ReportController extends Controller
             "invoicesSum" => $data["invoicesSum"],
             "paymentsSum" => $data["paymentsSum"],
 			"users" => $data["users"],
-			"dateRange1" => $data["dateRange1"],
-			"dateRange2" => $data["dateRange2"],
+			// "dateRange1" => $data["dateRange1"],
+			// "dateRange2" => $data["dateRange2"],
 			"request" => $request
 		]);
     }
