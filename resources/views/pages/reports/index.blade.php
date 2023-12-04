@@ -50,8 +50,9 @@
 							<input id=""
 								   name="daterange"
 								   type="text"
-								   value="{{ $request->input('daterange') }}"
-								   class="form-control w-100" />
+								   {{-- value="{{ $dateRange1 }} +-+ {{ $dateRange2 }}" --}}
+								   class="form-control w-100"
+								   autocomplete="off" />
 						</div>
 						{{-- Date End --}}
 						<div class="flex-grow-1 me-2 mb-2">
@@ -112,34 +113,33 @@
 							</tr>
 						</thead>
 						<tbody>
-							@foreach ($reports as $report)
+							@foreach ($orders as $order)
 							<tr>
 								<td scope="row">
-									{{-- {{ $loop->iteration + ($reports->perPage() * ($reports->currentPage() - 1)) }}
-									--}}
+									{{ $loop->iteration + ($orders->perPage() * ($orders->currentPage() - 1)) }}
 								</td>
-								<td>{{ $report->user->name }}</td>
-								<td>{{ $report->vehicle_registration }}</td>
+								<td>{{ $order->user->name }}</td>
+								<td>{{ $order->vehicle_registration }}</td>
 								<td>KES</td>
-								<td>{{ $report->kra_due ? number_format($report->kra_due) : '-' }}</td>
-								<td>{{ $report->kebs_due ? number_format($report->kebs_due) : '-' }}</td>
-								<td>{{ $report->other_charges ? number_format($report->other_charges) : '-' }}</td>
-								<td>{{ $report->total ? number_format($report->total) : '-' }}</td>
+								<td>{{ $order->kra_due ? number_format($order->kra_due) : '-' }}</td>
+								<td>{{ $order->kebs_due ? number_format($order->kebs_due) : '-' }}</td>
+								<td>{{ $order->other_charges ? number_format($order->other_charges) : '-' }}</td>
+								<td>{{ $order->total ? number_format($order->total) : '-' }}</td>
 								<td>
 									<span @class(['py-2
 										  px-4
-										  text-capitalize', 'bg-secondary-subtle'=> $report->status == 'pending',
-										'bg-primary-subtle' => $report->status == 'invoiced',
-										'bg-warning-subtle' => $report->status == 'partially_paid',
-										'bg-success-subtle' => $report->status == 'paid',
-										'bg-dark-subtle' => $report->status == 'over_paid'
+										  text-capitalize', 'bg-secondary-subtle'=> $order->status == 'pending',
+										'bg-primary-subtle' => $order->status == 'invoiced',
+										'bg-warning-subtle' => $order->status == 'partially_paid',
+										'bg-success-subtle' => $order->status == 'paid',
+										'bg-dark-subtle' => $order->status == 'over_paid'
 										])>
-										@foreach (explode("_", $report->status) as $status)
+										@foreach (explode("_", $order->status) as $status)
 										{{ $status }}
 										@endforeach
 									</span>
 								</td>
-								<td>{{ $report->date }}</td>
+								<td>{{ $order->date }}</td>
 							</tr>
 							@endforeach
 						</tbody>
@@ -147,7 +147,7 @@
 				</div>
 				<div class="card-footer">
 					<div class="d-flex justify-content-between flex-wrap">
-						{{ $reports->appends([
+						{{ $orders->appends([
 						"user_id" => $request->user_id,
 						"product_id" => $request->product_id,
 						"entry_number" => $request->entry_number,

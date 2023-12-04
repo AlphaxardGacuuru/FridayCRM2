@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Services\ReportService;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 class ReportController extends Controller
@@ -22,11 +23,14 @@ class ReportController extends Controller
 		$data = $this->service->index($request);
 
         return view("/pages/reports/index")->with([
+			"orders" => $data["orders"],
 			"reports" => $data["reports"],
             "ordersTotal" => $data["ordersTotal"],
             "invoicesSum" => $data["invoicesSum"],
             "paymentsSum" => $data["paymentsSum"],
 			"users" => $data["users"],
+			"dateRange1" => $data["dateRange1"],
+			"dateRange2" => $data["dateRange2"],
 			"request" => $request
 		]);
     }
