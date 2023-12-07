@@ -39,9 +39,11 @@
 					<div class="col-sm-2 mb-2">
 						<input id=""
 							   name="daterange"
+							   placeholder="Select Date"
 							   type="text"
 							   value="{{ $request->input('date') }}"
-							   class="form-control w-100" />
+							   class="form-control w-100"
+							   autocomplete="off" />
 					</div>
 					{{-- Date End --}}
 					<div class="col-sm-2 mb-2">

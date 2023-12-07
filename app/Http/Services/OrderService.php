@@ -8,6 +8,7 @@ use App\Models\Order;
 use App\Models\Payment;
 use App\Models\Product;
 use App\Models\User;
+use Carbon\Carbon;
 
 class OrderService
 {
@@ -216,8 +217,13 @@ class OrderService
         }
 
         if ($request->filled("daterange")) {
-            $dateRange = explode("+-+-", $request->input("daterange"));
-            $dateRange = explode(" - ", $dateRange[0]);
+            $dateRange = explode(" - ", $request->input("daterange"));
+
+            // Convert the input date string to a Carbon instance and format it
+            $date1 = Carbon::createFromFormat('m/d/Y', $dateRange[0])->startOfDay();
+            $date2 = Carbon::createFromFormat('m/d/Y', $dateRange[1])->endOfDay();
+
+            $dateRange = [$date1, $date2];
 
             $ordersQuery = $ordersQuery
                 ->whereBetween("date", $dateRange);
