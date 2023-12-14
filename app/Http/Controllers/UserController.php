@@ -118,6 +118,11 @@ class UserController extends Controller
      */
     public function profileUpdate(Request $request)
     {
+        $this->validate($request, [
+			"avatar" => "nullable|image",
+            "email" => "nullable|string|unique:users",
+        ]);
+
         [$saved, $message, $user] = $this->service->profileUpdate($request);
 
         return redirect("/profile")

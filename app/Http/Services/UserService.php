@@ -11,6 +11,7 @@ use App\Models\Product;
 use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Storage;
 
 class UserService
 {
@@ -167,6 +168,22 @@ class UserService
     public function profileUpdate($request)
     {
         $user = User::find(auth()->user()->id);
+
+        if ($request->hasFile("avatar")) {
+            $avatar = $request->file('avatar')->store('public/avatars');
+            $avatar = substr($avatar, 7);
+
+            // Delete Avatar if it's not the default one
+            if ($user->avatar != '/storage/avatars/male-avatar.png') {
+
+                // Get old avatar and delete it
+                $oldAvatar = substr($user->avatar, 9);
+
+                Storage::disk("public")->delete($oldAvatar);
+            }
+
+            $user->avatar = $avatar;
+        }
 
         if ($request->filled("name")) {
             $user->name = $request->input("name");
