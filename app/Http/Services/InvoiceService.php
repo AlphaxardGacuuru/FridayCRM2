@@ -223,7 +223,7 @@ class InvoiceService
 
         // Change Orders statuses back to pending
         foreach ($invoice->order_ids as $orderId) {
-            $order = Order::find($orderId)->update(["status" => "pending"]);
+            $order = Order::findOrFail($orderId)->update(["status" => "pending"]);
         }
 
         $deleted = $invoice->delete();
