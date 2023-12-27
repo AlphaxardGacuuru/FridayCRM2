@@ -223,7 +223,7 @@ class InvoiceService
 
         // Change Orders statuses back to pending
         foreach ($invoice->order_ids as $orderId) {
-            $exists = Order::find($orderId)->exists();
+            $exists = Order::find($orderId);
 
             if ($exists) {
                 Order::findOrFail($orderId)->update(["status" => "pending"]);
