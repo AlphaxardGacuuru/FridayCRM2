@@ -70,7 +70,7 @@ class InvoiceService
 
         $paymentService->updateInvoiceAndOrderStatus($invoice);
 
-		// Fetch again to get new changes
+        // Fetch again to get new changes
         $invoice = Invoice::findOrFail($id);
 
         $orders = [];
@@ -223,7 +223,11 @@ class InvoiceService
 
         // Change Orders statuses back to pending
         foreach ($invoice->order_ids as $orderId) {
-            $order = Order::findOrFail($orderId)->update(["status" => "pending"]);
+            $exists = Order::find($orderId)->exists();
+
+            if ($exists) {
+                Order::findOrFail($orderId)->update(["status" => "pending"]);
+            }
         }
 
         $deleted = $invoice->delete();
