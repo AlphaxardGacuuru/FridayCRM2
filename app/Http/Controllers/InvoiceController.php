@@ -24,10 +24,10 @@ class InvoiceController extends Controller
 
         return view("/pages/invoices/index")
             ->with([
-				"invoices" => $invoices,
-				"totalBilled" => $totalBilled,
-				"totalPaid" => $totalPaid
-			]);
+                "invoices" => $invoices,
+                "totalBilled" => $totalBilled,
+                "totalPaid" => $totalPaid,
+            ]);
     }
 
     /**
@@ -92,9 +92,16 @@ class InvoiceController extends Controller
      * @param  \App\Models\Invoice  $invoice
      * @return \Illuminate\Http\Response
      */
-    public function edit(Invoice $invoice)
+    public function edit($id)
     {
-        //
+        [$invoice, $users, $orders, $items] = $this->service->edit($id);
+
+        return view("/pages/invoices/edit")->with([
+            "invoice" => $invoice,
+			"users" => $users,
+			"orders" => $orders,
+			"items" => $items
+        ]);
     }
 
     /**
@@ -104,9 +111,13 @@ class InvoiceController extends Controller
      * @param  \App\Models\Invoice  $invoice
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Invoice $invoice)
+    public function update(Request $request, $id)
     {
-        //
+        [$saved, $message, $invoice] = $this->service->update($request, $id);
+
+        return redirect("/invoices/" . $id . "/edit")->with([
+            "success" => $message,
+        ]);
     }
 
     /**

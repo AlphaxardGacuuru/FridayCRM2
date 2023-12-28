@@ -103,6 +103,34 @@ class InvoiceService
         return [$invoice, $items, $users, $payments, $totalPayments, $balance];
     }
 
+    /*
+     * Get Data for edit page
+     */
+    public function edit($id)
+    {
+        $invoice = Invoice::findOrFail($id);
+
+        $users = User::select("id", "name")
+            ->where("account_type", "normal")
+            ->get();
+
+        $orders = [];
+
+        foreach ($invoice->order_ids as $orderId) {
+            $order = Order::find($orderId);
+
+            array_push($orders, $order);
+        }
+
+        $items = OrderResource::collection($orders);
+
+        $orders = Order::select("id", "entry_number")
+            ->where("status", "pending")
+            ->get();
+
+        return [$invoice, $users, $orders, $items];
+    }
+
     /**
      * Store a newly created resource in storage.
      *
@@ -202,6 +230,45 @@ class InvoiceService
 
         if ($request->filled("status")) {
             $invoice->status = $request->input("status");
+        }
+
+        if ($request->filled("removeOrderId")) {
+            $id = $request->removeOrderId;
+
+            // Update Order
+            Order::findOrFail($id)->update(["status" => "pending"]);
+
+            // Filter Ids
+            $filteredIds = collect($invoice->order_ids)
+                ->filter(fn($value, $key) => $value != $id)
+                ->values();
+
+            $invoice->order_ids = $filteredIds;
+
+            // Update Invoice amount
+            $invoice->amount = Order::whereIn("id", $filteredIds)->sum("total_value");
+        }
+
+        if ($request->filled("addOrderIds")) {
+            Order::whereIn("id", $request->addOrderIds)->update(["status" => "invoiced"]);
+
+            // Get the array of order IDs from the request and convert strings to integers
+            $newOrderIds = array_map('intval', $request->addOrderIds);
+
+            // Get the existing order IDs from the $invoice model
+            $existingOrderIds = $invoice->order_ids;
+
+            // Merge the new order IDs with the existing ones (remove duplicates)
+            $mergedOrderIds = array_unique(array_merge($existingOrderIds, $newOrderIds));
+
+            // Re-index the merged array numerically
+            $mergedOrderIds = array_values($mergedOrderIds);
+
+            // Update the $invoice model with the merged order IDs
+            $invoice->order_ids = $mergedOrderIds;
+
+            // Update Invoice amount
+            $invoice->amount = Order::whereIn("id", $mergedOrderIds)->sum("total_value");
         }
 
         $saved = $invoice->save();

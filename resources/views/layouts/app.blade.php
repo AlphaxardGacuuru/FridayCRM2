@@ -107,6 +107,8 @@
 	<script src="{{ asset('assets/libs/js/dashboard-ecommerce.js') }}"></script>
 	{{-- Date Range Picker --}}
 	<script src="{{ asset('assets/libs/js/date-range-picker.js') }}"></script>
+	{{-- Invoice Edit --}}
+	<script src="{{ asset('assets/libs/js/invoice-edit.js') }}"></script>
 
 	<!-- Include Required Prerequisites -->
 	{{-- <script type="text/javascript"

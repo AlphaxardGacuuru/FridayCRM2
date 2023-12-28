@@ -80,6 +80,12 @@
 										<i class="fa fa-eye"></i>
 									</a>
 									{{-- Show Invoice End --}}
+									{{-- Edit --}}
+									<a href="/invoices/{{ $invoice->id }}/edit"
+									   class="btn btn-sm btn-primary">
+										<i class="fa fa-edit"></i>
+									</a>
+									{{-- Edit End --}}
 									{{-- Delete Modal --}}
 									<div class="mx-1">
 										{{-- Confirm Delete Modal End --}}
