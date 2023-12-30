@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\CreditNoteController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\InvoiceController;
 use App\Http\Controllers\OrderController;
@@ -34,6 +35,7 @@ Route::middleware("auth")->group(function () {
         "reports" => ReportController::class,
         "statements" => StatementController::class,
         "invoices" => InvoiceController::class,
+		"credit-notes" => CreditNoteController::class
     ]);
 	
     /*

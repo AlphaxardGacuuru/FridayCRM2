@@ -64,6 +64,12 @@
 							<i class="fa fa-file-pdf mb-1"></i>Reports
 						</a>
 					</li>
+					<li class="nav-item">
+						<a class="nav-link {{ preg_match('/credit-notes/', request()->url()) ? 'active' : '' }}"
+						   href="/credit-notes">
+							<i class="fa fa-sticky-note mb-1"></i>Credit Notes
+						</a>
+					</li>
 					{{--<li class="nav-item ">
 						<a class="nav-link active"
 						   href="#"
