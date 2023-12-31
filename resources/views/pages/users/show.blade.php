@@ -1,18 +1,8 @@
 @extends('layouts.app')
 
 @section('content')
-
-
-<!-- content -->
-
 <div class="row">
-
-	<!-- profile -->
-
 	<div class="col-xl-3 col-lg-3 col-md-5 col-sm-12 col-12">
-
-		<!-- card profile -->
-
 		<div class="card">
 			<div class="card-body">
 				<div class="user-avatar text-center d-block">
@@ -39,67 +29,66 @@
 			</div>
 		</div>
 
-		<!-- end card profile -->
-
+		<ul class="nav nav-pills mb-3 nav-justified d-flex flex-column"
+			id="pills-tab"
+			role="tablist">
+			<li class="nav-item my-1">
+				<a class="nav-link active shadow-sm rounded"
+				   id="pills-order-tab"
+				   data-toggle="pill"
+				   href="#pills-order"
+				   role="tab"
+				   aria-controls="pills-order"
+				   aria-selected="true">Orders</a>
+			</li>
+			<li class="nav-item my-1">
+				<a class="nav-link shadow-sm rounded"
+				   id="pills-invoice-tab"
+				   data-toggle="pill"
+				   href="#pills-invoice"
+				   role="tab"
+				   aria-controls="pills-invoice"
+				   aria-selected="false">Invoices</a>
+			</li>
+			<li class="nav-item my-1">
+				<a class="nav-link shadow-sm rounded"
+				   id="pills-payment-tab"
+				   data-toggle="pill"
+				   href="#pills-payment"
+				   role="tab"
+				   aria-controls="pills-payment"
+				   aria-selected="false">Payments</a>
+			</li>
+			<li class="nav-item my-1">
+				<a class="nav-link shadow-sm rounded"
+				   id="pills-statement-tab"
+				   data-toggle="pill"
+				   href="#pills-statement"
+				   role="tab"
+				   aria-controls="pills-statement"
+				   aria-selected="false">Statements</a>
+			</li>
+			<li class="nav-item my-1">
+				<a class="nav-link shadow-sm rounded"
+				   id="pills-credit-tab"
+				   data-toggle="pill"
+				   href="#pills-credit"
+				   role="tab"
+				   aria-controls="pills-credit"
+				   aria-selected="false">Credit Notes</a>
+			</li>
+		</ul>
 	</div>
 
-	<!-- end profile -->
-
-
-	<!-- campaign data -->
-
 	<div class="col-xl-9 col-lg-9 col-md-7 col-sm-12 col-12">
-
-		<!-- campaign tab one -->
-
 		<div class="influence-profile-content pills-regular">
-			<ul class="nav nav-pills mb-3 nav-justified"
-				id="pills-tab"
-				role="tablist">
-				<li class="nav-item me-2">
-					<a class="nav-link active"
-					   id="pills-campaign-tab"
-					   data-toggle="pill"
-					   href="#pills-campaign"
-					   role="tab"
-					   aria-controls="pills-campaign"
-					   aria-selected="true">Orders</a>
-				</li>
-				<li class="nav-item me-2">
-					<a class="nav-link"
-					   id="pills-packages-tab"
-					   data-toggle="pill"
-					   href="#pills-packages"
-					   role="tab"
-					   aria-controls="pills-packages"
-					   aria-selected="false">Invoices</a>
-				</li>
-				<li class="nav-item me-2">
-					<a class="nav-link"
-					   id="pills-review-tab"
-					   data-toggle="pill"
-					   href="#pills-review"
-					   role="tab"
-					   aria-controls="pills-review"
-					   aria-selected="false">Payments</a>
-				</li>
-				<li class="nav-item">
-					<a class="nav-link"
-					   id="pills-msg-tab"
-					   data-toggle="pill"
-					   href="#pills-msg"
-					   role="tab"
-					   aria-controls="pills-msg"
-					   aria-selected="false">Statements</a>
-				</li>
-			</ul>
 			<div class="tab-content"
 				 id="pills-tabContent">
 				{{-- Orders Tab --}}
 				<div class="tab-pane fade show active"
-					 id="pills-campaign"
+					 id="pills-order"
 					 role="tabpanel"
-					 aria-labelledby="pills-campaign-tab">
+					 aria-labelledby="pills-order-tab">
 					<div class="row">
 						{{-- basic table --}}
 						<div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
@@ -369,9 +358,9 @@
 				{{-- Orders Tab End --}}
 				{{-- Invoices Tab --}}
 				<div class="tab-pane fade"
-					 id="pills-packages"
+					 id="pills-invoice"
 					 role="tabpanel"
-					 aria-labelledby="pills-packages-tab">
+					 aria-labelledby="pills-invoice-tab">
 					<div class="row">
 						{{-- basic table --}}
 						<div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
@@ -476,9 +465,9 @@
 				{{-- Invoices Tab End --}}
 				{{-- Payments Tab --}}
 				<div class="tab-pane fade"
-					 id="pills-review"
+					 id="pills-payment"
 					 role="tabpanel"
-					 aria-labelledby="pills-review-tab">
+					 aria-labelledby="pills-payment-tab">
 					<div class="row">
 						{{-- basic table --}}
 						<div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
@@ -652,9 +641,9 @@
 				{{-- Payments Tab End --}}
 				{{-- Statements Tab --}}
 				<div class="tab-pane fade"
-					 id="pills-msg"
+					 id="pills-statement"
 					 role="tabpanel"
-					 aria-labelledby="pills-msg-tab">
+					 aria-labelledby="pills-statement-tab">
 					<div class="row">
 						{{-- basic table --}}
 						<div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
@@ -702,9 +691,9 @@
 													<td>
 														<span @class(["py-2
 															  px-4", "bg-warning-subtle"=> $statement->balance > 0,
-															  "bg-success-subtle"=> $statement->balance < 0,
+															"bg-success-subtle"=> $statement->balance < 0,
 															  ])>
-															{{ number_format($statement->balance) }}
+																{{ number_format($statement->balance) }}
 														</span>
 													</td>
 												</tr>
@@ -718,14 +707,85 @@
 					</div>
 				</div>
 				{{-- Statements Tab End --}}
+				{{-- Credit Notes Tab --}}
+				<div class="tab-pane fade"
+					 id="pills-credit"
+					 role="tabpanel"
+					 aria-labelledby="pills-credit-tab">
+					<div class="row">
+						{{-- basic table --}}
+						<div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+							{{-- Data --}}
+							<div class="card p-4"
+								 style="color: gray;">
+								<div class="d-flex justify-content-between">
+									{{-- Billed --}}
+									<div class="d-flex justify-content-between w-50 align-items-center mx-4">
+										<div>
+											KES <span class="fs-4">0</span>
+											<h4 style="color: gray;">Total Amount</h4>
+										</div>
+										<div class="border-end pe-4"><i class="fa fa-file-alt fs-1"></i></div>
+									</div>
+									{{-- Billed End --}}
+									{{-- Paid --}}
+									<div class="d-flex justify-content-between w-50 align-items-center ms-2 me-4">
+										<div>
+											KES <span class="fs-4">0</span>
+											<h4 style="color: gray;">Used</h4>
+										</div>
+										<div class="border-end pe-4"><i class="fa fa-check-square fs-1"></i></div>
+									</div>
+									{{-- Paid End --}}
+									{{-- Balance --}}
+									<div class="d-flex justify-content-between w-50 align-items-center ms-2 me-4">
+										<div>
+											KES <span class="fs-4">0</span>
+											<h4 style="color: gray;">Balance</h4>
+										</div>
+										<div><i class="fa fa-balance-scale fs-1"></i></div>
+									</div>
+									{{-- Balance End --}}
+								</div>
+							</div>
+							{{-- Data End --}}
+
+							<div class="card">
+								<div class="d-flex justify-content-between card-header">
+									<h3 class="">Credit Notes</h3>
+								</div>
+								<div class="card-body">
+									<table class="table">
+										<thead>
+											<tr>
+												<th scope="col">Credit Note #</th>
+												<th scope="col">Credit Note Date</th>
+												<th scope="col">Status</th>
+												<th scope="col">Project</th>
+												<th scope="col">Reference #</th>
+												<th scope="col">Amount</th>
+												<th scope="col">Remaining Amount</th>
+											</tr>
+										</thead>
+									</table>
+								</div>
+								<div class="card-footer">
+									{{-- {{ $creditNotes->links() }} --}}
+								</div>
+							</div>
+						</div>
+						{{-- end basic table --}}
+					</div>
+				</div>
+				{{-- Credit Notes Tab End --}}
 			</div>
 		</div>
 
-		<!-- end campaign tab one -->
+		<!-- end order tab one -->
 
 	</div>
 
-	<!-- end campaign data -->
+	<!-- end order data -->
 
 </div>
 

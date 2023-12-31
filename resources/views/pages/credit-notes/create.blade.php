@@ -116,8 +116,7 @@
 									<span class="text-danger">*</span>Admin Note
 								</label>
 								<div class="input-group">
-									<textarea type="text"
-											  id="inputAdminNote"
+									<textarea id="inputAdminNote"
 											  placeholder=""
 											  class="form-control"
 											  rows="5">
@@ -138,8 +137,9 @@
 							<option value="">Add Item</option>
 						</select>
 						<div class="input-group-append">
-							<button type="button"
-									class="btn btn-outline-light"><i class="fa fa-plus"></i>
+							<button id="addRowBtn"
+									class="btn btn-sm btn-outline-light">
+								<i class="fa fa-plus"></i>
 							</button>
 						</div>
 					</div>
@@ -164,7 +164,7 @@
 					</div>
 				</div>
 				<div class="table-responsive">
-					<table class="table">
+					<table id="myTable" class="table">
 						<thead>
 							<tr>
 								<th>Item</th>
@@ -180,8 +180,7 @@
 							<tr>
 								<td>
 									<div class="input-group">
-										<textarea type="text"
-												  id="inputItem"
+										<textarea id="inputItem"
 												  placeholder="Description"
 												  class="form-control"
 												  rows="5">
@@ -239,7 +238,72 @@
 		</div>
 	</div>
 </div>
-<!-- ============================================================== -->
-<!-- end basic form  -->
-<!-- ============================================================== -->
+
+<script>
+	document.addEventListener('DOMContentLoaded', function() {
+	var addRowButton = document.getElementById('addRowBtn');
+	var tableBody = document.querySelector('#myTable tbody');
+	
+	addRowButton.addEventListener('click', function() {
+	// Create a new row
+	var newRow = document.createElement('tr');
+	
+	// Add cells (columns) to the new row
+	newRow.innerHTML = `
+	<tr>
+		<td>
+			<div class="input-group">
+				<textarea id="inputItem"
+						  placeholder="Description"
+						  class="form-control"
+						  rows="5">
+											</textarea>
+			</div>
+		</td>
+		<td>
+			<div class="input-group">
+				<textarea type="text"
+						  id="inputDescription"
+						  placeholder="Long Description"
+						  class="form-control"
+						  rows="5">
+											</textarea>
+			</div>
+		</td>
+		<td>
+			<div class="input-group">
+				<input type="number"
+					   id="inputQty"
+					   placeholder=""
+					   class="form-control">
+			</div>
+		</td>
+		<td>
+			<div class="input-group">
+				<input type="number"
+					   id="inputRate"
+					   placeholder=""
+					   class="form-control">
+			</div>
+		</td>
+		<td>
+			<div class="input-group">
+				<select id="user"
+						name="discount_type"
+						class="form-control"
+						required>
+					<option value="">16%</option>
+				</select>
+			</div>
+		</td>
+		<td></td>
+		<td></td>
+	</tr>
+	`;
+	
+	// Append the new row to the table body
+	tableBody.appendChild(newRow);
+	});
+	});
+</script>
 @endsection
