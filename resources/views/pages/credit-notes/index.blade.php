@@ -58,12 +58,13 @@
 							<th scope="col">Reference #</th>
 							<th scope="col">Amount</th>
 							<th scope="col">Remaining Amount</th>
+							<th scope="col">Actions</th>
 						</tr>
 					</thead>
 					<tbody>
 						@foreach ($creditNotes as $creditNote)
 						<tr>
-							<td>{{ $creditNote->id }}</td>
+							<td>{{ $creditNote->serial }}</td>
 							<td>{{ $creditNote->date }}</td>
 							<td>
 								<span @class(["p-2
@@ -78,20 +79,20 @@
 								</span>
 							</td>
 							<td>{{ $creditNote->project }}</td>
-							<td>{{ $creditNote->invoice_id }}</td>
+							<td>{{ $creditNote->reference }}</td>
 							<td>{{ $creditNote->amount ? number_format($creditNote->amount) : '-' }}</td>
 							<td>{{ $creditNote->remaining_amount ? number_format($creditNote->remaining_amount) : '-' }}
 							</td>
 							<td>
 								<div class="d-flex">
 									{{-- Show Credit Note --}}
-									<a href="/creditNotes/{{ $creditNote->id }}"
+									<a href="/credit-notes/{{ $creditNote->id }}"
 									   class="btn btn-sm btn-primary me-1">
 										<i class="fa fa-eye"></i>
 									</a>
 									{{-- Show Credit Note End --}}
 									{{-- Edit --}}
-									<a href="/creditNotes/{{ $creditNote->id }}/edit"
+									<a href="/credit-notes/{{ $creditNote->id }}/edit"
 									   class="btn btn-sm btn-primary">
 										<i class="fa fa-edit"></i>
 									</a>
@@ -117,7 +118,7 @@
 																aria-label="Close"></button>
 													</div>
 													<div class="modal-body text-wrap">
-														Are you sure you want to delete this creditNote.
+														Are you sure you want to delete this Credit Note.
 														This process is irreversible.
 													</div>
 													<div class="modal-footer justify-content-between">
@@ -134,7 +135,7 @@
 															Delete
 														</button>
 														<form id="deleteForm{{ $creditNote->id }}"
-															  action="/creditNotes/{{ $creditNote->id }}"
+															  action="/credit-notes/{{ $creditNote->id }}"
 															  method="POST"
 															  style="display: none;">
 															<input type="hidden"

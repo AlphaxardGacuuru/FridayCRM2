@@ -5,14 +5,20 @@
 	<div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
 		<div class="card">
 			<div class="d-flex justify-content-between card-header">
-				<h3 class="">Create Credit Note</h3>
+				<h3 class="">Edit Credit Note</h3>
 				<a href="/credit-notes"
 				   class="btn btn-primary">View All</a>
 			</div>
 
-			<form action="/credit-notes"
+			<form action="/credit-notes/{{ $creditNote->id }}"
 				  method="POST">
 				@csrf
+
+				{{-- Spoof PUT method --}}
+				<input type="hidden"
+					   name="_method"
+					   value="PUT">
+				{{-- Spoof PUT method End --}}
 
 				<div class="card-body border-bottom">
 					<div class="row">
@@ -28,7 +34,10 @@
 										required>
 									<option value="">Choose a Customer</option>
 									@foreach ($users as $user)
-									<option value="{{ $user->id}}">{{ $user->name }}</option>
+									<option value="{{ $user->id}}"
+											{{
+											$creditNote->user_id == $user->id ? 'selected' : '' }}>{{ $user->name }}
+									</option>
 									@endforeach
 								</select>
 							</div>
@@ -42,6 +51,7 @@
 									<input id="inputDate"
 										   type="date"
 										   name="date"
+										   value="{{ $creditNote->dateUnformated }}"
 										   class="form-control">
 								</div>
 								{{-- Date End --}}
@@ -56,7 +66,7 @@
 											</div>
 											<input type="text"
 												   name="serial"
-												   placeholder="No"
+												   placeholder="{{ $creditNote->serial }}"
 												   class="form-control">
 										</div>
 									</div>
@@ -106,7 +116,7 @@
 									<input type="text"
 										   id="inputReference"
 										   name="reference"
-										   placeholder=""
+										   placeholder="{{ $creditNote->reference }}"
 										   class="form-control">
 								</div>
 							</div>
@@ -118,13 +128,13 @@
 									   class="col-form-label">
 									<span class="text-danger">*</span>Admin Note
 								</label>
-								<div class="input-group">
-									<textarea id="inputAdminNote"
-											  name="admin_note"
-											  placeholder=""
-											  class="form-control"
-											  rows="5">
-											</textarea>
+								<div class='input-group'>
+									<textarea id='inputAdminNote'
+											  name='admin_note'
+											  placeholder='{{ $creditNote->admin_note }}'
+											  value='{{ $creditNote->admin_note }}'
+											  class='form-control'
+											  rows='5'></textarea>
 								</div>
 							</div>
 							{{-- Admin Note End --}}
@@ -157,21 +167,26 @@
 									   name="quantity_as"
 									   value="as_quantity"
 									   class="custom-control-input"
-									   checked>
+									   {{
+									   $creditNote->quantity_as == "as_quantity" ? 'checked' : '' }}>
 								<span class="custom-control-label">Qty</span>
 							</label>
 							<label class="custom-control custom-radio custom-control-inline">
 								<input type="radio"
 									   name="quantity_as"
 									   value="as_hours"
-									   class="custom-control-input">
+									   class="custom-control-input"
+									   {{
+									   $creditNote->quantity_as == "as_hours" ? 'checked' : '' }}>
 								<span class="custom-control-label">Hours</span>
 							</label>
 							<label class="custom-control custom-radio custom-control-inline">
 								<input type="radio"
 									   name="quantity_as"
 									   value="as_quantity_hours"
-									   class="custom-control-input">
+									   class="custom-control-input"
+									   {{
+									   $creditNote->quantity_as == "as_quantity_hours" ? 'checked' : '' }}>
 								<span class="custom-control-label">Qty/Hours</span>
 							</label>
 						</div>
@@ -192,15 +207,17 @@
 								</tr>
 							</thead>
 							<tbody>
+								@foreach ($creditNote->items as $item)
 								<tr>
 									<td>
 										<div class='input-group'>
 											<textarea id='inputItem'
 													  name='item[]'
-													  placeholder='Description'
+													  placeholder='{{ $item["item"] }}'
 													  class='form-control'
-													  rows='5'
-													  required></textarea>
+													  rows='5'>
+													 {{ $item["item"] }}
+											</textarea>
 										</div>
 									</td>
 									<td>
@@ -208,10 +225,11 @@
 											<textarea type='text'
 													  id='inputDescription'
 													  name='description[]'
-													  placeholder='Long Description'
+													  placeholder='{{ $item["description"] }}'
 													  class='form-control'
-													  rows='5'
-													  required></textarea>
+													  rows='5'>
+													 {{ $item["description"] }}
+											</textarea>
 										</div>
 									</td>
 									<td>
@@ -219,9 +237,9 @@
 											<input type='number'
 												   id='inputQty'
 												   name='quantity[]'
-												   placeholder=''
-												   class='form-control'
-												   required>
+												   placeholder='{{ $item["quantity"] }}'
+												   value='{{ $item["quantity"] }}'
+												   class='form-control'>
 										</div>
 									</td>
 									<td>
@@ -229,9 +247,9 @@
 											<input type='number'
 												   id='inputRate'
 												   name='rate[]'
-												   placeholder=''
-												   class='form-control'
-												   required>
+												   placeholder='{{ $item["rate"] }}'
+												   value='{{ $item["rate"] }}'
+												   class='form-control'>
 										</div>
 									</td>
 									<td>
@@ -247,9 +265,10 @@
 									<td>
 										<div class='input-group'>
 											<input type='number'
-												   id='inputAmount'
+												   id='inputRate'
 												   name='amount[]'
-												   placeholder=''
+												   placeholder='{{ $item["amount"] }}'
+												   value='{{ $item["amount"] }}'
 												   class='form-control'
 												   required>
 										</div>
@@ -264,13 +283,14 @@
 										'></i>
 									</td>
 								</tr>
+								@endforeach
 							</tbody>
 						</table>
 					</div>
 
 					<div class="d-flex justify-content-end mt-2">
 						<button type="submit"
-								class="btn btn-primary">Create Credit Note</button>
+								class="btn btn-primary">Update Credit Note</button>
 					</div>
 				</div>
 			</form>
@@ -299,12 +319,12 @@
 		var cell7 = newRow.insertCell(7)
 
 		// Set cell content - adjust as needed
-		cell0.innerHTML = "<div class='input-group'><textarea id='inputItem' name='item[]' placeholder='Description'  class='form-control'  rows='5' required></textarea></div>"
-		cell1.innerHTML = "<div class='input-group'><textarea type='text' id='inputDescription' name='description[]' placeholder='Long Description' class='form-control' rows='5' required></textarea></div>"
-		cell2.innerHTML = "<div class='input-group'><input type='number' id='inputQty' name='quantity[]' placeholder='' class='form-control' required></div>"
-		cell3.innerHTML = "<div class='input-group'><input type='number' id='inputRate' name='rate[]' placeholder='' class='form-control' required></div>"
-		cell4.innerHTML = "<div class='input-group'><select id='user' name='tax[]' class='form-control' required><option value='16' required>16%</option></select></div>"
-		cell5.innerHTML = "<div class='input-group'><input type='number' id='inputAmount' name='amount[]' placeholder='' class='form-control' required></div>"
+		cell0.innerHTML = "<div class='input-group'><textarea id='inputItem' name='item[]' placeholder='Description'  class='form-control'  rows='5'></textarea></div>"
+		cell1.innerHTML = "<div class='input-group'><textarea type='text' id='inputDescription' name='description[]' placeholder='Long Description' class='form-control' rows='5'></textarea></div>"
+		cell2.innerHTML = "<div class='input-group'><input type='number' id='inputQty' name='quantity[]' placeholder='' class='form-control'></div>"
+		cell3.innerHTML = "<div class='input-group'><input type='number' id='inputRate' name='rate[]' placeholder='' class='form-control'></div>"
+		cell4.innerHTML = "<div class='input-group'><select id='user' name='tax[]' class='form-control' required><option value='16'>16%</option></select></div>"
+		cell5.innerHTML = "<div class='input-group'><input type='number' id='inputRate' name='amount[]' placeholder='' class='form-control' required></div>"
 		cell6.innerHTML = ""
 
 		// Create a delete button (x icon)

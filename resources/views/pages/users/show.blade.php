@@ -780,13 +780,7 @@
 				{{-- Credit Notes Tab End --}}
 			</div>
 		</div>
-
-		<!-- end order tab one -->
-
 	</div>
-
-	<!-- end order data -->
-
 </div>
 
 @endsection

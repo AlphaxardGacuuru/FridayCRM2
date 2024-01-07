@@ -19,13 +19,13 @@ return new class extends Migration
                 ->constrained()
                 ->onUpdate('cascade')
                 ->onDelete('cascade');
-            $table->foreignId('invoice_id')
-                ->constrained()
-                ->onUpdate('cascade')
-                ->onDelete('cascade');
+            $table->string('serial')->nullable();
             $table->string('discount_type')->nullable();
             $table->timestamp('date')->nullable();
+            $table->string('reference')->nullable();
             $table->string('admin_note')->nullable();
+            $table->string('quantity_as')->nullable();
+            $table->json('items')->nullable();
             $table->timestamps();
         });
     }
