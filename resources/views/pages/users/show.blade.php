@@ -753,6 +753,10 @@
 							<div class="card">
 								<div class="d-flex justify-content-between card-header">
 									<h3 class="">Credit Notes</h3>
+									<div class="d-flex justify-content-between">
+										<a href="/credit-notes/create"
+										   class="btn btn-primary"><i class="fa fa-pen-square"></i> Create</a>
+									</div>
 								</div>
 								<div class="card-body">
 									<table class="table">
@@ -767,10 +771,38 @@
 												<th scope="col">Remaining Amount</th>
 											</tr>
 										</thead>
+										<tbody>
+											@foreach ($creditNotes as $creditNote)
+											<tr>
+												<td>{{ $creditNote->serial }}</td>
+												<td>{{ $creditNote->date }}</td>
+												<td>
+													<span @class(["p-2
+														  text-capitalize", "bg-danger-subtle"=> $creditNote->status ==
+														"not_paid",
+														"bg-warning-subtle"=> $creditNote->status == "partially_paid",
+														"bg-success-subtle" => $creditNote->status == "paid",
+														"bg-dark-subtle" => $creditNote->status == "over_paid",
+														])>
+														@foreach (explode("_", $creditNote->status) as $status)
+														{{ $status }}
+														@endforeach
+													</span>
+												</td>
+												<td>{{ $creditNote->project }}</td>
+												<td>{{ $creditNote->reference }}</td>
+												<td>{{ $creditNote->amount ? number_format($creditNote->amount) : '-' }}
+												</td>
+												<td>{{ $creditNote->remaining_amount ?
+													number_format($creditNote->remaining_amount) : '-' }}
+												</td>
+											</tr>
+											@endforeach
+										</tbody>
 									</table>
 								</div>
 								<div class="card-footer">
-									{{-- {{ $creditNotes->links() }} --}}
+									{{ $creditNotes->links() }}
 								</div>
 							</div>
 						</div>

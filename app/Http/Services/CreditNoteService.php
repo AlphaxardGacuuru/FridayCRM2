@@ -34,7 +34,9 @@ class CreditNoteService
      */
     public function create()
     {
-        $users = User::where("account_type", "normal")->get();
+        $users = User::where("account_type", "normal")
+		->orderBy("id", "DESC")
+		->get();
 
         $invoices = CreditNote::all();
 

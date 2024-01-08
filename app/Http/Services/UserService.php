@@ -4,6 +4,7 @@ namespace App\Http\Services;
 
 use App\Http\Resources\OrderResource;
 use App\Http\Resources\UserResource;
+use App\Models\CreditNote;
 use App\Models\Invoice;
 use App\Models\Order;
 use App\Models\Payment;
@@ -68,17 +69,23 @@ class UserService
      */
     public function show($id)
     {
-        // Get User
+        /*
+		* Get User
+		*/
         $user = User::findOrFail($id);
 
         $user = new UserResource($user);
 
-        // Get Products
+        /*
+		* Get Products
+		*/
         $products = Product::select("id", "name")
             ->orderBy("id", "DESC")
             ->get();
 
-        // Get Orders
+        /*
+		* Get Orders
+		*/
         $ordersPaginated = Order::where("user_id", $id)
             ->orderBy("id", "DESC")
             ->paginate(20);
@@ -93,7 +100,9 @@ class UserService
             ->where("status", "paid")
             ->sum("total_value");
 
-        // Get Invoices
+        /*
+		* Get Invoices
+		*/
         $invoices = Invoice::where("user_id", $id)
             ->orderBy("id", "DESC")
             ->paginate(20);
@@ -101,7 +110,9 @@ class UserService
         $invoicesTotalBilled = Invoice::where("user_id", $id)
             ->sum("amount");
 
-        // Get Payments
+        /*
+		* Get Payments
+		*/
         $payments = Payment::where("user_id", $id)
             ->orderBy("id", "DESC")
             ->paginate(20);
@@ -109,7 +120,9 @@ class UserService
         $totalPayments = Payment::where("user_id", $id)
             ->sum("amount");
 
-        // Generated Statements
+        /*
+		* Generated Statements
+		*/
         $invoicesForStatements = Invoice::select("id", "amount as debit", "created_at as date")
             ->where("user_id", $id)
             ->get();
@@ -141,6 +154,11 @@ class UserService
             })
             ->reverse();
 
+        // Get Credit Notes
+		$creditNoteQuery = CreditNote::where("user_id", $id);
+
+		$creditNotes = $creditNoteQuery->paginate(20);
+
         return [
             "user" => $user,
             "products" => $products,
@@ -152,6 +170,7 @@ class UserService
             "payments" => $payments,
             "totalPayments" => $totalPayments,
             "statements" => $statements,
+			"creditNotes" => $creditNotes
         ];
     }
 

@@ -86,6 +86,7 @@ class UserController extends Controller
             "payments" => $data["payments"],
             "totalPayments" => $data["totalPayments"],
             "statements" => $data["statements"],
+            "creditNotes" => $data["creditNotes"],
             "statuses" => $statuses,
             "request" => $request,
         ]);
