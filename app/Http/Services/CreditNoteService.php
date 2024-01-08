@@ -42,6 +42,16 @@ class CreditNoteService
     }
 
     /*
+     * Show
+     */
+    public function show($id)
+    {
+        $creditNote = CreditNote::find($id);
+
+        return $creditNote;
+    }
+
+    /*
      * Edit
      */
     public function edit($id)
@@ -84,6 +94,9 @@ class CreditNoteService
         }
 
         $creditNote->items = $items;
+
+        $creditNote->amount = collect($request->amount)
+            ->reduce(fn($acc, $item) => $acc + $item);
 
         $saved = $creditNote->save();
 
@@ -142,6 +155,9 @@ class CreditNoteService
         }
 
         $creditNote->items = $items;
+
+        $creditNote->amount = collect($request->amount)
+            ->reduce(fn($acc, $item) => $acc + $item);
 
         $saved = $creditNote->save();
 

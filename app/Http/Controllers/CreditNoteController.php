@@ -82,9 +82,14 @@ class CreditNoteController extends Controller
      * @param  \App\Models\CreditNote  $creditNote
      * @return \Illuminate\Http\Response
      */
-    public function show(CreditNote $creditNote)
+    public function show($id)
     {
-        //
+        $creditNote = $this->service->show($id);
+
+        return view("/pages/credit-notes/show")
+            ->with([
+                "creditNote" => $creditNote,
+            ]);
     }
 
     /**
